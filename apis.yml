@@ -1,16 +1,14 @@
 aid: microsoft-azure-cost-management
-url: 
-  https://raw.githubusercontent.com/api-evangelist/microsoft-azure-cost-management/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/microsoft-azure-cost-management/refs/heads/main/apis.yml
 apis:
   - aid: microsoft-azure-cost-management:rest-api
     name: Azure Cost Management REST API
     tags:
-      - Cost Management
       - Billing
       - Budget
+      - Cost Management
       - FinOps
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://management.azure.com/
     humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/
     properties:
