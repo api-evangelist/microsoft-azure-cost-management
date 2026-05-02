@@ -30,10 +30,12 @@ common:
     url: https://privacy.microsoft.com/en-us/privacystatement
   - type: Support
     url: https://support.microsoft.com/
-modified: '2026-03-16'
+modified: '2026-04-28'
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
 description: >-
-  Learn how the Microsoft Cost Management APIs provide the ability to explore cost
-  and usage data via multidimensional analysis.
+  Azure Cost Management provides programmatic access to cost analysis, budgets,
+  exports, and recommendations across cloud spending. This collection documents
+  the REST APIs that support multidimensional usage queries, budget alerts, scheduled
+  cost exports, and FinOps optimization recommendations.

@@ -1,16 +1,16 @@
 # Azure Cost Management (microsoft-azure-cost-management)
-Azure Cost Management REST API enables programmatic access to cost analysis, budgets, exports, and recommendations. It supports querying usage data, creating budgets with alerts, scheduling cost exports, and retrieving optimization recommendations for cloud spending.
+Azure Cost Management provides programmatic access to cost analysis, budgets, exports, and recommendations across cloud spending. This collection documents the REST APIs that support multidimensional usage queries, budget alerts, scheduled cost exports, and FinOps optimization recommendations.
 
 **URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/microsoft-azure-cost-management/refs/heads/main/apis.yml)
 
 ## Tags:
 
- - Cost Management, Billing, Budget, FinOps
+ - Billing, Budget, Cost Management, FinOps
 
 ## Timestamps
 
 - **Created:** 2026-03-13
-- **Modified:** 2026-03-13
+- **Modified:** 2026-04-28
 
 ## APIs
 
