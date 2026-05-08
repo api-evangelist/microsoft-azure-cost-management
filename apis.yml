@@ -12,6 +12,8 @@ apis:
     baseURL: https://management.azure.com/
     humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/
     properties:
+      - url: openapi/microsoft-azure-cost-management-openapi.yml
+        type: OpenAPI
       - url: https://learn.microsoft.com/en-us/rest/api/cost-management/
         type: Documentation
     description: >-
