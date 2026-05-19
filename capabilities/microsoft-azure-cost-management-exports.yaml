@@ -1,0 +1,229 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Azure Cost Management REST API — Exports
+  description: 'Azure Cost Management REST API — Exports. 6 operations. Lead operation: Azure Cost Management REST API List
+    by subscription. Self-contained Naftiko capability covering one Microsoft Azure Cost Management business surface.'
+  tags:
+  - Microsoft Azure Cost Management
+  - Exports
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    MICROSOFT_AZURE_COST_MANAGEMENT_API_KEY: MICROSOFT_AZURE_COST_MANAGEMENT_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: microsoft-azure-cost-management-exports
+    baseUri: https://management.azure.com
+    description: Azure Cost Management REST API — Exports business capability. Self-contained, no shared references.
+    resources:
+    - name: subscriptions-subscriptionId-providers-Microsoft.CostManagement-exports
+      path: /subscriptions/{subscriptionId}/providers/Microsoft.CostManagement/exports
+      operations:
+      - name: listexportsbysubscription
+        method: GET
+        description: Azure Cost Management REST API List by subscription
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: subscriptions-subscriptionId-resourceGroups-resourceGroupName-providers-Microsof
+      path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CostManagement/exports
+      operations:
+      - name: listexportsbyresourcegroup
+        method: GET
+        description: Azure Cost Management REST API List by resource group
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: subscriptions-subscriptionId-resourceGroups-resourceGroupName-providers-Microsof
+      path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CostManagement/exports/{name}
+      operations:
+      - name: getexports
+        method: GET
+        description: Azure Cost Management REST API Get resource
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createorupdateexports
+        method: PUT
+        description: Azure Cost Management REST API Create or update resource
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: updateexports
+        method: PATCH
+        description: Azure Cost Management REST API Update resource
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteexports
+        method: DELETE
+        description: Azure Cost Management REST API Delete resource
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.MICROSOFT_AZURE_COST_MANAGEMENT_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: microsoft-azure-cost-management-exports-rest
+    port: 8080
+    description: REST adapter for Azure Cost Management REST API — Exports. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/subscriptions/{subscriptionid}/providers/microsoft-costmanagement/exports
+      name: subscriptions-subscriptionid-providers-microsoft-costmanagement-exports
+      description: REST surface for subscriptions-subscriptionId-providers-Microsoft.CostManagement-exports.
+      operations:
+      - method: GET
+        name: listexportsbysubscription
+        description: Azure Cost Management REST API List by subscription
+        call: microsoft-azure-cost-management-exports.listexportsbysubscription
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/subscriptions/{subscriptionid}/resourcegroups/{resourcegroupname}/providers/microsoft-costmanagement/exports
+      name: subscriptions-subscriptionid-resourcegroups-resourcegroupname-providers-microsof
+      description: REST surface for subscriptions-subscriptionId-resourceGroups-resourceGroupName-providers-Microsof.
+      operations:
+      - method: GET
+        name: listexportsbyresourcegroup
+        description: Azure Cost Management REST API List by resource group
+        call: microsoft-azure-cost-management-exports.listexportsbyresourcegroup
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/subscriptions/{subscriptionid}/resourcegroups/{resourcegroupname}/providers/microsoft-costmanagement/exports/{name}
+      name: subscriptions-subscriptionid-resourcegroups-resourcegroupname-providers-microsof
+      description: REST surface for subscriptions-subscriptionId-resourceGroups-resourceGroupName-providers-Microsof.
+      operations:
+      - method: GET
+        name: getexports
+        description: Azure Cost Management REST API Get resource
+        call: microsoft-azure-cost-management-exports.getexports
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: createorupdateexports
+        description: Azure Cost Management REST API Create or update resource
+        call: microsoft-azure-cost-management-exports.createorupdateexports
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updateexports
+        description: Azure Cost Management REST API Update resource
+        call: microsoft-azure-cost-management-exports.updateexports
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteexports
+        description: Azure Cost Management REST API Delete resource
+        call: microsoft-azure-cost-management-exports.deleteexports
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: microsoft-azure-cost-management-exports-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Azure Cost Management REST API — Exports. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: azure-cost-management-rest-api
+      description: Azure Cost Management REST API List by subscription
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: microsoft-azure-cost-management-exports.listexportsbysubscription
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: azure-cost-management-rest-api-2
+      description: Azure Cost Management REST API List by resource group
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: microsoft-azure-cost-management-exports.listexportsbyresourcegroup
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: azure-cost-management-rest-api-3
+      description: Azure Cost Management REST API Get resource
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: microsoft-azure-cost-management-exports.getexports
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: azure-cost-management-rest-api-4
+      description: Azure Cost Management REST API Create or update resource
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: microsoft-azure-cost-management-exports.createorupdateexports
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: azure-cost-management-rest-api-5
+      description: Azure Cost Management REST API Update resource
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: microsoft-azure-cost-management-exports.updateexports
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: azure-cost-management-rest-api-6
+      description: Azure Cost Management REST API Delete resource
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: microsoft-azure-cost-management-exports.deleteexports
+      outputParameters:
+      - type: object
+        mapping: $.
