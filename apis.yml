@@ -21,6 +21,10 @@ apis:
       recommendations. It supports querying usage data, creating budgets with alerts, scheduling cost exports, and
       retrieving optimization recommendations for cloud spending.
 common:
+  - type: DomainSecurity
+    url: security/microsoft-azure-cost-management-domain-security.yml
+  - type: Authentication
+    url: authentication/microsoft-azure-cost-management-authentication.yml
   - type: OAuthScopes
     url: scopes/microsoft-azure-cost-management-scopes.yml
   - type: GitHubOrganization
