@@ -21,6 +21,8 @@ apis:
       recommendations. It supports querying usage data, creating budgets with alerts, scheduling cost exports, and
       retrieving optimization recommendations for cloud spending.
 common:
+  - type: OAuthScopes
+    url: scopes/microsoft-azure-cost-management-scopes.yml
   - type: GitHubOrganization
     url: https://github.com/Azure
   - type: Portal
@@ -43,3 +45,5 @@ description: >-
   Azure Cost Management provides programmatic access to cost analysis, budgets, exports, and recommendations across
   cloud spending. This collection documents the REST APIs that support multidimensional usage queries, budget alerts,
   scheduled cost exports, and FinOps optimization recommendations.
+  - url: https://azure.microsoft.com/en-us/blog/azure-cost-management-2019-year-in-review/
+    type: Blog
