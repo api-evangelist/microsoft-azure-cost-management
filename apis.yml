@@ -21,6 +21,8 @@ apis:
       recommendations. It supports querying usage data, creating budgets with alerts, scheduling cost exports, and
       retrieving optimization recommendations for cloud spending.
 common:
+  - type: AgenticAccess
+    url: agentic-access/microsoft-azure-cost-management-agentic-access.yml
   - type: DomainSecurity
     url: security/microsoft-azure-cost-management-domain-security.yml
   - type: Authentication
