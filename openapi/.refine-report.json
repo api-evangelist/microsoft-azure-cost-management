@@ -1,0 +1,16 @@
+{
+  "provider": "microsoft-azure-cost-management",
+  "sources": [
+    "microsoft-azure-cost-management-exports-api-openapi.yml",
+    "microsoft-azure-cost-management-operations-api-openapi.yml"
+  ],
+  "outputs": [
+    "microsoft-azure-cost-management-exports-api-openapi.yml",
+    "microsoft-azure-cost-management-operations-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
