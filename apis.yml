@@ -22,6 +22,8 @@ apis:
   humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/
   baseURL: https://management.azure.com/
   tags:
+  - Export
+  tags_raw:
   - Exports
   properties:
   - type: OpenAPI
@@ -33,7 +35,8 @@ apis:
   description: Operations operations
   humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/
   baseURL: https://management.azure.com/
-  tags:
+  tags: []
+  tags_raw:
   - Operations
   properties:
   - type: OpenAPI
