@@ -57,6 +57,8 @@ apis:
   - type: Documentation
     url: https://learn.microsoft.com/en-us/rest/api/cost-management/
 common:
+  - type: Website
+    url: https://www.microsoft.com/
   - type: AgenticAccess
     url: agentic-access/microsoft-azure-cost-management-agentic-access.yml
   - type: DomainSecurity
@@ -89,3 +91,5 @@ description: >-
   scheduled cost exports, and FinOps optimization recommendations.
   - url: https://azure.microsoft.com/en-us/blog/azure-cost-management-2019-year-in-review/
     type: Blog
+x-parent: microsoft-azure
+x-relationship: product
