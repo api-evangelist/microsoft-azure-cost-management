@@ -1,0 +1,229 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Azure Cost Management providers
+  version: 1.0.0
+  x-generated: '2026-09-17'
+  x-method: generated
+  x-source: openapi/microsoft-azure-cost-management-providers-api-openapi.yml (derived from openapi/_original/microsoft-azure-cost-management-openapi.json)
+  x-note: Annotations authored by API Evangelist, not by Microsoft. Applying this overlay never changes
+    the provider contract; it adds the retry, reversibility and read-only facts an agent needs and the
+    Swagger 2.0 source cannot carry.
+extends: openapi/microsoft-azure-cost-management-providers-api-openapi.yml
+actions:
+- target: $.info
+  description: Record that this document was refined by API Evangelist from the provider-published contract,
+    and point at the artifacts that carry the runtime semantics the contract leaves out.
+  update:
+    x-api-evangelist-source: openapi/_original/microsoft-azure-cost-management-openapi.json
+    x-api-evangelist-source-upstream: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cost-management/resource-manager/Microsoft.CostManagement/CostManagement/stable/2026-06-01/openapi.json
+    x-api-evangelist-conventions: conventions/microsoft-azure-cost-management-conventions.yml
+    x-api-evangelist-errors: errors/microsoft-azure-cost-management-problem-types.yml
+    x-api-evangelist-rate-limits: rate-limits/microsoft-azure-cost-management-rate-limits.yml
+- target: $
+  description: Attach the documentation surface the provider publishes for this resource group.
+  update:
+    externalDocs:
+      description: Azure Cost Management REST API reference
+      url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+- target: $.paths['/{billingScope}/providers/Microsoft.CostManagement/benefitRecommendations'].get
+  description: Runtime semantics for BenefitRecommendations_List that the provider contract does not express.
+  update:
+    x-api-evangelist-read-only: true
+- target: $.paths['/{scope}/providers/Microsoft.CostManagement/checkNameAvailability'].post
+  description: Runtime semantics for ScheduledActions_CheckNameAvailabilityByScope that the provider contract
+    does not express.
+  update:
+    x-api-evangelist-read-only: true
+    x-api-evangelist-idempotency:
+      safe_to_retry: true
+      mechanism: no-side-effects
+      note: POST carries a request body; the call does not mutate state.
+- target: $.paths['/{scope}/providers/Microsoft.CostManagement/dimensions'].get
+  description: Runtime semantics for Dimensions_List that the provider contract does not express.
+  update:
+    x-api-evangelist-read-only: true
+- target: $.paths['/{scope}/providers/Microsoft.CostManagement/forecast'].post
+  description: Runtime semantics for Forecast_Usage that the provider contract does not express.
+  update:
+    x-api-evangelist-read-only: true
+    x-api-evangelist-idempotency:
+      safe_to_retry: true
+      mechanism: no-side-effects
+      note: POST carries a request body; the call does not mutate state.
+- target: $.paths['/{scope}/providers/Microsoft.CostManagement/generateCostDetailsReport'].post
+  description: Runtime semantics for GenerateCostDetailsReport_CreateOperation that the provider contract
+    does not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/{scope}/providers/Microsoft.CostManagement/generateDetailedCostReport'].post
+  description: Runtime semantics for GenerateDetailedCostReport_CreateOperation that the provider contract
+    does not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/{scope}/providers/Microsoft.CostManagement/query'].post
+  description: Runtime semantics for Query_Usage that the provider contract does not express.
+  update:
+    x-api-evangelist-read-only: true
+    x-api-evangelist-idempotency:
+      safe_to_retry: true
+      mechanism: no-side-effects
+      note: POST carries a request body; the call does not mutate state.
+- target: $.paths['/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/alerts'].get
+  description: Runtime semantics for Alerts_ListExternal that the provider contract does not express.
+  update:
+    x-api-evangelist-read-only: true
+- target: $.paths['/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/dimensions'].get
+  description: Runtime semantics for Dimensions_ByExternalCloudProviderType that the provider contract
+    does not express.
+  update:
+    x-api-evangelist-read-only: true
+- target: $.paths['/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/forecast'].post
+  description: Runtime semantics for Forecast_ExternalCloudProviderUsage that the provider contract does
+    not express.
+  update:
+    x-api-evangelist-read-only: true
+    x-api-evangelist-idempotency:
+      safe_to_retry: true
+      mechanism: no-side-effects
+      note: POST carries a request body; the call does not mutate state.
+- target: $.paths['/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/query'].post
+  description: Runtime semantics for Query_UsageByExternalCloudProviderType that the provider contract
+    does not express.
+  update:
+    x-api-evangelist-read-only: true
+    x-api-evangelist-idempotency:
+      safe_to_retry: true
+      mechanism: no-side-effects
+      note: POST carries a request body; the call does not mutate state.
+- target: $.paths['/providers/Microsoft.CostManagement/checkNameAvailability'].post
+  description: Runtime semantics for ScheduledActions_CheckNameAvailability that the provider contract
+    does not express.
+  update:
+    x-api-evangelist-read-only: true
+    x-api-evangelist-idempotency:
+      safe_to_retry: true
+      mechanism: no-side-effects
+      note: POST carries a request body; the call does not mutate state.
+- target: $.paths['/providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.CostManagement/pricesheets/default/download'].post
+  description: Runtime semantics for PriceSheet_DownloadByBillingAccount that the provider contract does
+    not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/providers/microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices/{invoiceName}/providers/Microsoft.CostManagement/pricesheets/default/download'].post
+  description: Runtime semantics for PriceSheet_DownloadByInvoice that the provider contract does not
+    express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries'].get
+  description: Runtime semantics for BenefitUtilizationSummaries_ListByBillingProfileId that the provider
+    contract does not express.
+  update:
+    x-api-evangelist-read-only: true
+- target: $.paths['/providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport'].post
+  description: Runtime semantics for GenerateBenefitUtilizationSummariesReport_GenerateByBillingProfile
+    that the provider contract does not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/generateReservationDetailsReport'].post
+  description: Runtime semantics for GenerateReservationDetailsReport_ByBillingProfileId that the provider
+    contract does not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/providers/microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.CostManagement/pricesheets/default/download'].post
+  description: Runtime semantics for PriceSheet_DownloadByBillingProfile that the provider contract does
+    not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries'].get
+  description: Runtime semantics for BenefitUtilizationSummaries_ListByBillingAccountId that the provider
+    contract does not express.
+  update:
+    x-api-evangelist-read-only: true
+- target: $.paths['/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules/checkNameAvailability'].post
+  description: Runtime semantics for CostAllocationRules_CheckNameAvailability that the provider contract
+    does not express.
+  update:
+    x-api-evangelist-read-only: true
+    x-api-evangelist-idempotency:
+      safe_to_retry: true
+      mechanism: no-side-effects
+      note: POST carries a request body; the call does not mutate state.
+- target: $.paths['/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport'].post
+  description: Runtime semantics for GenerateBenefitUtilizationSummariesReport_GenerateByBillingAccount
+    that the provider contract does not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateReservationDetailsReport'].post
+  description: Runtime semantics for GenerateReservationDetailsReport_ByBillingAccountId that the provider
+    contract does not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries'].get
+  description: Runtime semantics for BenefitUtilizationSummaries_ListBySavingsPlanOrder that the provider
+    contract does not express.
+  update:
+    x-api-evangelist-read-only: true
+- target: $.paths['/providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport'].post
+  description: Runtime semantics for GenerateBenefitUtilizationSummariesReport_GenerateBySavingsPlanOrderId
+    that the provider contract does not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries'].get
+  description: Runtime semantics for BenefitUtilizationSummaries_ListBySavingsPlanId that the provider
+    contract does not express.
+  update:
+    x-api-evangelist-read-only: true
+- target: $.paths['/providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport'].post
+  description: Runtime semantics for GenerateBenefitUtilizationSummariesReport_GenerateBySavingsPlanId
+    that the provider contract does not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/providers/microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport'].post
+  description: Runtime semantics for GenerateBenefitUtilizationSummariesReport_GenerateByReservationOrderId
+    that the provider contract does not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.
+- target: $.paths['/providers/microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport'].post
+  description: Runtime semantics for GenerateBenefitUtilizationSummariesReport_GenerateByReservationId
+    that the provider contract does not express.
+  update:
+    x-api-evangelist-idempotency:
+      safe_to_retry: false
+      mechanism: null
+      note: No replay protection. Poll for an existing operation rather than re-sending.

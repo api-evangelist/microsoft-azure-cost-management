@@ -1,20 +1,62 @@
 {
   "provider": "microsoft-azure-cost-management",
   "sources": [
-    "microsoft-azure-cost-management-exports-api-openapi.yml",
-    "microsoft-azure-cost-management-operations-api-openapi.yml"
+    "microsoft-azure-cost-management-openapi.json"
   ],
   "outputs": [
+    "microsoft-azure-cost-management-alerts-api-openapi.yml",
+    "microsoft-azure-cost-management-budgets-api-openapi.yml",
+    "microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml",
     "microsoft-azure-cost-management-exports-api-openapi.yml",
-    "microsoft-azure-cost-management-operations-api-openapi.yml"
+    "microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml",
+    "microsoft-azure-cost-management-generatedetailedcostreportoperationresults-api-openapi.yml",
+    "microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-api-openapi.yml",
+    "microsoft-azure-cost-management-markuprules-api-openapi.yml",
+    "microsoft-azure-cost-management-operations-api-openapi.yml",
+    "microsoft-azure-cost-management-providers-api-openapi.yml",
+    "microsoft-azure-cost-management-scheduledactionoperationgroup-api-openapi.yml",
+    "microsoft-azure-cost-management-scheduledactions-api-openapi.yml",
+    "microsoft-azure-cost-management-settings-api-openapi.yml",
+    "microsoft-azure-cost-management-viewoperationgroup-api-openapi.yml",
+    "microsoft-azure-cost-management-views-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "archived openapi/microsoft-azure-cost-management-openapi.json"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
-    "microsoft-azure-cost-management-exports-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "microsoft-azure-cost-management-operations-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "microsoft-azure-cost-management-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "microsoft-azure-cost-management-openapi.json: tagged paths GET /{billingScope}/providers/Microsoft.CostManagement/benefitRecommendations -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /{scope}/providers/Microsoft.CostManagement/checkNameAvailability -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths GET /{scope}/providers/Microsoft.CostManagement/dimensions -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /{scope}/providers/Microsoft.CostManagement/forecast -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /{scope}/providers/Microsoft.CostManagement/generateCostDetailsReport -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /{scope}/providers/Microsoft.CostManagement/generateDetailedCostReport -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /{scope}/providers/Microsoft.CostManagement/query -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths GET /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/alerts -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths GET /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/dimensions -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/forecast -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/query -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/Microsoft.CostManagement/checkNameAvailability -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.CostManagement/pricesheets/default/download -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices/{invoiceName}/providers/Microsoft.CostManagement/pricesheets/default/download -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths GET /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/generateReservationDetailsReport -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.CostManagement/pricesheets/default/download -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths GET /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules/checkNameAvailability -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateReservationDetailsReport -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths GET /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths GET /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport -> Providers",
+    "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport -> Providers",
+    "microsoft-azure-cost-management-openapi.json: declared missing tag: Providers",
+    "apis.yml register: written (+13 apis, 15 total)"
   ],
   "skipped": []
 }

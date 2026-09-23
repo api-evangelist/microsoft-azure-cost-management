@@ -1,17 +1,154 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/microsoft-azure-cost-management-openapi.yml
+generated: '2026-09-17'
+method: searched
+source: openapi/microsoft-azure-cost-management-alerts-api-openapi.yml, openapi/microsoft-azure-cost-management-budgets-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml, openapi/microsoft-azure-cost-management-exports-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml, openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationresults-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-markuprules-api-openapi.yml, openapi/microsoft-azure-cost-management-operations-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-providers-api-openapi.yml, openapi/microsoft-azure-cost-management-scheduledactionoperationgroup-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-scheduledactions-api-openapi.yml, openapi/microsoft-azure-cost-management-settings-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-viewoperationgroup-api-openapi.yml, openapi/microsoft-azure-cost-management-views-api-openapi.yml
 schemes:
 - name: azure_auth
-  source: openapi/microsoft-azure-cost-management-openapi.yml
+  source: openapi/microsoft-azure-cost-management-alerts-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-budgets-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-exports-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationresults-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-markuprules-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-operations-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-providers-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-scheduledactionoperationgroup-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-scheduledactions-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-settings-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-viewoperationgroup-api-openapi.yml
+  flows:
+  - flow: implicit
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  description: Azure Active Directory OAuth2 Flow.
+- name: azure_auth
+  source: openapi/microsoft-azure-cost-management-views-api-openapi.yml
   flows:
   - flow: implicit
     authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   description: Azure Active Directory OAuth2 Flow.
 scopes:
 - scope: user_impersonation
-  description: Impersonate your user account
+  description: impersonate your user account
   flows:
   - implicit
   sources:
-  - openapi/microsoft-azure-cost-management-openapi.yml
+  - openapi/microsoft-azure-cost-management-alerts-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-budgets-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-exports-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationresults-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-markuprules-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-operations-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-providers-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-scheduledactionoperationgroup-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-scheduledactions-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-settings-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-viewoperationgroup-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-views-api-openapi.yml
+docs:
+- https://learn.microsoft.com/en-us/entra/identity-platform/scopes-oidc
+- https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-client-creds-grant-flow
+- https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/management-and-governance
+docs_note: >-
+  The scope surface of this API is one scope wide and that is not an omission in the contract —
+  it is the Azure Resource Manager model. Entra ID issues a token for the RESOURCE
+  https://management.azure.com; the delegated form is user_impersonation, and the application
+  form is the .default scope. Neither carries per-operation permission. What an accepted token
+  may actually do is decided afterwards by Azure RBAC role assignment at the {scope} in the
+  request path — Cost Management Reader for reads, Cost Management Contributor for writes. An
+  integrator looking for a fine-grained scope list will not find one, and should design around
+  role assignment instead.
+additional_scopes:
+- scope: https://management.azure.com/.default
+  description: Application-permission scope for the client-credentials flow. The unattended /
+    service-principal path; not declared in the contract.
+  flows:
+  - client_credentials
+  source: https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-client-creds-grant-flow
+- scope: https://management.azure.com/user_impersonation
+  description: Fully qualified form of the delegated scope the contract declares as
+    user_impersonation.
+  flows:
+  - authorization_code
+  - implicit
+authorization_after_token:
+  style: azure-rbac
+  roles:
+  - Cost Management Reader
+  - Cost Management Contributor
+  see: authentication/microsoft-azure-cost-management-authentication.yml

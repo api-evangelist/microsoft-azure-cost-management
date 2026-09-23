@@ -1,0 +1,137 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/_original/microsoft-azure-cost-management-openapi.json
+status: candidate
+note: >-
+  No Microsoft-published MCP server exposes the Cost Management API. Two adjacent Microsoft MCP
+  surfaces were probed and neither covers it, which is the finding worth recording rather than
+  a gap worth papering over. The tools below are a DERIVED candidate mapped from real
+  operationIds in the 2026-06-01 contract; nobody ships them.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: derived
+search_evidence:
+- surface: Microsoft Learn MCP Server
+  endpoint: https://learn.microsoft.com/api/mcp
+  probe: 'POST {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  http_status: 200
+  transport: streamable-http (text/event-stream)
+  auth: none
+  result: >-
+    Real, anonymous and live. It returns documentation tools — microsoft_docs_search,
+    microsoft_code_sample_search, microsoft_docs_fetch — with full inputSchema. It can find the
+    Cost Management documentation; it cannot call a single Cost Management operation. It is a
+    docs retrieval server, not an API server, so it is not recorded as this provider's MCP
+    server.
+- surface: Azure MCP Server (@azure/mcp)
+  package: https://www.npmjs.com/package/@azure/mcp
+  version: 3.0.0-beta.44
+  published: '2026-09-15'
+  repo: https://github.com/microsoft/mcp
+  install: npx -y @azure/mcp@latest server start
+  transport: stdio
+  probe: >-
+    Read the published command surface at
+    https://raw.githubusercontent.com/microsoft/mcp/main/servers/Azure.Mcp.Server/docs/azmcp-commands.md
+    (318 KB, HTTP 200) and searched it for cost / budget / billing / consumption tool groups.
+  result: >-
+    No Cost Management tool group exists. The nearest surfaces are `azmcp pricing get` (the
+    Azure Retail Prices API — public list prices, not your costs) and Azure Advisor's
+    cost-category recommendations. Budgets, Exports, Query, Forecast, Views, Scheduled Actions
+    and Alerts are all absent. So even the Azure-wide MCP server cannot answer "what did I
+    spend".
+  conclusion: adjacent, does not cover this API
+tools:
+  status: candidate
+  derived_from: openapi/_original/microsoft-azure-cost-management-openapi.json
+  note: >-
+    Each candidate tool inherits its input schema from the named operation's parameters and
+    requestBody in the contract. Read-only tools are marked; the write tools carry the
+    consequence notes from conventions/ reversibility.
+  list:
+  - name: query_costs
+    rest: Query_Usage
+    read_only: true
+    description: Run a multidimensional cost/usage query at a scope.
+  - name: forecast_costs
+    rest: Forecast_Usage
+    read_only: true
+    description: Forecast spend for a scope over a date range.
+  - name: list_dimensions
+    rest: Dimensions_List
+    read_only: true
+    description: List the dimensions available to group or filter by at a scope.
+  - name: list_budgets
+    rest: Budgets_List
+    read_only: true
+  - name: get_budget
+    rest: Budgets_Get
+    read_only: true
+  - name: create_or_update_budget
+    rest: Budgets_CreateOrUpdate
+    read_only: false
+    consequence: write
+    reversal: Budgets_Delete
+    note: PUT replaces the budget wholesale; the previous definition is not retained.
+  - name: delete_budget
+    rest: Budgets_Delete
+    read_only: false
+    consequence: destructive
+    reversal: none
+  - name: list_alerts
+    rest: Alerts_List
+    read_only: true
+  - name: dismiss_alert
+    rest: Alerts_Dismiss
+    read_only: false
+    consequence: write
+    reversal: Alerts_Dismiss (set status back to Active)
+  - name: list_exports
+    rest: Exports_List
+    read_only: true
+  - name: create_or_update_export
+    rest: Exports_CreateOrUpdate
+    read_only: false
+    consequence: write
+  - name: run_export
+    rest: Exports_Execute
+    read_only: false
+    consequence: irreversible
+    note: Writes files to the configured storage destination and consumes quota. No cancel.
+  - name: get_export_run_history
+    rest: Exports_GetExecutionHistory
+    read_only: true
+  - name: generate_cost_details_report
+    rest: GenerateCostDetailsReport_CreateOperation
+    read_only: false
+    consequence: job
+    note: Long-running. Poll GenerateCostDetailsReport_GetOperationResults; do not re-POST on
+      timeout.
+  - name: get_cost_details_report_result
+    rest: GenerateCostDetailsReport_GetOperationResults
+    read_only: true
+  - name: list_views
+    rest: Views_ListByScope
+    read_only: true
+  - name: list_scheduled_actions
+    rest: ScheduledActions_ListByScope
+    read_only: true
+  - name: run_scheduled_action
+    rest: ScheduledActions_RunByScope
+    read_only: false
+    consequence: irreversible-external
+    note: Sends email to up to 20 recipients. Not a rehearsal.
+  - name: list_benefit_recommendations
+    rest: BenefitRecommendations_List
+    read_only: true
+  - name: list_operations
+    rest: Operations_List
+    read_only: true
+authentication_if_built:
+  model: oauth2 / Microsoft Entra ID bearer token for the https://management.azure.com resource
+  authorization: Azure RBAC (Cost Management Reader / Cost Management Contributor), not scopes
+  see: authentication/microsoft-azure-cost-management-authentication.yml

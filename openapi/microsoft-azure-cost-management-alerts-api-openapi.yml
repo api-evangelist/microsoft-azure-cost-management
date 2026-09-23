@@ -1,0 +1,643 @@
+openapi: 3.2.0
+info:
+  title: CostManagementClient Alerts API
+  version: '2026-06-01'
+  description: CostManagement management client provides access to CostManagement resources for Azure Enterprise Subscriptions.
+  x-typespec-generated:
+  - emitter: '@azure-tools/typespec-autorest'
+  x-api-evangelist-common-types: Azure Resource Manager common-types v5 components referenced by this contract were inlined
+    from https://github.com/Azure/azure-rest-api-specs/tree/main/specification/common-types/resource-management/v5 and prefixed
+    Arm, so the document resolves standalone. Microsoft's published document $refs them by relative path across repository
+    directories.
+servers:
+- url: https://management.azure.com
+security:
+- azure_auth:
+  - user_impersonation
+tags:
+- name: Alerts
+paths:
+  /{scope}/providers/Microsoft.CostManagement/alerts:
+    get:
+      operationId: Alerts_List
+      tags:
+      - Alerts
+      description: Lists the alerts for scope defined.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The scope associated with alerts operations. This includes '/subscriptions/{subscriptionId}/' for subscription
+          scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}'
+          for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}'
+          for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}'
+          for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management
+          Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+          for billingProfile scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+          for invoiceSection scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}'
+          specific for partners.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertsResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        BillingAccountAlerts:
+          $ref: ../examples/BillingAccountAlerts.json
+        BillingProfileAlerts:
+          $ref: ../examples/BillingProfileAlerts.json
+        DepartmentAlerts:
+          $ref: ../examples/DepartmentAlerts.json
+        EnrollmentAccountAlerts:
+          $ref: ../examples/EnrollmentAccountAlerts.json
+        InvoiceSectionAlerts:
+          $ref: ../examples/InvoiceSectionAlerts.json
+        ResourceGroupAlerts:
+          $ref: ../examples/ResourceGroupAlerts.json
+        SubscriptionAlerts:
+          $ref: ../examples/SubscriptionAlerts.json
+  /{scope}/providers/Microsoft.CostManagement/alerts/{alertId}:
+    get:
+      operationId: Alerts_Get
+      tags:
+      - Alerts
+      description: Gets the alert for the scope by alert ID.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The fully qualified Azure Resource manager identifier of the resource.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      - name: alertId
+        in: path
+        description: Alert ID
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        SingleResourceGroupAlerts:
+          $ref: ../examples/SingleResourceGroupAlert.json
+        SingleSubscriptionAlerts:
+          $ref: ../examples/SingleSubscriptionAlert.json
+    patch:
+      operationId: Alerts_Dismiss
+      tags:
+      - Alerts
+      description: Dismisses the specified alert
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The fully qualified Azure Resource manager identifier of the resource.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      - name: alertId
+        in: path
+        description: Alert ID
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        PatchResourceGroupAlerts:
+          $ref: ../examples/DismissResourceGroupAlerts.json
+        PatchSubscriptionAlerts:
+          $ref: ../examples/DismissSubscriptionAlerts.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DismissAlertPayload'
+        description: Parameters supplied to the Dismiss Alert operation.
+        required: true
+components:
+  schemas:
+    Alert:
+      type: object
+      description: An individual alert.
+      properties:
+        properties:
+          $ref: '#/components/schemas/AlertProperties'
+          description: Alert properties.
+          x-ms-client-flatten: true
+        eTag:
+          $ref: '#/components/schemas/Azure.Core.eTag'
+          description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether
+            the user is updating the latest version or not.
+      allOf:
+      - $ref: '#/components/schemas/ArmProxyResource'
+    AlertCategory:
+      type: string
+      description: Alert category
+      enum:
+      - Cost
+      - Usage
+      - Billing
+      - System
+      x-ms-enum:
+        name: AlertCategory
+        modelAsString: true
+        values:
+        - name: Cost
+          value: Cost
+        - name: Usage
+          value: Usage
+        - name: Billing
+          value: Billing
+        - name: System
+          value: System
+    AlertCriteria:
+      type: string
+      description: Criteria that triggered alert
+      enum:
+      - CostThresholdExceeded
+      - UsageThresholdExceeded
+      - CreditThresholdApproaching
+      - CreditThresholdReached
+      - QuotaThresholdApproaching
+      - QuotaThresholdReached
+      - MultiCurrency
+      - ForecastCostThresholdExceeded
+      - ForecastUsageThresholdExceeded
+      - InvoiceDueDateApproaching
+      - InvoiceDueDateReached
+      - CrossCloudNewDataAvailable
+      - CrossCloudCollectionError
+      - GeneralThresholdError
+      x-ms-enum:
+        name: AlertCriteria
+        modelAsString: true
+        values:
+        - name: CostThresholdExceeded
+          value: CostThresholdExceeded
+        - name: UsageThresholdExceeded
+          value: UsageThresholdExceeded
+        - name: CreditThresholdApproaching
+          value: CreditThresholdApproaching
+        - name: CreditThresholdReached
+          value: CreditThresholdReached
+        - name: QuotaThresholdApproaching
+          value: QuotaThresholdApproaching
+        - name: QuotaThresholdReached
+          value: QuotaThresholdReached
+        - name: MultiCurrency
+          value: MultiCurrency
+        - name: ForecastCostThresholdExceeded
+          value: ForecastCostThresholdExceeded
+        - name: ForecastUsageThresholdExceeded
+          value: ForecastUsageThresholdExceeded
+        - name: InvoiceDueDateApproaching
+          value: InvoiceDueDateApproaching
+        - name: InvoiceDueDateReached
+          value: InvoiceDueDateReached
+        - name: CrossCloudNewDataAvailable
+          value: CrossCloudNewDataAvailable
+        - name: CrossCloudCollectionError
+          value: CrossCloudCollectionError
+        - name: GeneralThresholdError
+          value: GeneralThresholdError
+    AlertOperator:
+      type: string
+      description: operator used to compare currentSpend with amount
+      enum:
+      - None
+      - EqualTo
+      - GreaterThan
+      - GreaterThanOrEqualTo
+      - LessThan
+      - LessThanOrEqualTo
+      x-ms-enum:
+        name: AlertOperator
+        modelAsString: true
+        values:
+        - name: None
+          value: None
+        - name: EqualTo
+          value: EqualTo
+        - name: GreaterThan
+          value: GreaterThan
+        - name: GreaterThanOrEqualTo
+          value: GreaterThanOrEqualTo
+        - name: LessThan
+          value: LessThan
+        - name: LessThanOrEqualTo
+          value: LessThanOrEqualTo
+    AlertProperties:
+      type: object
+      description: Alert properties.
+      properties:
+        definition:
+          $ref: '#/components/schemas/AlertPropertiesDefinition'
+          description: defines the type of alert
+        description:
+          type: string
+          description: Alert description
+        source:
+          $ref: '#/components/schemas/AlertSource'
+          description: Source of alert
+        details:
+          $ref: '#/components/schemas/AlertPropertiesDetails'
+          description: Alert details
+        costEntityId:
+          type: string
+          description: related budget
+        status:
+          $ref: '#/components/schemas/AlertStatus'
+          description: alert status
+        creationTime:
+          type: string
+          description: dateTime in which alert was created
+        closeTime:
+          type: string
+          description: dateTime in which alert was closed
+        modificationTime:
+          type: string
+          description: dateTime in which alert was last modified
+        statusModificationUserName:
+          type: string
+          description: User who last modified the alert
+        statusModificationTime:
+          type: string
+          description: dateTime in which the alert status was last modified
+    AlertPropertiesDefinition:
+      type: object
+      description: defines the type of alert
+      properties:
+        type:
+          $ref: '#/components/schemas/AlertType'
+          description: type of alert
+        category:
+          $ref: '#/components/schemas/AlertCategory'
+          description: Alert category
+        criteria:
+          $ref: '#/components/schemas/AlertCriteria'
+          description: Criteria that triggered alert
+    AlertPropertiesDetails:
+      type: object
+      description: Alert details
+      properties:
+        timeGrainType:
+          $ref: '#/components/schemas/AlertTimeGrainType'
+          description: Type of timegrain cadence
+        periodStartDate:
+          type: string
+          description: datetime of periodStartDate
+        triggeredBy:
+          type: string
+          description: notificationId that triggered this alert
+        resourceGroupFilter:
+          type: array
+          description: array of resourceGroups to filter by
+          items: {}
+        resourceFilter:
+          type: array
+          description: array of resources to filter by
+          items: {}
+        meterFilter:
+          type: array
+          description: array of meters to filter by
+          items: {}
+        tagFilter:
+          description: tags to filter by
+        threshold:
+          type: number
+          format: decimal
+          description: notification threshold percentage as a decimal which activated this alert
+        operator:
+          $ref: '#/components/schemas/AlertOperator'
+          description: operator used to compare currentSpend with amount
+        amount:
+          type: number
+          format: decimal
+          description: budget threshold amount
+        unit:
+          type: string
+          description: unit of currency being used
+        currentSpend:
+          type: number
+          format: decimal
+          description: current spend
+        contactEmails:
+          type: array
+          description: list of emails to contact
+          items:
+            type: string
+        contactGroups:
+          type: array
+          description: list of action groups to broadcast to
+          items:
+            type: string
+        contactRoles:
+          type: array
+          description: list of contact roles
+          items:
+            type: string
+        overridingAlert:
+          type: string
+          description: overriding alert
+        departmentName:
+          type: string
+          description: department name
+        companyName:
+          type: string
+          description: company name
+        enrollmentNumber:
+          type: string
+          description: enrollment number
+        enrollmentStartDate:
+          type: string
+          description: datetime of enrollmentStartDate
+        enrollmentEndDate:
+          type: string
+          description: datetime of enrollmentEndDate
+        invoicingThreshold:
+          type: number
+          format: decimal
+          description: invoicing threshold
+    AlertSource:
+      type: string
+      description: Source of alert
+      enum:
+      - Preset
+      - User
+      x-ms-enum:
+        name: AlertSource
+        modelAsString: true
+        values:
+        - name: Preset
+          value: Preset
+        - name: User
+          value: User
+    AlertStatus:
+      type: string
+      description: alert status
+      enum:
+      - None
+      - Active
+      - Overridden
+      - Resolved
+      - Dismissed
+      x-ms-enum:
+        name: AlertStatus
+        modelAsString: true
+        values:
+        - name: None
+          value: None
+        - name: Active
+          value: Active
+        - name: Overridden
+          value: Overridden
+        - name: Resolved
+          value: Resolved
+        - name: Dismissed
+          value: Dismissed
+    AlertTimeGrainType:
+      type: string
+      description: Type of timegrain cadence
+      enum:
+      - None
+      - Monthly
+      - Quarterly
+      - Annually
+      - BillingMonth
+      - BillingQuarter
+      - BillingAnnual
+      x-ms-enum:
+        name: AlertTimeGrainType
+        modelAsString: true
+        values:
+        - name: None
+          value: None
+        - name: Monthly
+          value: Monthly
+        - name: Quarterly
+          value: Quarterly
+        - name: Annually
+          value: Annually
+        - name: BillingMonth
+          value: BillingMonth
+        - name: BillingQuarter
+          value: BillingQuarter
+        - name: BillingAnnual
+          value: BillingAnnual
+    AlertType:
+      type: string
+      description: type of alert
+      enum:
+      - Budget
+      - Invoice
+      - Credit
+      - Quota
+      - General
+      - xCloud
+      - BudgetForecast
+      x-ms-enum:
+        name: AlertType
+        modelAsString: true
+        values:
+        - name: Budget
+          value: Budget
+        - name: Invoice
+          value: Invoice
+        - name: Credit
+          value: Credit
+        - name: Quota
+          value: Quota
+        - name: General
+          value: General
+        - name: xCloud
+          value: xCloud
+        - name: BudgetForecast
+          value: BudgetForecast
+    AlertsResult:
+      type: object
+      description: Result of alerts.
+      properties:
+        value:
+          type: array
+          description: List of alerts.
+          items:
+            $ref: '#/components/schemas/Alert'
+          readOnly: true
+        nextLink:
+          type: string
+          description: URL to get the next set of alerts results if there are any.
+          readOnly: true
+    ArmProxyResource:
+      type: object
+      title: Proxy Resource
+      description: The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a
+        location
+      allOf:
+      - $ref: '#/components/schemas/ArmResource'
+    ArmResource:
+      type: object
+      title: Resource
+      description: Common fields that are returned in the response for all Azure Resource Manager resources
+      properties:
+        id:
+          type: string
+          format: arm-id
+          description: Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          readOnly: true
+        name:
+          type: string
+          description: The name of the resource
+          readOnly: true
+        type:
+          type: string
+          description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+          readOnly: true
+        systemData:
+          $ref: '#/components/schemas/ArmsystemData'
+          description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+          readOnly: true
+      x-ms-azure-resource: true
+    ArmsystemData:
+      type: object
+      description: Metadata pertaining to creation and last modification of the resource.
+      properties:
+        createdBy:
+          type: string
+          description: The identity that created the resource.
+        createdByType:
+          type: string
+          description: The type of identity that created the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource creation (UTC).
+        lastModifiedBy:
+          type: string
+          description: The identity that last modified the resource.
+        lastModifiedByType:
+          type: string
+          description: The type of identity that last modified the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        lastModifiedAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource last modification (UTC)
+      readOnly: true
+    Azure.Core.eTag:
+      type: string
+      description: 'The ETag (or entity tag) HTTP response header is an identifier for a specific version of a resource.
+
+        It lets caches be more efficient and save bandwidth, as a web server does not need to resend a full response if the
+        content was not changed.
+
+
+        It is a string of ASCII characters placed between double quotes, like "675af34563dc-tr34".'
+    DismissAlertPayload:
+      type: object
+      description: The request payload to update an alert
+      properties:
+        properties:
+          $ref: '#/components/schemas/AlertProperties'
+          description: Alert properties.
+          x-ms-client-flatten: true
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
+    ErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided
+        in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting
+        for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable
+        - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+  securitySchemes:
+    azure_auth:
+      type: oauth2
+      flows:
+        implicit:
+          scopes:
+            user_impersonation: impersonate your user account
+          authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+      description: Azure Active Directory OAuth2 Flow.
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      description: The API version to use for this operation.
+      required: true
+      schema:
+        type: string
+        minLength: 1

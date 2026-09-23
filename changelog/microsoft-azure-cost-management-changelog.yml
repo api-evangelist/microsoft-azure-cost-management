@@ -1,0 +1,86 @@
+generated: '2026-09-17'
+method: searched
+source: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cost-management/resource-manager/Microsoft.CostManagement/CostManagement
+note: >-
+  Cost Management has no single dated "API changelog" page. What it has instead is better in
+  one way and worse in another: every api-version is a dated, immutable directory in
+  Azure/azure-rest-api-specs, so the contract history is complete and machine-readable, but
+  nothing states what CHANGED between two of them. The per-release SDK changelogs are the only
+  first-party prose describing the deltas, so they are recorded here as the de-facto change
+  record, with the api-version series as the authoritative version scheme.
+scheme: date-based api-version
+current_version: '2026-06-01'
+surfaces:
+- kind: contract-history
+  url: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cost-management/resource-manager/Microsoft.CostManagement/CostManagement
+  description: One directory per api-version, stable and preview. Authoritative.
+- kind: product-announcements
+  url: https://azure.microsoft.com/en-us/updates/
+  description: Azure Updates, filterable to Cost Management. Product-level, not API-level.
+- kind: retirement-notices
+  url: https://azure.microsoft.com/en-us/updates/?updateType=retirements
+- kind: sdk-changelog
+  url: https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/costmanagement/azure-mgmt-costmanagement/CHANGELOG.md
+  description: The richest prose description of contract deltas.
+entries:
+- version: '2026-06-01'
+  date: '2026-06-01'
+  kind: api-version
+  breaking: unknown
+  highlights:
+  - Current stable contract; 56 paths, 75 operations, 14 tag groups.
+  - Consolidated into a single openapi.json generated from TypeSpec (info carries
+    x-typespec-generated), replacing the multi-file swagger set used through 2024-08-01.
+  source: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cost-management/resource-manager/Microsoft.CostManagement/CostManagement/stable/2026-06-01
+- version: 5.0.0 (azure-mgmt-costmanagement, Python)
+  date: '2026-07-08'
+  kind: sdk-release
+  breaking: true
+  additions:
+  - Operation groups added to the client - budgets, settings, cost_allocation_rules,
+    generate_benefit_utilization_summaries_report.
+  - Export gained identity, location and system_data; ExportProperties gained
+    data_overwrite_behavior, compression_mode, export_description and system_suspension_context.
+  - ExportDatasetConfiguration gained data_version and filters.
+  - Alert, BenefitRecommendationModel, BenefitResource and BenefitUtilizationSummary gained
+    system_data.
+  source: https://github.com/Azure/azure-sdk-for-python/blob/main/sdk/costmanagement/azure-mgmt-costmanagement/CHANGELOG.md
+- version: 1.0.0 (@azure/arm-costmanagement, JavaScript)
+  date: '2026-07-16'
+  kind: sdk-release
+  breaking: true
+  highlights:
+  - First stable release of the JavaScript client; new SDK generation with layered APIs and
+    smaller bundles.
+  source: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cost-management/arm-costmanagement/CHANGELOG.md
+- version: 1.0.3 (Azure.ResourceManager.CostManagement, .NET)
+  date: '2026-04-21'
+  kind: sdk-release
+  breaking: false
+  highlights:
+  - Dependency bumps only (Azure.Core 1.53.0, Azure.ResourceManager 1.14.0).
+  source: https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/costmanagement/Azure.ResourceManager.CostManagement/CHANGELOG.md
+- version: '2025-03-01'
+  date: '2025-03-01'
+  kind: api-version
+  breaking: unknown
+  source: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cost-management/resource-manager/Microsoft.CostManagement/CostManagement/stable/2025-03-01
+- version: '2024-10-01-preview'
+  date: '2024-10-01'
+  kind: api-version-preview
+  source: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cost-management/resource-manager/Microsoft.CostManagement/CostManagement/preview/2024-10-01-preview
+- version: '2024-08-01'
+  date: '2024-08-01'
+  kind: api-version
+  breaking: unknown
+  highlights:
+  - Last multi-file swagger release (costmanagement.json plus ten sibling documents) before the
+    single-document TypeSpec output.
+  source: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cost-management/resource-manager/Microsoft.CostManagement/CostManagement/stable/2024-08-01
+gaps:
+  no_dated_api_changelog: true
+  no_breaking_change_annotations: true
+  detail: >-
+    Nothing first-party states which api-version introduced or removed which operation. Diffing
+    the version directories in azure-rest-api-specs is the only way to answer that, and that is
+    work Microsoft pushes onto the consumer.

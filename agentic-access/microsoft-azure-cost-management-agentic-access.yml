@@ -1,22 +1,378 @@
-generated: '2026-07-15'
+generated: '2026-09-17'
 method: generated
-source: openapi/microsoft-azure-cost-management-openapi.yml
+source: openapi/microsoft-azure-cost-management-alerts-api-openapi.yml, openapi/microsoft-azure-cost-management-budgets-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml, openapi/microsoft-azure-cost-management-exports-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml, openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationresults-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-markuprules-api-openapi.yml, openapi/microsoft-azure-cost-management-operations-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-providers-api-openapi.yml, openapi/microsoft-azure-cost-management-scheduledactionoperationgroup-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-scheduledactions-api-openapi.yml, openapi/microsoft-azure-cost-management-settings-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-viewoperationgroup-api-openapi.yml, openapi/microsoft-azure-cost-management-views-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
-  operations: 7
+  operations: 75
   by_action_class:
-    connected: 4
-    acting: 3
+    connected: 33
+    acting: 42
   by_consequence:
-    read: 4
-    write: 3
+    read: 33
+    write: 37
+    physical: 5
   human_in_the_loop_required: 0
 operations:
+- path: /{scope}/providers/Microsoft.CostManagement/alerts
+  method: get
+  operationId: Alerts_List
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/alerts/{alertId}
+  method: get
+  operationId: Alerts_Get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/alerts/{alertId}
+  method: patch
+  operationId: Alerts_Dismiss
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/budgets
+  method: get
+  operationId: Budgets_List
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/budgets/{budgetName}
+  method: get
+  operationId: Budgets_Get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/budgets/{budgetName}
+  method: put
+  operationId: Budgets_CreateOrUpdate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/budgets/{budgetName}
+  method: delete
+  operationId: Budgets_Delete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules
+  method: get
+  operationId: CostAllocationRules_List
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules/{ruleName}
+  method: get
+  operationId: CostAllocationRules_Get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules/{ruleName}
+  method: put
+  operationId: CostAllocationRules_CreateOrUpdate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules/{ruleName}
+  method: delete
+  operationId: CostAllocationRules_Delete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/exports
+  method: get
+  operationId: Exports_List
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/exports/{exportName}
+  method: get
+  operationId: Exports_Get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/exports/{exportName}
+  method: put
+  operationId: Exports_CreateOrUpdate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/exports/{exportName}
+  method: delete
+  operationId: Exports_Delete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/exports/{exportName}/run
+  method: post
+  operationId: Exports_Execute
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/exports/{exportName}/runHistory
+  method: get
+  operationId: Exports_GetExecutionHistory
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/costDetailsOperationResults/{operationId}
+  method: get
+  operationId: GenerateCostDetailsReport_GetOperationResults
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/operationResults/{operationId}
+  method: get
+  operationId: GenerateDetailedCostReportOperationResults_Get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/operationStatus/{operationId}
+  method: get
+  operationId: GenerateDetailedCostReportOperationStatus_Get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/markupRules
+  method: get
+  operationId: MarkupRules_List
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/markupRules/{ruleName}
+  method: get
+  operationId: MarkupRules_Get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/markupRules/{ruleName}
+  method: put
+  operationId: MarkupRules_CreateOrUpdate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/markupRules/{ruleName}
+  method: delete
+  operationId: MarkupRules_Delete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
 - path: /providers/Microsoft.CostManagement/operations
   method: get
-  operationId: listOperations
+  operationId: Operations_List
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -26,9 +382,9 @@ operations:
     audit: none
     scope:
     - user_impersonation
-- path: /subscriptions/{subscriptionId}/providers/Microsoft.CostManagement/exports
+- path: /{billingScope}/providers/Microsoft.CostManagement/benefitRecommendations
   method: get
-  operationId: listExportsBySubscription
+  operationId: BenefitRecommendations_List
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -38,9 +394,27 @@ operations:
     audit: none
     scope:
     - user_impersonation
-- path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CostManagement/exports
+- path: /{scope}/providers/Microsoft.CostManagement/checkNameAvailability
+  method: post
+  operationId: ScheduledActions_CheckNameAvailabilityByScope
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/dimensions
   method: get
-  operationId: listExportsByResourceGroup
+  operationId: Dimensions_List
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -50,9 +424,81 @@ operations:
     audit: none
     scope:
     - user_impersonation
-- path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CostManagement/exports/{name}
+- path: /{scope}/providers/Microsoft.CostManagement/forecast
+  method: post
+  operationId: Forecast_Usage
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/generateCostDetailsReport
+  method: post
+  operationId: GenerateCostDetailsReport_CreateOperation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/generateDetailedCostReport
+  method: post
+  operationId: GenerateDetailedCostReport_CreateOperation
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/query
+  method: post
+  operationId: Query_Usage
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/alerts
   method: get
-  operationId: getExports
+  operationId: Alerts_ListExternal
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -62,9 +508,373 @@ operations:
     audit: none
     scope:
     - user_impersonation
-- path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CostManagement/exports/{name}
+- path: /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/dimensions
+  method: get
+  operationId: Dimensions_ByExternalCloudProviderType
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/forecast
+  method: post
+  operationId: Forecast_ExternalCloudProviderUsage
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/query
+  method: post
+  operationId: Query_UsageByExternalCloudProviderType
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/checkNameAvailability
+  method: post
+  operationId: ScheduledActions_CheckNameAvailability
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.CostManagement/pricesheets/default/download
+  method: post
+  operationId: PriceSheet_DownloadByBillingAccount
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices/{invoiceName}/providers/Microsoft.CostManagement/pricesheets/default/download
+  method: post
+  operationId: PriceSheet_DownloadByInvoice
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries
+  method: get
+  operationId: BenefitUtilizationSummaries_ListByBillingProfileId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  method: post
+  operationId: GenerateBenefitUtilizationSummariesReport_GenerateByBillingProfile
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/generateReservationDetailsReport
+  method: post
+  operationId: GenerateReservationDetailsReport_ByBillingProfileId
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.CostManagement/pricesheets/default/download
+  method: post
+  operationId: PriceSheet_DownloadByBillingProfile
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries
+  method: get
+  operationId: BenefitUtilizationSummaries_ListByBillingAccountId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules/checkNameAvailability
+  method: post
+  operationId: CostAllocationRules_CheckNameAvailability
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  method: post
+  operationId: GenerateBenefitUtilizationSummariesReport_GenerateByBillingAccount
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateReservationDetailsReport
+  method: post
+  operationId: GenerateReservationDetailsReport_ByBillingAccountId
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries
+  method: get
+  operationId: BenefitUtilizationSummaries_ListBySavingsPlanOrder
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  method: post
+  operationId: GenerateBenefitUtilizationSummariesReport_GenerateBySavingsPlanOrderId
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries
+  method: get
+  operationId: BenefitUtilizationSummaries_ListBySavingsPlanId
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  method: post
+  operationId: GenerateBenefitUtilizationSummariesReport_GenerateBySavingsPlanId
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  method: post
+  operationId: GenerateBenefitUtilizationSummariesReport_GenerateByReservationOrderId
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  method: post
+  operationId: GenerateBenefitUtilizationSummariesReport_GenerateByReservationId
+  x-agentic-access:
+    action-class: acting
+    consequence: physical
+    subject: required
+    audience: null
+    token:
+      max-ttl: 300
+      exchange: true
+      purpose-required: true
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/scheduledActions
+  method: get
+  operationId: ScheduledActions_ListByScope
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}
+  method: get
+  operationId: ScheduledActions_GetByScope
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}
   method: put
-  operationId: createOrUpdateExports
+  operationId: ScheduledActions_CreateOrUpdateByScope
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -80,27 +890,285 @@ operations:
     audit: required
     scope:
     - user_impersonation
-- path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CostManagement/exports/{name}
-  method: patch
-  operationId: updateExports
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-    scope:
-    - user_impersonation
-- path: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CostManagement/exports/{name}
+- path: /{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}
   method: delete
-  operationId: deleteExports
+  operationId: ScheduledActions_DeleteByScope
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}/execute
+  method: post
+  operationId: ScheduledActions_RunByScope
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/scheduledActions
+  method: get
+  operationId: ScheduledActions_List
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/scheduledActions/{name}
+  method: get
+  operationId: ScheduledActions_Get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/scheduledActions/{name}
+  method: put
+  operationId: ScheduledActions_CreateOrUpdate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/scheduledActions/{name}
+  method: delete
+  operationId: ScheduledActions_Delete
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/scheduledActions/{name}/execute
+  method: post
+  operationId: ScheduledActions_Run
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/settings
+  method: get
+  operationId: Settings_List
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/settings/{type}
+  method: get
+  operationId: Settings_GetByScope
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/settings/{type}
+  method: put
+  operationId: Settings_CreateOrUpdateByScope
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/settings/{type}
+  method: delete
+  operationId: Settings_DeleteByScope
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/views
+  method: get
+  operationId: Views_ListByScope
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/views/{viewName}
+  method: get
+  operationId: Views_GetByScope
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/views/{viewName}
+  method: put
+  operationId: Views_CreateOrUpdateByScope
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /{scope}/providers/Microsoft.CostManagement/views/{viewName}
+  method: delete
+  operationId: Views_DeleteByScope
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/views
+  method: get
+  operationId: Views_List
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/views/{viewName}
+  method: get
+  operationId: Views_Get
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/views/{viewName}
+  method: put
+  operationId: Views_CreateOrUpdate
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+    scope:
+    - user_impersonation
+- path: /providers/Microsoft.CostManagement/views/{viewName}
+  method: delete
+  operationId: Views_Delete
   x-agentic-access:
     action-class: acting
     consequence: write

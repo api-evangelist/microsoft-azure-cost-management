@@ -1,0 +1,469 @@
+openapi: 3.2.0
+info:
+  title: CostManagementClient Cost Allocation Rule Definitions API
+  version: '2026-06-01'
+  description: CostManagement management client provides access to CostManagement resources for Azure Enterprise Subscriptions.
+  x-typespec-generated:
+  - emitter: '@azure-tools/typespec-autorest'
+  x-api-evangelist-common-types: Azure Resource Manager common-types v5 components referenced by this contract were inlined
+    from https://github.com/Azure/azure-rest-api-specs/tree/main/specification/common-types/resource-management/v5 and prefixed
+    Arm, so the document resolves standalone. Microsoft's published document $refs them by relative path across repository
+    directories.
+servers:
+- url: https://management.azure.com
+security:
+- azure_auth:
+  - user_impersonation
+tags:
+- name: CostAllocationRuleDefinitions
+paths:
+  /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules:
+    get:
+      operationId: CostAllocationRules_List
+      tags:
+      - CostAllocationRuleDefinitions
+      description: Get the list of all cost allocation rules for a billing account or enterprise enrollment.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostAllocationRuleList'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        CostAllocationRulesList:
+          $ref: ../examples/CostAllocationRulesList.json
+      x-ms-pageable:
+        nextLinkName: nextLink
+  ? /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules/{ruleName}
+  : get:
+      operationId: CostAllocationRules_Get
+      tags:
+      - CostAllocationRuleDefinitions
+      description: Get a cost allocation rule by rule name and billing account or enterprise enrollment.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: ruleName
+        in: path
+        description: Cost allocation rule name. The name cannot include spaces or any non alphanumeric characters other than
+          '_' and '-'. The max length is 260 characters.
+        required: true
+        schema:
+          type: string
+          pattern: '[A-Za-z0-9\-_]+'
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostAllocationRuleDefinition'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        CostAllocationRules:
+          $ref: ../examples/CostAllocationRuleGet.json
+    put:
+      operationId: CostAllocationRules_CreateOrUpdate
+      tags:
+      - CostAllocationRuleDefinitions
+      description: Create/Update a rule to allocate cost between different resources within a billing account or enterprise
+        enrollment.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: ruleName
+        in: path
+        description: Cost allocation rule name. The name cannot include spaces or any non alphanumeric characters other than
+          '_' and '-'. The max length is 260 characters.
+        required: true
+        schema:
+          type: string
+          pattern: '[A-Za-z0-9\-_]+'
+      responses:
+        '200':
+          description: Resource 'CostAllocationRuleDefinition' update operation succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostAllocationRuleDefinition'
+        '201':
+          description: Resource 'CostAllocationRuleDefinition' create operation succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostAllocationRuleDefinition'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        CostAllocationRulesCreateResourceGroup:
+          $ref: ../examples/CostAllocationRuleCreate.json
+        CostAllocationRulesCreateTag:
+          $ref: ../examples/CostAllocationRuleCreateTag.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostAllocationRuleDefinition'
+        description: Cost allocation rule to be created or updated
+        required: true
+    delete:
+      operationId: CostAllocationRules_Delete
+      tags:
+      - CostAllocationRuleDefinitions
+      description: Delete cost allocation rule for billing account or enterprise enrollment.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: ruleName
+        in: path
+        description: Cost allocation rule name. The name cannot include spaces or any non alphanumeric characters other than
+          '_' and '-'. The max length is 260 characters.
+        required: true
+        schema:
+          type: string
+          pattern: '[A-Za-z0-9\-_]+'
+      responses:
+        '200':
+          description: Resource deleted successfully.
+        '204':
+          description: Resource does not exist.
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        DeleteCostAllocationRule:
+          $ref: ../examples/CostAllocationRuleDelete.json
+components:
+  schemas:
+    ArmProxyResource:
+      type: object
+      title: Proxy Resource
+      description: The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a
+        location
+      allOf:
+      - $ref: '#/components/schemas/ArmResource'
+    ArmResource:
+      type: object
+      title: Resource
+      description: Common fields that are returned in the response for all Azure Resource Manager resources
+      properties:
+        id:
+          type: string
+          format: arm-id
+          description: Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          readOnly: true
+        name:
+          type: string
+          description: The name of the resource
+          readOnly: true
+        type:
+          type: string
+          description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+          readOnly: true
+        systemData:
+          $ref: '#/components/schemas/ArmsystemData'
+          description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+          readOnly: true
+      x-ms-azure-resource: true
+    ArmsystemData:
+      type: object
+      description: Metadata pertaining to creation and last modification of the resource.
+      properties:
+        createdBy:
+          type: string
+          description: The identity that created the resource.
+        createdByType:
+          type: string
+          description: The type of identity that created the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource creation (UTC).
+        lastModifiedBy:
+          type: string
+          description: The identity that last modified the resource.
+        lastModifiedByType:
+          type: string
+          description: The type of identity that last modified the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        lastModifiedAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource last modification (UTC)
+      readOnly: true
+    CostAllocationPolicyType:
+      type: string
+      description: Method to use for allocating cost. FixedProportion indicates that cost will be split based on specified
+        percentage values.
+      enum:
+      - FixedProportion
+      x-ms-enum:
+        name: CostAllocationPolicyType
+        modelAsString: true
+        values:
+        - name: FixedProportion
+          value: FixedProportion
+    CostAllocationProportion:
+      type: object
+      description: Target resources and allocation
+      properties:
+        name:
+          type: string
+          description: Target resource for cost allocation
+        percentage:
+          type: number
+          format: float
+          description: Percentage of source cost to allocate to this resource. This value can be specified to two decimal
+            places and the total percentage of all resources in this rule must sum to 100.00.
+      required:
+      - name
+      - percentage
+    CostAllocationResource:
+      type: object
+      description: Common values for resources for cost allocation
+      properties:
+        resourceType:
+          $ref: '#/components/schemas/CostAllocationResourceType'
+          description: Type of resources contained in this cost allocation rule
+        name:
+          type: string
+          description: If resource type is dimension, this must be either ResourceGroupName or SubscriptionId. If resource
+            type is tag, this must be a valid Azure tag
+      required:
+      - resourceType
+      - name
+    CostAllocationResourceType:
+      type: string
+      description: Category of resource to use for allocation.
+      enum:
+      - Dimension
+      - Tag
+      x-ms-enum:
+        name: CostAllocationResourceType
+        modelAsString: true
+        values:
+        - name: Dimension
+          value: Dimension
+          description: Indicates an Azure dimension such as a subscription id or resource group name is being used for allocation.
+        - name: Tag
+          value: Tag
+          description: Allocates cost based on Azure Tag key value pairs.
+    CostAllocationRuleDefinition:
+      type: object
+      description: The cost allocation rule model definition
+      properties:
+        properties:
+          $ref: '#/components/schemas/CostAllocationRuleProperties'
+          description: Cost allocation rule properties
+      allOf:
+      - $ref: '#/components/schemas/ArmProxyResource'
+    CostAllocationRuleDetails:
+      type: object
+      description: Resource details of the cost allocation rule
+      properties:
+        sourceResources:
+          type: array
+          description: Source resources for cost allocation. At this time, this list can contain no more than one element.
+          items:
+            $ref: '#/components/schemas/SourceCostAllocationResource'
+          x-ms-identifiers:
+          - name
+        targetResources:
+          type: array
+          description: Target resources for cost allocation. At this time, this list can contain no more than one element.
+          items:
+            $ref: '#/components/schemas/TargetCostAllocationResource'
+          x-ms-identifiers:
+          - name
+    CostAllocationRuleList:
+      type: object
+      description: Result of listing cost allocation rules. It contains a list of available rules in the billing account or
+        enterprise enrollment provided.
+      properties:
+        value:
+          type: array
+          description: The list of cost allocation rules.
+          items:
+            $ref: '#/components/schemas/CostAllocationRuleDefinition'
+          x-ms-identifiers:
+          - id
+        nextLink:
+          type: string
+          description: URL to get the next set of rule list results if there are any.
+    CostAllocationRuleProperties:
+      type: object
+      description: The properties of a cost allocation rule
+      properties:
+        description:
+          type: string
+          description: Description of a cost allocation rule.
+        details:
+          $ref: '#/components/schemas/CostAllocationRuleDetails'
+          description: Resource information for the cost allocation rule
+        status:
+          $ref: '#/components/schemas/RuleStatus'
+          description: Status of the rule
+        createdDate:
+          type: string
+          format: date-time
+          description: Time at which the rule was created. Rules that change cost for the same resource are applied in order
+            of creation.
+          readOnly: true
+        updatedDate:
+          type: string
+          format: date-time
+          description: Time at which the rule was last updated.
+          readOnly: true
+      required:
+      - details
+      - status
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
+    ErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided
+        in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting
+        for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable
+        - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+    RuleStatus:
+      type: string
+      description: Current status of the rule.
+      enum:
+      - NotActive
+      - Active
+      - Processing
+      x-ms-enum:
+        name: RuleStatus
+        modelAsString: true
+        values:
+        - name: NotActive
+          value: NotActive
+          description: Rule is saved but not used to allocate costs.
+        - name: Active
+          value: Active
+          description: Rule is saved and impacting cost allocation.
+        - name: Processing
+          value: Processing
+          description: Rule is saved and cost allocation is being updated. Readonly value that cannot be submitted in a put
+            request.
+    SourceCostAllocationResource:
+      type: object
+      description: Source resources for cost allocation
+      properties:
+        values:
+          type: array
+          description: Source Resources for cost allocation. This list cannot contain more than 25 values.
+          items:
+            type: string
+      required:
+      - values
+      allOf:
+      - $ref: '#/components/schemas/CostAllocationResource'
+    TargetCostAllocationResource:
+      type: object
+      description: Target resources for cost allocation.
+      properties:
+        values:
+          type: array
+          description: Target resources for cost allocation. This list cannot contain more than 25 values.
+          items:
+            $ref: '#/components/schemas/CostAllocationProportion'
+          x-ms-identifiers:
+          - name
+        policyType:
+          $ref: '#/components/schemas/CostAllocationPolicyType'
+          description: Method of cost allocation for the rule
+      required:
+      - values
+      - policyType
+      allOf:
+      - $ref: '#/components/schemas/CostAllocationResource'
+  securitySchemes:
+    azure_auth:
+      type: oauth2
+      flows:
+        implicit:
+          scopes:
+            user_impersonation: impersonate your user account
+          authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+      description: Azure Active Directory OAuth2 Flow.
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      description: The API version to use for this operation.
+      required: true
+      schema:
+        type: string
+        minLength: 1

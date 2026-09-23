@@ -1,0 +1,4003 @@
+openapi: 3.2.0
+info:
+  title: CostManagementClient Providers API
+  version: '2026-06-01'
+  description: CostManagement management client provides access to CostManagement resources for Azure Enterprise Subscriptions.
+  x-typespec-generated:
+  - emitter: '@azure-tools/typespec-autorest'
+  x-api-evangelist-common-types: Azure Resource Manager common-types v5 components referenced by this contract were inlined
+    from https://github.com/Azure/azure-rest-api-specs/tree/main/specification/common-types/resource-management/v5 and prefixed
+    Arm, so the document resolves standalone. Microsoft's published document $refs them by relative path across repository
+    directories.
+servers:
+- url: https://management.azure.com
+security:
+- azure_auth:
+  - user_impersonation
+tags:
+- name: Providers
+paths:
+  /{billingScope}/providers/Microsoft.CostManagement/benefitRecommendations:
+    get:
+      operationId: BenefitRecommendations_List
+      description: List of recommendations for purchasing savings plan.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/CostManagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: $filter
+        in: query
+        description: 'Can be used to filter benefitRecommendations by: properties/scope with allowed values [''Single'', ''Shared'']
+          and default value ''Shared''; and properties/lookBackPeriod with allowed values [''Last7Days'', ''Last30Days'',
+          ''Last60Days''] and default value ''Last60Days''; properties/term with allowed values [''P1Y'', ''P3Y''] and default
+          value ''P3Y''; properties/subscriptionId; properties/resourceGroup'
+        required: false
+        schema:
+          type: string
+      - name: $orderby
+        in: query
+        description: 'May be used to order the recommendations by: properties/armSkuName. For the savings plan, the results
+          are in order by default. There is no need to use this clause.'
+        required: false
+        schema:
+          type: string
+      - name: $expand
+        in: query
+        description: 'May be used to expand the properties by: properties/usage, properties/allRecommendationDetails'
+        required: false
+        schema:
+          type: string
+      - name: billingScope
+        in: path
+        description: The scope associated with benefit recommendation operations. This includes '/subscriptions/{subscriptionId}/'
+          for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resource group
+          scope, /providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for enterprise agreement scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+          for billing profile scope
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/benefitRecommendationsListResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        BenefitRecommendationsBillingAccountList:
+          $ref: ../examples/BenefitRecommendationsByBillingAccount.json
+        BenefitRecommendationsManagementGroupList:
+          $ref: ../examples/BenefitRecommendationsByBillingAccountForManagementGroup.json
+      x-ms-pageable:
+        nextLinkName: nextLink
+      tags:
+      - Providers
+  /{scope}/providers/Microsoft.CostManagement/checkNameAvailability:
+    post:
+      operationId: ScheduledActions_CheckNameAvailabilityByScope
+      description: Checks availability and correctness of the name for a scheduled action within the given scope.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: 'The scope associated with scheduled action operations. This includes ''subscriptions/{subscriptionId}''
+          for subscription scope, ''subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'' for resourceGroup
+          scope, ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}'' for Billing Account scope, ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}''
+          for Department scope, ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}''
+          for EnrollmentAccount scope, ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}''
+          for BillingProfile scope, ''providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}''
+          for InvoiceSection scope, ''providers/Microsoft.CostManagement/externalBillingAccounts/{externalBillingAccountName}''
+          for External Billing Account scope and ''providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}''
+          for External Subscription scope. Note: Insight Alerts are only available on subscription scope.'
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArmCheckNameAvailabilityResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseWithNestedDetails'
+      x-ms-examples:
+        ScheduledActionCheckNameAvailabilityByScope:
+          $ref: ../examples/scheduledActions/checkNameAvailability-shared-scheduledAction.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArmCheckNameAvailabilityRequest'
+        description: Scheduled action to be created or updated.
+        required: true
+      tags:
+      - Providers
+  /{scope}/providers/Microsoft.CostManagement/dimensions:
+    get:
+      operationId: Dimensions_List
+      description: Lists the dimensions by the defined scope.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The scope associated with dimension operations. This includes '/subscriptions/{subscriptionId}/' for
+          subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope,
+          '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}'
+          for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}'
+          for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management
+          Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+          for billingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+          for invoiceSection scope, and 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}'
+          specific for partners.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      - name: $filter
+        in: query
+        description: May be used to filter dimensions by properties/category, properties/usageStart, properties/usageEnd.
+          Supported operators are 'eq','lt', 'gt', 'le', 'ge'.
+        required: false
+        schema:
+          type: string
+      - name: $expand
+        in: query
+        description: May be used to expand the properties/data within a dimension category. By default, data is not included
+          when listing dimensions.
+        required: false
+        schema:
+          type: string
+      - name: $skiptoken
+        in: query
+        description: Skiptoken is only used if a previous operation returned a partial result. If a previous response contains
+          a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting
+          point to use for subsequent calls.
+        required: false
+        schema:
+          type: string
+      - name: $top
+        in: query
+        description: May be used to limit the number of results to the most recent N dimension data.
+        required: false
+        schema:
+          type: integer
+          format: int32
+          maximum: 1000
+          minimum: 1
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DimensionsListResult'
+        '204':
+          description: There is no content to send for this request, but the headers may be useful.
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        BillingAccountDimensionsList-Legacy:
+          $ref: ../examples/BillingAccountDimensionsList.json
+        BillingAccountDimensionsList-MCA:
+          $ref: ../examples/MCABillingAccountDimensionsList.json
+        BillingAccountDimensionsListExpandAndTop-Legacy:
+          $ref: ../examples/BillingAccountDimensionsListExpandAndTop.json
+        BillingAccountDimensionsListExpandAndTop-MCA:
+          $ref: ../examples/MCABillingAccountDimensionsListExpandAndTop.json
+        BillingAccountDimensionsListWithFilter-Legacy:
+          $ref: ../examples/BillingAccountDimensionsListWithFilter.json
+        BillingAccountDimensionsListWithFilter-MCA:
+          $ref: ../examples/MCABillingAccountDimensionsListWithFilter.json
+        BillingProfileDimensionsList-MCA:
+          $ref: ../examples/MCABillingProfileDimensionsList.json
+        BillingProfileDimensionsListExpandAndTop-MCA:
+          $ref: ../examples/MCABillingProfileDimensionsListExpandAndTop.json
+        BillingProfileDimensionsListWithFilter-MCA:
+          $ref: ../examples/MCABillingProfileDimensionsListWithFilter.json
+        CustomerDimensionsList-MCA:
+          $ref: ../examples/MCACustomerDimensionsList.json
+        CustomerDimensionsListExpandAndTop-MCA:
+          $ref: ../examples/MCACustomerDimensionsListExpandAndTop.json
+        CustomerDimensionsListWithFilter-MCA:
+          $ref: ../examples/MCACustomerDimensionsListWithFilter.json
+        DepartmentDimensionsList-Legacy:
+          $ref: ../examples/DepartmentDimensionsList.json
+        DepartmentDimensionsListExpandAndTop-Legacy:
+          $ref: ../examples/DepartmentDimensionsListExpandAndTop.json
+        DepartmentDimensionsListWithFilter-Legacy:
+          $ref: ../examples/DepartmentDimensionsListWithFilter.json
+        EnrollmentAccountDimensionsList-Legacy:
+          $ref: ../examples/EnrollmentAccountDimensionsList.json
+        EnrollmentAccountDimensionsListExpandAndTop-Legacy:
+          $ref: ../examples/EnrollmentAccountDimensionsListExpandAndTop.json
+        EnrollmentAccountDimensionsListWithFilter-Legacy:
+          $ref: ../examples/EnrollmentAccountDimensionsListWithFilter.json
+        InvoiceSectionDimensionsList-MCA:
+          $ref: ../examples/MCAInvoiceSectionDimensionsList.json
+        InvoiceSectionDimensionsListExpandAndTop-MCA:
+          $ref: ../examples/MCAInvoiceSectionDimensionsListExpandAndTop.json
+        InvoiceSectionDimensionsListWithFilter-MCA:
+          $ref: ../examples/MCAInvoiceSectionDimensionsListWithFilter.json
+        ManagementGroupDimensionsList-Legacy:
+          $ref: ../examples/ManagementGroupDimensionsList.json
+        ManagementGroupDimensionsListExpandAndTop-Legacy:
+          $ref: ../examples/ManagementGroupDimensionsListExpandAndTop.json
+        ManagementGroupDimensionsListWithFilter-Legacy:
+          $ref: ../examples/ManagementGroupDimensionsListWithFilter.json
+        ResourceGroupDimensionsList-Legacy:
+          $ref: ../examples/ResourceGroupDimensionsList.json
+        SubscriptionDimensionsList-Legacy:
+          $ref: ../examples/SubscriptionDimensionsList.json
+      x-ms-pageable:
+        nextLinkName: nextLink
+      tags:
+      - Providers
+  /{scope}/providers/Microsoft.CostManagement/forecast:
+    post:
+      operationId: Forecast_Usage
+      description: Lists the forecast charges for scope defined.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: $filter
+        in: query
+        description: May be used to filter forecasts by properties/usageDate (Utc time), properties/chargeType or properties/grain.
+          The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
+        required: false
+        schema:
+          type: string
+      - name: scope
+        in: path
+        description: The scope associated with forecast operations. This includes '/subscriptions/{subscriptionId}/' for subscription
+          scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}'
+          for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}'
+          for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}'
+          for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management
+          Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+          for billingProfile scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+          for invoiceSection scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}'
+          specific for partners.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastResult'
+        '204':
+          description: There is no content to send for this request, but the headers may be useful.
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        BillingAccountForecast:
+          $ref: ../examples/BillingAccountForecast.json
+        BillingProfileForecast:
+          $ref: ../examples/BillingProfileForecast.json
+        DepartmentForecast:
+          $ref: ../examples/DepartmentForecast.json
+        EnrollmentAccountForecast:
+          $ref: ../examples/EnrollmentAccountForecast.json
+        InvoiceSectionForecast:
+          $ref: ../examples/InvoiceSectionForecast.json
+        ResourceGroupForecast:
+          $ref: ../examples/ResourceGroupForecast.json
+        SubscriptionForecast:
+          $ref: ../examples/SubscriptionForecast.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForecastDefinition'
+        description: Parameters supplied to the CreateOrUpdate Forecast Config operation.
+        required: true
+      tags:
+      - Providers
+  /{scope}/providers/Microsoft.CostManagement/generateCostDetailsReport:
+    post:
+      operationId: GenerateCostDetailsReport_CreateOperation
+      description: This API is the replacement for all previously release Usage Details APIs. Request to generate a cost details
+        report for the provided date range, billing period (Only enterprise customers) or Invoice Id asynchronously at a certain
+        scope. The initial call to request a report will return a 202 with a 'Location' and 'Retry-After' header. The 'Location'
+        header will provide the endpoint to poll to get the result of the report generation. The 'Retry-After' provides the
+        duration to wait before polling for the generated report. A call to poll the report operation will provide a 202 response
+        with a 'Location' header if the operation is still in progress. Once the report generation operation completes, the
+        polling endpoint will provide a 200 response along with details on the report blob(s) that are available for download.
+        The details on the file(s) available for download will be available in the polling response body. To Understand cost
+        details (formerly known as usage details) fields found in files ,see https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The ARM Resource ID for subscription, billing account, or other billing scopes.Currently Resource Group
+          and Management Group are not supported. For details, see https://aka.ms/costmgmt/scopes.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostDetailsOperationResults'
+        '202':
+          description: Resource operation accepted.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+        '204':
+          description: There is no content to send for this request, but the headers may be useful.
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateCostDetailsReportErrorResponse'
+      x-ms-examples:
+        GenerateCostDetailsReportByBillingAccountEnterpriseAgreementCustomerAndBillingPeriod:
+          $ref: ../examples/GenerateCostDetailsReportByBillingAccountEnterpriseAgreementCustomerAndBillingPeriod.json
+        GenerateCostDetailsReportByBillingProfileAndInvoiceId:
+          $ref: ../examples/GenerateCostDetailsReportByBillingProfileAndInvoiceId.json
+        GenerateCostDetailsReportByBillingProfileAndInvoiceIdAndCustomerId:
+          $ref: ../examples/GenerateCostDetailsReportByBillingProfileAndInvoiceIdAndCustomerId.json
+        GenerateCostDetailsReportByCustomerAndTimePeriod:
+          $ref: ../examples/GenerateCostDetailsReportByCustomerAndTimePeriod.json
+        GenerateCostDetailsReportByDepartmentsAndTimePeriod:
+          $ref: ../examples/GenerateCostDetailsReportByDepartmentsAndTimePeriod.json
+        GenerateCostDetailsReportByEnrollmentAccountsAndTimePeriod:
+          $ref: ../examples/GenerateCostDetailsReportByEnrollmentAccountsAndTimePeriod.json
+        GenerateCostDetailsReportBySubscriptionAndTimePeriod:
+          $ref: ../examples/GenerateCostDetailsReportBySubscriptionAndTimePeriod.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/CostDetailsOperationResults'
+      x-ms-long-running-operation: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateCostDetailsReportRequestDefinition'
+        description: Parameters supplied to the Create cost details operation.
+        required: true
+      tags:
+      - Providers
+  /{scope}/providers/Microsoft.CostManagement/generateDetailedCostReport:
+    post:
+      operationId: GenerateDetailedCostReport_CreateOperation
+      description: Generates the detailed cost report for provided date range, billing period(only enterprise customers) or
+        Invoice ID asynchronously at a certain scope. Call returns a 202 with header Azure-Consumption-AsyncOperation providing
+        a link to the operation created. A call on the operation will provide the status and if the operation is completed
+        the blob file where generated detailed cost report is being stored.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The ARM Resource ID for subscription, resource group, billing account, or other billing scopes. For details,
+          see https://aka.ms/costmgmt/scopes.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateDetailedCostReportOperationResult'
+        '202':
+          description: The request has been accepted for processing, but processing has not yet completed.
+          headers:
+            Azure-AsyncOperation:
+              description: A link to the status monitor
+              schema:
+                type: string
+                format: uri
+            Azure-Consumption-AsyncOperation:
+              description: The URL to check the status of the asynchronous operation.
+              schema:
+                type: string
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateDetailedCostReportErrorResponse'
+      x-ms-examples:
+        GenerateDetailedCostReportByBillingAccountLegacyAndBillingPeriod:
+          $ref: ../examples/GenerateDetailedCostReportByBillingAccountLegacyAndBillingPeriod.json
+        GenerateDetailedCostReportByBillingProfileAndInvoiceId:
+          $ref: ../examples/GenerateDetailedCostReportByBillingProfileAndInvoiceId.json
+        GenerateDetailedCostReportByBillingProfileAndInvoiceIdAndCustomerId:
+          $ref: ../examples/GenerateDetailedCostReportByBillingProfileAndInvoiceIdAndCustomerId.json
+        GenerateDetailedCostReportByCustomerAndTimePeriod:
+          $ref: ../examples/GenerateDetailedCostReportByCustomerAndTimePeriod.json
+        GenerateDetailedCostReportBySubscriptionAndTimePeriod:
+          $ref: ../examples/GenerateDetailedCostReportBySubscriptionAndTimePeriod.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/GenerateDetailedCostReportOperationResult'
+      x-ms-long-running-operation: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateDetailedCostReportDefinition'
+        description: Parameters supplied to the Create detailed cost report operation.
+        required: true
+      tags:
+      - Providers
+  /{scope}/providers/Microsoft.CostManagement/query:
+    post:
+      operationId: Query_Usage
+      description: Query the usage data for scope defined.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The scope associated with query and export operations. This includes '/subscriptions/{subscriptionId}/'
+          for subscription scope, '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope,
+          '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}'
+          for Department scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}'
+          for EnrollmentAccount scope, '/providers/Microsoft.Management/managementGroups/{managementGroupId} for Management
+          Group scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+          for billingProfile scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}'
+          for invoiceSection scope, and '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}'
+          specific for partners.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+        '204':
+          description: There is no content to send for this request, but the headers may be useful.
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        BillingAccountQuery-Legacy:
+          $ref: ../examples/BillingAccountQuery.json
+        BillingAccountQuery-MCA:
+          $ref: ../examples/MCABillingAccountQuery.json
+        BillingAccountQueryGrouping-Legacy:
+          $ref: ../examples/BillingAccountQueryGrouping.json
+        BillingAccountQueryGrouping-MCA:
+          $ref: ../examples/MCABillingAccountQueryGrouping.json
+        BillingProfileQuery-MCA:
+          $ref: ../examples/MCABillingProfileQuery.json
+        BillingProfileQueryGrouping-MCA:
+          $ref: ../examples/MCABillingProfileQueryGrouping.json
+        CustomerQuery-MCA:
+          $ref: ../examples/MCACustomerQuery.json
+        CustomerQueryGrouping-MCA:
+          $ref: ../examples/MCACustomerQueryGrouping.json
+        DepartmentQuery-Legacy:
+          $ref: ../examples/DepartmentQuery.json
+        DepartmentQueryGrouping-Legacy:
+          $ref: ../examples/DepartmentQueryGrouping.json
+        EnrollmentAccountQuery-Legacy:
+          $ref: ../examples/EnrollmentAccountQuery.json
+        EnrollmentAccountQueryGrouping-Legacy:
+          $ref: ../examples/EnrollmentAccountQueryGrouping.json
+        InvoiceSectionQuery-MCA:
+          $ref: ../examples/MCAInvoiceSectionQuery.json
+        InvoiceSectionQueryGrouping-MCA:
+          $ref: ../examples/MCAInvoiceSectionQueryGrouping.json
+        ManagementGroupQuery-Legacy:
+          $ref: ../examples/ManagementGroupQuery.json
+        ManagementGroupQueryGrouping-Legacy:
+          $ref: ../examples/ManagementGroupQueryGrouping.json
+        ResourceGroupQuery-Legacy:
+          $ref: ../examples/ResourceGroupQuery.json
+        ResourceGroupQueryGrouping-Legacy:
+          $ref: ../examples/ResourceGroupQueryGrouping.json
+        SubscriptionQuery-Legacy:
+          $ref: ../examples/SubscriptionQuery.json
+        SubscriptionQueryGrouping-Legacy:
+          $ref: ../examples/SubscriptionQueryGrouping.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryDefinition'
+        description: Parameters supplied to the CreateOrUpdate Query Config operation.
+        required: true
+      tags:
+      - Providers
+  /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/alerts:
+    get:
+      operationId: Alerts_ListExternal
+      description: Lists the Alerts for external cloud provider type defined.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: externalCloudProviderType
+        in: path
+        description: The external cloud provider type associated with dimension/query operations. This includes 'externalSubscriptions'
+          for linked account and 'externalBillingAccounts' for consolidated account.
+        required: true
+        x-ms-enum:
+          name: ExternalCloudProviderType
+          modelAsString: true
+          values:
+          - name: externalSubscriptions
+            value: externalSubscriptions
+          - name: externalBillingAccounts
+            value: externalBillingAccounts
+        schema:
+          type: string
+          enum:
+          - externalSubscriptions
+          - externalBillingAccounts
+      - name: externalCloudProviderId
+        in: path
+        description: This can be '{externalSubscriptionId}' for linked account or '{externalBillingAccountId}' for consolidated
+          account used with dimension/query operations.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertsResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        ExternalBillingAccountAlerts:
+          $ref: ../examples/ExternalBillingAccountAlerts.json
+        ExternalSubscriptionAlerts:
+          $ref: ../examples/ExternalSubscriptionAlerts.json
+      tags:
+      - Providers
+  /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/dimensions:
+    get:
+      operationId: Dimensions_ByExternalCloudProviderType
+      description: Lists the dimensions by the external cloud provider type.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: externalCloudProviderType
+        in: path
+        description: The external cloud provider type associated with dimension/query operations. This includes 'externalSubscriptions'
+          for linked account and 'externalBillingAccounts' for consolidated account.
+        required: true
+        x-ms-enum:
+          name: ExternalCloudProviderType
+          modelAsString: true
+          values:
+          - name: externalSubscriptions
+            value: externalSubscriptions
+          - name: externalBillingAccounts
+            value: externalBillingAccounts
+        schema:
+          type: string
+          enum:
+          - externalSubscriptions
+          - externalBillingAccounts
+      - name: externalCloudProviderId
+        in: path
+        description: This can be '{externalSubscriptionId}' for linked account or '{externalBillingAccountId}' for consolidated
+          account used with dimension/query operations.
+        required: true
+        schema:
+          type: string
+      - name: $filter
+        in: query
+        description: May be used to filter dimensions by properties/category, properties/usageStart, properties/usageEnd.
+          Supported operators are 'eq','lt', 'gt', 'le', 'ge'.
+        required: false
+        schema:
+          type: string
+      - name: $expand
+        in: query
+        description: May be used to expand the properties/data within a dimension category. By default, data is not included
+          when listing dimensions.
+        required: false
+        schema:
+          type: string
+      - name: $skiptoken
+        in: query
+        description: Skiptoken is only used if a previous operation returned a partial result. If a previous response contains
+          a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting
+          point to use for subsequent calls.
+        required: false
+        schema:
+          type: string
+      - name: $top
+        in: query
+        description: May be used to limit the number of results to the most recent N dimension data.
+        required: false
+        schema:
+          type: integer
+          format: int32
+          maximum: 1000
+          minimum: 1
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DimensionsListResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        ExternalBillingAccountDimensionList:
+          $ref: ../examples/ExternalBillingAccountsDimensions.json
+        ExternalSubscriptionDimensionList:
+          $ref: ../examples/ExternalSubscriptionsDimensions.json
+      x-ms-pageable:
+        nextLinkName: nextLink
+      tags:
+      - Providers
+  /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/forecast:
+    post:
+      operationId: Forecast_ExternalCloudProviderUsage
+      description: Lists the forecast charges for external cloud provider type defined.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: $filter
+        in: query
+        description: May be used to filter forecasts by properties/usageDate (Utc time), properties/chargeType or properties/grain.
+          The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. It does not currently support 'ne', 'or', or 'not'.
+        required: false
+        schema:
+          type: string
+      - name: externalCloudProviderType
+        in: path
+        description: The external cloud provider type associated with dimension/query operations. This includes 'externalSubscriptions'
+          for linked account and 'externalBillingAccounts' for consolidated account.
+        required: true
+        x-ms-enum:
+          name: ExternalCloudProviderType
+          modelAsString: true
+          values:
+          - name: externalSubscriptions
+            value: externalSubscriptions
+          - name: externalBillingAccounts
+            value: externalBillingAccounts
+        schema:
+          type: string
+          enum:
+          - externalSubscriptions
+          - externalBillingAccounts
+      - name: externalCloudProviderId
+        in: path
+        description: This can be '{externalSubscriptionId}' for linked account or '{externalBillingAccountId}' for consolidated
+          account used with dimension/query operations.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        ExternalBillingAccountForecast:
+          $ref: ../examples/ExternalBillingAccountForecast.json
+        ExternalSubscriptionForecast:
+          $ref: ../examples/ExternalSubscriptionForecast.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForecastDefinition'
+        description: The request body
+        required: true
+      tags:
+      - Providers
+  /providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/query:
+    post:
+      operationId: Query_UsageByExternalCloudProviderType
+      description: Query the usage data for external cloud provider type defined.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: externalCloudProviderType
+        in: path
+        description: The external cloud provider type associated with dimension/query operations. This includes 'externalSubscriptions'
+          for linked account and 'externalBillingAccounts' for consolidated account.
+        required: true
+        x-ms-enum:
+          name: ExternalCloudProviderType
+          modelAsString: true
+          values:
+          - name: externalSubscriptions
+            value: externalSubscriptions
+          - name: externalBillingAccounts
+            value: externalBillingAccounts
+        schema:
+          type: string
+          enum:
+          - externalSubscriptions
+          - externalBillingAccounts
+      - name: externalCloudProviderId
+        in: path
+        description: This can be '{externalSubscriptionId}' for linked account or '{externalBillingAccountId}' for consolidated
+          account used with dimension/query operations.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        ExternalBillingAccountQueryList:
+          $ref: ../examples/ExternalBillingAccountsQuery.json
+        ExternalSubscriptionsQuery:
+          $ref: ../examples/ExternalSubscriptionsQuery.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QueryDefinition'
+        description: The request body
+        required: true
+      tags:
+      - Providers
+  /providers/Microsoft.CostManagement/checkNameAvailability:
+    post:
+      operationId: ScheduledActions_CheckNameAvailability
+      description: Checks availability and correctness of the name for a scheduled action.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArmCheckNameAvailabilityResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponseWithNestedDetails'
+      x-ms-examples:
+        ScheduledActionCheckNameAvailability:
+          $ref: ../examples/scheduledActions/checkNameAvailability-private-scheduledAction.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArmCheckNameAvailabilityRequest'
+        description: The request body
+        required: true
+      tags:
+      - Providers
+  ? /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.CostManagement/pricesheets/default/download
+  : post:
+      operationId: PriceSheet_DownloadByBillingAccount
+      description: 'Generates the pricesheet for the provided billing period asynchronously based on the Enrollment ID. This
+        is for Enterprise Agreement customers.
+
+
+        **Migrate to version 2025-03-01**
+
+
+        You can use the 2025-03-01 API version with the new URI:
+
+
+        ''/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.CostManagement/pricesheets/default/download''
+
+
+        With a new schema detailed below, the new version of the price sheet provides additional information and includes
+        prices for Azure Reserved Instances (RI) for the current billing period. We recommend downloading an Azure Price Sheet
+        for when entering a new billing period if you would maintain an ongoing record of past Azure Reserved Instance (RI)
+        pricing.
+
+
+        The EA Azure price sheet is available for billing periods in the past 13 months. To request a price sheet for a billing
+        period older than 13 months, please contact support.
+
+
+        The Azure price sheet download experience has been updated from a single .csv file to a zip file containing multiple
+        .csv files, each with max size of 75MB. The 2023-11-01 version has been upgraded to use http POST method; details
+        can be found below.
+
+
+        All versions of the Microsoft.Consumption Azure Price Sheet - Download by Billing Account (including 2022-06-01, 2021-10-01,
+        2020-01-01-preview, 2019-10-01, 2019-05-01) are scheduled to be retired on 01 June 2026 and will no longer be supported
+        after this date.'
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: billingPeriodName
+        in: path
+        description: Billing Period Name.
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9]*$
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationStatus'
+        '202':
+          description: Resource operation accepted.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArmErrorResponse'
+      x-ms-examples:
+        EAPriceSheetForBillingPeriod:
+          $ref: ../examples/EAPriceSheetForBillingPeriod.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/OperationStatus'
+      x-ms-long-running-operation: true
+      tags:
+      - Providers
+  ? /providers/microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoices/{invoiceName}/providers/Microsoft.CostManagement/pricesheets/default/download
+  : post:
+      operationId: PriceSheet_DownloadByInvoice
+      description: Gets a URL to download the pricesheet for an invoice. The operation is supported for billing accounts with
+        agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountName
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+          pattern: ([A-Za-z0-9]+(-[A-Za-z0-9]+)+):([A-Za-z0-9]+(-[A-Za-z0-9]+)+)_[0-9]{4}-[0-9]{2}-[0-9]{2}
+      - name: billingProfileName
+        in: path
+        description: Billing Profile Name.
+        required: true
+        schema:
+          type: string
+          pattern: ([A-Za-z0-9]+(-[A-Za-z0-9]+)+)
+      - name: invoiceName
+        in: path
+        description: The ID that uniquely identifies an invoice.
+        required: true
+        schema:
+          type: string
+          pattern: '[A-Za-z0-9]+'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DownloadURL'
+        '202':
+          description: The request has been accepted for processing, but processing has not yet completed.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+            OData-EntityId:
+              description: The operation entity Id GUID.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        PricesheetDownload:
+          $ref: ../examples/PricesheetDownload.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/DownloadURL'
+      x-ms-long-running-operation: true
+      tags:
+      - Providers
+  ? /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries
+  : get:
+      operationId: BenefitUtilizationSummaries_ListByBillingProfileId
+      description: 'Lists savings plan utilization summaries for billing profile. Supported at grain values: ''Daily'' and
+        ''Monthly''.'
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/cost-management/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: billingProfileId
+        in: path
+        description: Billing Profile ID.
+        required: true
+        schema:
+          type: string
+      - name: grainParameter
+        in: query
+        description: Grain.
+        required: false
+        x-ms-enum:
+          name: GrainParameter
+          modelAsString: true
+          values:
+          - name: Hourly
+            value: Hourly
+            description: Hourly grain corresponds to value per hour.
+          - name: Daily
+            value: Daily
+            description: Hourly grain corresponds to value per day.
+          - name: Monthly
+            value: Monthly
+            description: Hourly grain corresponds to value per month.
+        schema:
+          type: string
+          enum:
+          - Hourly
+          - Daily
+          - Monthly
+      - name: filter
+        in: query
+        description: Supports filtering by properties/benefitId, properties/benefitOrderId and properties/usageDate.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitUtilizationSummariesListResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        SavingsPlanUtilizationSummaries-BillingProfile:
+          $ref: ../examples/BenefitUtilizationSummaries/SavingsPlan-BillingProfile.json
+      x-ms-pageable:
+        nextLinkName: nextLink
+      tags:
+      - Providers
+  ? /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  : post:
+      operationId: GenerateBenefitUtilizationSummariesReport_GenerateByBillingProfile
+      description: Triggers generation of a benefit utilization summaries report for the provided billing account and billing
+        profile.
+      externalDocs:
+        url: https://docs.microsoft.com/rest/api/cost-management/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: billingProfileId
+        in: path
+        description: Billing Profile ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitUtilizationSummariesOperationStatus'
+        '202':
+          description: Resource operation accepted.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArmErrorResponse'
+      x-ms-examples:
+        GenerateUtilizationSummariesReportByBillingProfile:
+          $ref: ../examples/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportByBillingProfile.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/BenefitUtilizationSummariesOperationStatus'
+      x-ms-long-running-operation: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitUtilizationSummariesRequest'
+        description: Async Benefit Utilization Summary report to be created.
+        required: true
+      tags:
+      - Providers
+  ? /providers/microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/generateReservationDetailsReport
+  : post:
+      operationId: GenerateReservationDetailsReport_ByBillingProfileId
+      description: Generates the reservations details report for provided date range asynchronously by billing profile. The
+        Reservation usage details can be viewed by only certain enterprise roles by default. For more details on the roles
+        see, https://docs.microsoft.com/en-us/azure/cost-management-billing/reservations/reservation-utilization#view-utilization-in-the-azure-portal-with-azure-rbac-access
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: billingProfileId
+        in: path
+        description: Billing Profile ID.
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        description: Start Date
+        required: true
+        schema:
+          type: string
+      - name: endDate
+        in: query
+        description: End Date
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationStatus'
+        '202':
+          description: Resource operation accepted.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        ReservationDetails:
+          $ref: ../examples/GenerateReservationDetailsReportByBillingProfile.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/OperationStatus'
+      x-ms-long-running-operation: true
+      tags:
+      - Providers
+  ? /providers/microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.CostManagement/pricesheets/default/download
+  : post:
+      operationId: PriceSheet_DownloadByBillingProfile
+      description: 'Gets a URL to download the current month''s pricesheet for a billing profile. The operation is supported
+        for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+
+
+        You can use the new 2023-09-01 API version for billing periods January 2023 onwards. Azure Reserved Instance (RI)
+        pricing is only available through the new version of the API.
+
+
+        Due to Azure product growth, the Azure price sheet download experience in this preview version will be updated from
+        a single csv/json file to a Zip file containing multiple csv/json files, each with max size of 75MB.'
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountName
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+          pattern: ([A-Za-z0-9]+(-[A-Za-z0-9]+)+):([A-Za-z0-9]+(-[A-Za-z0-9]+)+)_[0-9]{4}-[0-9]{2}-[0-9]{2}
+      - name: billingProfileName
+        in: path
+        description: Billing Profile Name.
+        required: true
+        schema:
+          type: string
+          pattern: ([A-Za-z0-9]+(-[A-Za-z0-9]+)+)
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PricesheetDownloadProperties'
+        '202':
+          description: The request has been accepted for processing, but processing has not yet completed.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+            OData-EntityId:
+              description: The operation entity Id GUID.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        PricesheetDownloadByBillingProfile:
+          $ref: ../examples/PricesheetDownloadByBillingProfile.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/PricesheetDownloadProperties'
+      x-ms-long-running-operation: true
+      tags:
+      - Providers
+  ? /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries
+  : get:
+      operationId: BenefitUtilizationSummaries_ListByBillingAccountId
+      description: 'Lists savings plan utilization summaries for the enterprise agreement scope. Supported at grain values:
+        ''Daily'' and ''Monthly''.'
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/cost-management/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: grainParameter
+        in: query
+        description: Grain.
+        required: false
+        x-ms-enum:
+          name: GrainParameter
+          modelAsString: true
+          values:
+          - name: Hourly
+            value: Hourly
+            description: Hourly grain corresponds to value per hour.
+          - name: Daily
+            value: Daily
+            description: Hourly grain corresponds to value per day.
+          - name: Monthly
+            value: Monthly
+            description: Hourly grain corresponds to value per month.
+        schema:
+          type: string
+          enum:
+          - Hourly
+          - Daily
+          - Monthly
+      - name: filter
+        in: query
+        description: Supports filtering by properties/benefitId, properties/benefitOrderId and properties/usageDate.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitUtilizationSummariesListResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        SavingsPlanUtilizationSummaries-BillingAccount:
+          $ref: ../examples/BenefitUtilizationSummaries/SavingsPlan-BillingAccount.json
+      x-ms-pageable:
+        nextLinkName: nextLink
+      tags:
+      - Providers
+  ? /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/costAllocationRules/checkNameAvailability
+  : post:
+      operationId: CostAllocationRules_CheckNameAvailability
+      description: Checks availability and correctness of a name for a cost allocation rule
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostAllocationRuleCheckNameAvailabilityResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        CostAllocationRuleCheckNameAvailability:
+          $ref: ../examples/CostAllocationRuleCheckNameAvailability.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostAllocationRuleCheckNameAvailabilityRequest'
+        description: Cost allocation rule to be created or updated
+        required: true
+      tags:
+      - Providers
+  ? /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  : post:
+      operationId: GenerateBenefitUtilizationSummariesReport_GenerateByBillingAccount
+      description: Triggers generation of a benefit utilization summaries report for the provided billing account. This API
+        supports only enrollment accounts.
+      externalDocs:
+        url: https://docs.microsoft.com/rest/api/cost-management/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitUtilizationSummariesOperationStatus'
+        '202':
+          description: Resource operation accepted.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArmErrorResponse'
+      x-ms-examples:
+        GenerateUtilizationSummariesReportByBillingAccount:
+          $ref: ../examples/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportByBillingAccount.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/BenefitUtilizationSummariesOperationStatus'
+      x-ms-long-running-operation: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitUtilizationSummariesRequest'
+        description: Async Benefit Utilization Summary report to be created.
+        required: true
+      tags:
+      - Providers
+  ? /providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.CostManagement/generateReservationDetailsReport
+  : post:
+      operationId: GenerateReservationDetailsReport_ByBillingAccountId
+      description: Generates the reservations details report for provided date range asynchronously based on enrollment id.
+        The Reservation usage details can be viewed only by certain enterprise roles. For more details on the roles see, https://docs.microsoft.com/en-us/azure/cost-management-billing/manage/understand-ea-roles#usage-and-costs-access-by-role
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        description: Start Date
+        required: true
+        schema:
+          type: string
+      - name: endDate
+        in: query
+        description: End Date
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationStatus'
+        '202':
+          description: Resource operation accepted.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        ReservationDetails:
+          $ref: ../examples/GenerateReservationDetailsReportByBillingAccount.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/OperationStatus'
+      x-ms-long-running-operation: true
+      tags:
+      - Providers
+  ? /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries
+  : get:
+      operationId: BenefitUtilizationSummaries_ListBySavingsPlanOrder
+      description: Lists the savings plan utilization summaries for daily or monthly grain.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/cost-management/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: $filter
+        in: query
+        description: Supports filtering by properties/usageDate.
+        required: false
+        schema:
+          type: string
+      - name: grainParameter
+        in: query
+        description: Grain.
+        required: false
+        x-ms-enum:
+          name: GrainParameter
+          modelAsString: true
+          values:
+          - name: Hourly
+            value: Hourly
+            description: Hourly grain corresponds to value per hour.
+          - name: Daily
+            value: Daily
+            description: Hourly grain corresponds to value per day.
+          - name: Monthly
+            value: Monthly
+            description: Hourly grain corresponds to value per month.
+        schema:
+          type: string
+          enum:
+          - Hourly
+          - Daily
+          - Monthly
+      - name: savingsPlanOrderId
+        in: path
+        description: Savings plan order ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitUtilizationSummariesListResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        SavingsPlanUtilizationSummariesDaily:
+          $ref: ../examples/BenefitUtilizationSummaries/SavingsPlan-SavingsPlanOrderId-Daily.json
+      x-ms-pageable:
+        nextLinkName: nextLink
+      tags:
+      - Providers
+  ? /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  : post:
+      operationId: GenerateBenefitUtilizationSummariesReport_GenerateBySavingsPlanOrderId
+      description: Triggers generation of a benefit utilization summaries report for the provided savings plan order.
+      externalDocs:
+        url: https://docs.microsoft.com/rest/api/cost-management/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: savingsPlanOrderId
+        in: path
+        description: Savings plan order ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitUtilizationSummariesOperationStatus'
+        '202':
+          description: Resource operation accepted.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArmErrorResponse'
+      x-ms-examples:
+        GenerateUtilizationSummariesReportBySavingsPlanOrder:
+          $ref: ../examples/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportBySavingsPlanOrder.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/BenefitUtilizationSummariesOperationStatus'
+      x-ms-long-running-operation: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitUtilizationSummariesRequest'
+        description: Async Benefit Utilization Summary report to be created.
+        required: true
+      tags:
+      - Providers
+  ? /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}/providers/Microsoft.CostManagement/benefitUtilizationSummaries
+  : get:
+      operationId: BenefitUtilizationSummaries_ListBySavingsPlanId
+      description: Lists the savings plan utilization summaries for daily or monthly grain.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/cost-management/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: $filter
+        in: query
+        description: Supports filtering by properties/usageDate.
+        required: false
+        schema:
+          type: string
+      - name: grainParameter
+        in: query
+        description: Grain.
+        required: false
+        x-ms-enum:
+          name: GrainParameter
+          modelAsString: true
+          values:
+          - name: Hourly
+            value: Hourly
+            description: Hourly grain corresponds to value per hour.
+          - name: Daily
+            value: Daily
+            description: Hourly grain corresponds to value per day.
+          - name: Monthly
+            value: Monthly
+            description: Hourly grain corresponds to value per month.
+        schema:
+          type: string
+          enum:
+          - Hourly
+          - Daily
+          - Monthly
+      - name: savingsPlanOrderId
+        in: path
+        description: Savings plan order ID.
+        required: true
+        schema:
+          type: string
+      - name: savingsPlanId
+        in: path
+        description: Savings plan ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitUtilizationSummariesListResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        SavingsPlanUtilizationSummariesMonthlyWithSavingsPlanId:
+          $ref: ../examples/BenefitUtilizationSummaries/SavingsPlan-SavingsPlanId-Monthly.json
+      x-ms-pageable:
+        nextLinkName: nextLink
+      tags:
+      - Providers
+  ? /providers/microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans/{savingsPlanId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  : post:
+      operationId: GenerateBenefitUtilizationSummariesReport_GenerateBySavingsPlanId
+      description: Triggers generation of a benefit utilization summaries report for the provided savings plan.
+      externalDocs:
+        url: https://docs.microsoft.com/rest/api/cost-management/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: savingsPlanOrderId
+        in: path
+        description: Savings plan order ID.
+        required: true
+        schema:
+          type: string
+      - name: savingsPlanId
+        in: path
+        description: Savings plan ID.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitUtilizationSummariesOperationStatus'
+        '202':
+          description: Resource operation accepted.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArmErrorResponse'
+      x-ms-examples:
+        GenerateUtilizationSummariesReportBySavingsPlan:
+          $ref: ../examples/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportBySavingsPlan.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/BenefitUtilizationSummariesOperationStatus'
+      x-ms-long-running-operation: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitUtilizationSummariesRequest'
+        description: Async Benefit Utilization Summary report to be created.
+        required: true
+      tags:
+      - Providers
+  ? /providers/microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  : post:
+      operationId: GenerateBenefitUtilizationSummariesReport_GenerateByReservationOrderId
+      description: Triggers generation of a benefit utilization summaries report for the provided reservation order.
+      externalDocs:
+        url: https://docs.microsoft.com/rest/api/cost-management/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: reservationOrderId
+        in: path
+        description: Reservation Order ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitUtilizationSummariesOperationStatus'
+        '202':
+          description: Resource operation accepted.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArmErrorResponse'
+      x-ms-examples:
+        GenerateUtilizationSummariesReportByReservationOrder:
+          $ref: ../examples/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportByReservationOrder.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/BenefitUtilizationSummariesOperationStatus'
+      x-ms-long-running-operation: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitUtilizationSummariesRequest'
+        description: Async Benefit Utilization Summary report to be created.
+        required: true
+      tags:
+      - Providers
+  ? /providers/microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport
+  : post:
+      operationId: GenerateBenefitUtilizationSummariesReport_GenerateByReservationId
+      description: Triggers generation of a benefit utilization summaries report for the provided reservation.
+      externalDocs:
+        url: https://docs.microsoft.com/rest/api/cost-management/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: reservationOrderId
+        in: path
+        description: Reservation Order ID
+        required: true
+        schema:
+          type: string
+      - name: reservationId
+        in: path
+        description: Reservation ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitUtilizationSummariesOperationStatus'
+        '202':
+          description: Resource operation accepted.
+          headers:
+            Location:
+              description: The Location header contains the URL where the status of the long running operation can be checked.
+              schema:
+                type: string
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArmErrorResponse'
+      x-ms-examples:
+        GenerateUtilizationSummariesReportByReservation:
+          $ref: ../examples/BenefitUtilizationSummaries/Async/GenerateBenefitUtilizationSummariesReportByReservation.json
+      x-ms-long-running-operation-options:
+        final-state-via: location
+        final-state-schema: '#/definitions/BenefitUtilizationSummariesOperationStatus'
+      x-ms-long-running-operation: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitUtilizationSummariesRequest'
+        description: Async Benefit Utilization Summary report to be created.
+        required: true
+      tags:
+      - Providers
+components:
+  schemas:
+    Alert:
+      type: object
+      description: An individual alert.
+      properties:
+        properties:
+          $ref: '#/components/schemas/AlertProperties'
+          description: Alert properties.
+          x-ms-client-flatten: true
+        eTag:
+          $ref: '#/components/schemas/Azure.Core.eTag'
+          description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether
+            the user is updating the latest version or not.
+      allOf:
+      - $ref: '#/components/schemas/ArmProxyResource'
+    AlertCategory:
+      type: string
+      description: Alert category
+      enum:
+      - Cost
+      - Usage
+      - Billing
+      - System
+      x-ms-enum:
+        name: AlertCategory
+        modelAsString: true
+        values:
+        - name: Cost
+          value: Cost
+        - name: Usage
+          value: Usage
+        - name: Billing
+          value: Billing
+        - name: System
+          value: System
+    AlertCriteria:
+      type: string
+      description: Criteria that triggered alert
+      enum:
+      - CostThresholdExceeded
+      - UsageThresholdExceeded
+      - CreditThresholdApproaching
+      - CreditThresholdReached
+      - QuotaThresholdApproaching
+      - QuotaThresholdReached
+      - MultiCurrency
+      - ForecastCostThresholdExceeded
+      - ForecastUsageThresholdExceeded
+      - InvoiceDueDateApproaching
+      - InvoiceDueDateReached
+      - CrossCloudNewDataAvailable
+      - CrossCloudCollectionError
+      - GeneralThresholdError
+      x-ms-enum:
+        name: AlertCriteria
+        modelAsString: true
+        values:
+        - name: CostThresholdExceeded
+          value: CostThresholdExceeded
+        - name: UsageThresholdExceeded
+          value: UsageThresholdExceeded
+        - name: CreditThresholdApproaching
+          value: CreditThresholdApproaching
+        - name: CreditThresholdReached
+          value: CreditThresholdReached
+        - name: QuotaThresholdApproaching
+          value: QuotaThresholdApproaching
+        - name: QuotaThresholdReached
+          value: QuotaThresholdReached
+        - name: MultiCurrency
+          value: MultiCurrency
+        - name: ForecastCostThresholdExceeded
+          value: ForecastCostThresholdExceeded
+        - name: ForecastUsageThresholdExceeded
+          value: ForecastUsageThresholdExceeded
+        - name: InvoiceDueDateApproaching
+          value: InvoiceDueDateApproaching
+        - name: InvoiceDueDateReached
+          value: InvoiceDueDateReached
+        - name: CrossCloudNewDataAvailable
+          value: CrossCloudNewDataAvailable
+        - name: CrossCloudCollectionError
+          value: CrossCloudCollectionError
+        - name: GeneralThresholdError
+          value: GeneralThresholdError
+    AlertOperator:
+      type: string
+      description: operator used to compare currentSpend with amount
+      enum:
+      - None
+      - EqualTo
+      - GreaterThan
+      - GreaterThanOrEqualTo
+      - LessThan
+      - LessThanOrEqualTo
+      x-ms-enum:
+        name: AlertOperator
+        modelAsString: true
+        values:
+        - name: None
+          value: None
+        - name: EqualTo
+          value: EqualTo
+        - name: GreaterThan
+          value: GreaterThan
+        - name: GreaterThanOrEqualTo
+          value: GreaterThanOrEqualTo
+        - name: LessThan
+          value: LessThan
+        - name: LessThanOrEqualTo
+          value: LessThanOrEqualTo
+    AlertProperties:
+      type: object
+      description: Alert properties.
+      properties:
+        definition:
+          $ref: '#/components/schemas/AlertPropertiesDefinition'
+          description: defines the type of alert
+        description:
+          type: string
+          description: Alert description
+        source:
+          $ref: '#/components/schemas/AlertSource'
+          description: Source of alert
+        details:
+          $ref: '#/components/schemas/AlertPropertiesDetails'
+          description: Alert details
+        costEntityId:
+          type: string
+          description: related budget
+        status:
+          $ref: '#/components/schemas/AlertStatus'
+          description: alert status
+        creationTime:
+          type: string
+          description: dateTime in which alert was created
+        closeTime:
+          type: string
+          description: dateTime in which alert was closed
+        modificationTime:
+          type: string
+          description: dateTime in which alert was last modified
+        statusModificationUserName:
+          type: string
+          description: User who last modified the alert
+        statusModificationTime:
+          type: string
+          description: dateTime in which the alert status was last modified
+    AlertPropertiesDefinition:
+      type: object
+      description: defines the type of alert
+      properties:
+        type:
+          $ref: '#/components/schemas/AlertType'
+          description: type of alert
+        category:
+          $ref: '#/components/schemas/AlertCategory'
+          description: Alert category
+        criteria:
+          $ref: '#/components/schemas/AlertCriteria'
+          description: Criteria that triggered alert
+    AlertPropertiesDetails:
+      type: object
+      description: Alert details
+      properties:
+        timeGrainType:
+          $ref: '#/components/schemas/AlertTimeGrainType'
+          description: Type of timegrain cadence
+        periodStartDate:
+          type: string
+          description: datetime of periodStartDate
+        triggeredBy:
+          type: string
+          description: notificationId that triggered this alert
+        resourceGroupFilter:
+          type: array
+          description: array of resourceGroups to filter by
+          items: {}
+        resourceFilter:
+          type: array
+          description: array of resources to filter by
+          items: {}
+        meterFilter:
+          type: array
+          description: array of meters to filter by
+          items: {}
+        tagFilter:
+          description: tags to filter by
+        threshold:
+          type: number
+          format: decimal
+          description: notification threshold percentage as a decimal which activated this alert
+        operator:
+          $ref: '#/components/schemas/AlertOperator'
+          description: operator used to compare currentSpend with amount
+        amount:
+          type: number
+          format: decimal
+          description: budget threshold amount
+        unit:
+          type: string
+          description: unit of currency being used
+        currentSpend:
+          type: number
+          format: decimal
+          description: current spend
+        contactEmails:
+          type: array
+          description: list of emails to contact
+          items:
+            type: string
+        contactGroups:
+          type: array
+          description: list of action groups to broadcast to
+          items:
+            type: string
+        contactRoles:
+          type: array
+          description: list of contact roles
+          items:
+            type: string
+        overridingAlert:
+          type: string
+          description: overriding alert
+        departmentName:
+          type: string
+          description: department name
+        companyName:
+          type: string
+          description: company name
+        enrollmentNumber:
+          type: string
+          description: enrollment number
+        enrollmentStartDate:
+          type: string
+          description: datetime of enrollmentStartDate
+        enrollmentEndDate:
+          type: string
+          description: datetime of enrollmentEndDate
+        invoicingThreshold:
+          type: number
+          format: decimal
+          description: invoicing threshold
+    AlertSource:
+      type: string
+      description: Source of alert
+      enum:
+      - Preset
+      - User
+      x-ms-enum:
+        name: AlertSource
+        modelAsString: true
+        values:
+        - name: Preset
+          value: Preset
+        - name: User
+          value: User
+    AlertStatus:
+      type: string
+      description: alert status
+      enum:
+      - None
+      - Active
+      - Overridden
+      - Resolved
+      - Dismissed
+      x-ms-enum:
+        name: AlertStatus
+        modelAsString: true
+        values:
+        - name: None
+          value: None
+        - name: Active
+          value: Active
+        - name: Overridden
+          value: Overridden
+        - name: Resolved
+          value: Resolved
+        - name: Dismissed
+          value: Dismissed
+    AlertTimeGrainType:
+      type: string
+      description: Type of timegrain cadence
+      enum:
+      - None
+      - Monthly
+      - Quarterly
+      - Annually
+      - BillingMonth
+      - BillingQuarter
+      - BillingAnnual
+      x-ms-enum:
+        name: AlertTimeGrainType
+        modelAsString: true
+        values:
+        - name: None
+          value: None
+        - name: Monthly
+          value: Monthly
+        - name: Quarterly
+          value: Quarterly
+        - name: Annually
+          value: Annually
+        - name: BillingMonth
+          value: BillingMonth
+        - name: BillingQuarter
+          value: BillingQuarter
+        - name: BillingAnnual
+          value: BillingAnnual
+    AlertType:
+      type: string
+      description: type of alert
+      enum:
+      - Budget
+      - Invoice
+      - Credit
+      - Quota
+      - General
+      - xCloud
+      - BudgetForecast
+      x-ms-enum:
+        name: AlertType
+        modelAsString: true
+        values:
+        - name: Budget
+          value: Budget
+        - name: Invoice
+          value: Invoice
+        - name: Credit
+          value: Credit
+        - name: Quota
+          value: Quota
+        - name: General
+          value: General
+        - name: xCloud
+          value: xCloud
+        - name: BudgetForecast
+          value: BudgetForecast
+    AlertsResult:
+      type: object
+      description: Result of alerts.
+      properties:
+        value:
+          type: array
+          description: List of alerts.
+          items:
+            $ref: '#/components/schemas/Alert'
+          readOnly: true
+        nextLink:
+          type: string
+          description: URL to get the next set of alerts results if there are any.
+          readOnly: true
+    ArmCheckNameAvailabilityRequest:
+      type: object
+      description: The check availability request body.
+      properties:
+        name:
+          type: string
+          description: The name of the resource for which availability needs to be checked.
+        type:
+          type: string
+          description: The resource type.
+    ArmCheckNameAvailabilityResponse:
+      type: object
+      description: The check availability result.
+      properties:
+        nameAvailable:
+          type: boolean
+          description: Indicates if the resource name is available.
+        reason:
+          type: string
+          description: The reason why the given name is not available.
+          enum:
+          - Invalid
+          - AlreadyExists
+          x-ms-enum:
+            name: CheckNameAvailabilityReason
+            modelAsString: true
+        message:
+          type: string
+          description: Detailed reason why the given name is available.
+    ArmErrorAdditionalInfo:
+      type: object
+      description: The resource management error additional info.
+      properties:
+        type:
+          type: string
+          description: The additional info type.
+          readOnly: true
+        info:
+          type: object
+          description: The additional info.
+          readOnly: true
+    ArmErrorDetail:
+      type: object
+      description: The error detail.
+      properties:
+        code:
+          type: string
+          description: The error code.
+          readOnly: true
+        message:
+          type: string
+          description: The error message.
+          readOnly: true
+        target:
+          type: string
+          description: The error target.
+          readOnly: true
+        details:
+          type: array
+          description: The error details.
+          items:
+            $ref: '#/components/schemas/ArmErrorDetail'
+          readOnly: true
+          x-ms-identifiers:
+          - message
+          - target
+        additionalInfo:
+          type: array
+          description: The error additional info.
+          items:
+            $ref: '#/components/schemas/ArmErrorAdditionalInfo'
+          readOnly: true
+          x-ms-identifiers: []
+    ArmErrorResponse:
+      type: object
+      title: Error response
+      description: Common error response for all Azure Resource Manager APIs to return error details for failed operations.
+        (This also follows the OData error response format.).
+      properties:
+        error:
+          $ref: '#/components/schemas/ArmErrorDetail'
+          description: The error object.
+    ArmProxyResource:
+      type: object
+      title: Proxy Resource
+      description: The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a
+        location
+      allOf:
+      - $ref: '#/components/schemas/ArmResource'
+    ArmResource:
+      type: object
+      title: Resource
+      description: Common fields that are returned in the response for all Azure Resource Manager resources
+      properties:
+        id:
+          type: string
+          format: arm-id
+          description: Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          readOnly: true
+        name:
+          type: string
+          description: The name of the resource
+          readOnly: true
+        type:
+          type: string
+          description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+          readOnly: true
+        systemData:
+          $ref: '#/components/schemas/ArmsystemData'
+          description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+          readOnly: true
+      x-ms-azure-resource: true
+    ArmsystemData:
+      type: object
+      description: Metadata pertaining to creation and last modification of the resource.
+      properties:
+        createdBy:
+          type: string
+          description: The identity that created the resource.
+        createdByType:
+          type: string
+          description: The type of identity that created the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource creation (UTC).
+        lastModifiedBy:
+          type: string
+          description: The identity that last modified the resource.
+        lastModifiedByType:
+          type: string
+          description: The type of identity that last modified the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        lastModifiedAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource last modification (UTC)
+      readOnly: true
+    AsyncOperationStatusProperties:
+      type: object
+      description: Object representing the report url and valid until date of the async report generated.
+      properties:
+        reportUrl:
+          $ref: '#/components/schemas/BenefitUtilizationSummaryReportSchema'
+          format: password
+          description: Sas url to the async benefit utilization summaries report. Will be empty if the report is in Running
+            or Failed state.
+          x-ms-secret: true
+        secondaryReportUrl:
+          $ref: '#/components/schemas/BenefitUtilizationSummaryReportSchema'
+          format: password
+          description: Sas url to async benefit utilization summaries report in secondary storage in case of primary outage.
+            Will be empty if the report is in Running or Failed state.
+          x-ms-secret: true
+        validUntil:
+          type: string
+          format: date-time
+          description: The date that the sas url provided in reportUrl expires.
+    Azure.Core.eTag:
+      type: string
+      description: 'The ETag (or entity tag) HTTP response header is an identifier for a specific version of a resource.
+
+        It lets caches be more efficient and save bandwidth, as a web server does not need to resend a full response if the
+        content was not changed.
+
+
+        It is a string of ASCII characters placed between double quotes, like "675af34563dc-tr34".'
+    BenefitKind:
+      type: string
+      description: Kind/type of the benefit.
+      enum:
+      - IncludedQuantity
+      - Reservation
+      - SavingsPlan
+      x-ms-enum:
+        name: BenefitKind
+        modelAsString: true
+        values:
+        - name: IncludedQuantity
+          value: IncludedQuantity
+          description: Benefit is IncludedQuantity.
+        - name: Reservation
+          value: Reservation
+          description: Benefit is Reservation.
+        - name: SavingsPlan
+          value: SavingsPlan
+          description: Benefit is SavingsPlan.
+    BenefitResource:
+      type: object
+      description: The benefit resource model definition.
+      properties:
+        kind:
+          $ref: '#/components/schemas/BenefitKind'
+          description: Reservation or SavingsPlan.
+      allOf:
+      - $ref: '#/components/schemas/ArmResource'
+    BenefitUtilizationSummariesListResult:
+      type: object
+      description: List of benefit utilization summaries.
+      properties:
+        value:
+          type: array
+          description: The list of benefit utilization summaries.
+          items:
+            $ref: '#/components/schemas/BenefitUtilizationSummary'
+          readOnly: true
+        nextLink:
+          type: string
+          description: The link (URL) to the next page of results.
+    BenefitUtilizationSummariesOperationStatus:
+      type: object
+      description: Status of a benefit utilization summaries report. Provides Async Benefit Utilization Summaries Request
+        input, status, and report sas url.
+      properties:
+        input:
+          $ref: '#/components/schemas/BenefitUtilizationSummariesRequest'
+          description: Input given to create the benefit utilization summaries report.
+        status:
+          $ref: '#/components/schemas/OperationStatusType'
+          description: The status of the creation of the benefit utilization summaries report.
+        properties:
+          $ref: '#/components/schemas/AsyncOperationStatusProperties'
+          description: Contains sas url to the async benefit utilization summaries report and a date that the url is valid
+            until. These values will be empty if the report is in a Running or Failed state
+    BenefitUtilizationSummariesRequest:
+      type: object
+      description: Properties of an async benefit utilization summaries request.
+      properties:
+        billingAccountId:
+          type: string
+          description: Billing account the benefit utilization summaries report is for. Required for billing account and billing
+            profile scopes. Not supported for any benefit scopes.
+        billingProfileId:
+          type: string
+          description: Billing profile id the benefit utilization summaries report is for. Required for billing profile scope.
+            Not supported for billing account or any benefit scopes.
+        benefitOrderId:
+          type: string
+          description: Benefit order id the benefit utilization summaries report is for. Required for benefit order and benefit
+            id scopes. Not supported for any billing scopes.
+        benefitId:
+          type: string
+          description: Benefit id the benefit utilization summaries report is for. Required for benefit id scope. Not supported
+            for benefit order or any billing scopes.
+        grain:
+          $ref: '#/components/schemas/Grain'
+          description: The grain the summaries data is served at in the report. Accepted values are 'Daily' or 'Monthly'.
+        startDate:
+          type: string
+          format: date-time
+          description: The start date of the summaries data that will be served in the report.
+        endDate:
+          type: string
+          format: date-time
+          description: The end date of the summaries data that will be served in the report.
+        kind:
+          $ref: '#/components/schemas/BenefitKind'
+          description: The type of benefit data requested. Required for billing account and billing profile scopes. Implied
+            and not to be passed at benefit scopes. Supported values are Reservation and SavingsPlan
+      required:
+      - grain
+      - startDate
+      - endDate
+    BenefitUtilizationSummary:
+      type: object
+      description: Benefit utilization summary resource.
+      properties:
+        kind:
+          $ref: '#/components/schemas/BenefitKind'
+          description: 'Supported values: ''SavingsPlan''.'
+      discriminator:
+        propertyName: kind
+      required:
+      - kind
+      allOf:
+      - $ref: '#/components/schemas/ArmResource'
+    BenefitUtilizationSummaryReportSchema:
+      type: string
+      description: The CSV file from the reportUrl and secondaryReportUrl blob link will consist of the following columns
+        of benefit utilization data. UtilizedPercentage will be 0 for savings plans reports and non data bricks reservations.
+        Utilization percentages will be 0 for data bricks reservations.
+      enum:
+      - Kind
+      - AvgUtilizationPercentage
+      - BenefitOrderId
+      - BenefitId
+      - BenefitType
+      - MaxUtilizationPercentage
+      - MinUtilizationPercentage
+      - UsageDate
+      - UtilizedPercentage
+      x-ms-enum:
+        name: BenefitUtilizationSummaryReportSchema
+        modelAsString: true
+        values:
+        - name: Kind
+          value: Kind
+        - name: AvgUtilizationPercentage
+          value: AvgUtilizationPercentage
+        - name: BenefitOrderId
+          value: BenefitOrderId
+        - name: BenefitId
+          value: BenefitId
+        - name: BenefitType
+          value: BenefitType
+        - name: MaxUtilizationPercentage
+          value: MaxUtilizationPercentage
+        - name: MinUtilizationPercentage
+          value: MinUtilizationPercentage
+        - name: UsageDate
+          value: UsageDate
+        - name: UtilizedPercentage
+          value: UtilizedPercentage
+    BlobInfo:
+      type: object
+      description: The blob information generated by this operation.
+      properties:
+        blobLink:
+          type: string
+          description: Link to the blob to download file.
+        byteCount:
+          type: integer
+          format: int64
+          description: Bytes in the blob.
+    CostAllocationRuleCheckNameAvailabilityRequest:
+      type: object
+      description: The cost allocation rule check name availability request
+      properties:
+        name:
+          type: string
+          description: Rule name
+        type:
+          type: string
+          description: Resource type. This is expected to be Microsoft.CostManagement/costAllocationRules
+    CostAllocationRuleCheckNameAvailabilityResponse:
+      type: object
+      description: The cost allocation rule check name availability response
+      properties:
+        nameAvailable:
+          type: boolean
+          description: Whether this rule name is available
+        reason:
+          $ref: '#/components/schemas/Reason'
+          description: The reason this name is not available
+        message:
+          type: string
+          description: Error message if the name is not available
+    CostDetailsDataFormat:
+      type: string
+      description: The data format of the report
+      enum:
+      - Csv
+      x-ms-enum:
+        name: CostDetailsDataFormat
+        modelAsString: true
+        values:
+        - name: CsvCostDetailsDataFormat
+          value: Csv
+          description: Csv data format.
+    CostDetailsMetricType:
+      type: string
+      description: The type of the detailed report. By default ActualCost is provided
+      enum:
+      - ActualCost
+      - AmortizedCost
+      x-ms-enum:
+        name: CostDetailsMetricType
+        modelAsString: true
+        values:
+        - name: ActualCostCostDetailsMetricType
+          value: ActualCost
+          description: Actual cost data.
+        - name: AmortizedCostCostDetailsMetricType
+          value: AmortizedCost
+          description: Amortized cost data.
+    CostDetailsOperationResults:
+      type: object
+      description: The result of the long running operation for cost details Api.
+      properties:
+        id:
+          type: string
+          description: The id of the long running operation.
+        name:
+          type: string
+          description: The name of the long running operation.
+        type:
+          type: string
+          description: The type of the long running operation.
+        status:
+          $ref: '#/components/schemas/CostDetailsStatusType'
+          description: The status of the cost details operation
+        manifest:
+          $ref: '#/components/schemas/ReportManifest'
+          description: The manifest of the report generated by the operation.
+          x-ms-client-flatten: true
+        validTill:
+          type: string
+          format: date-time
+          description: The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z.
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+    CostDetailsStatusType:
+      type: string
+      description: The status of the cost details operation
+      enum:
+      - Completed
+      - NoDataFound
+      - Failed
+      x-ms-enum:
+        name: CostDetailsStatusType
+        modelAsString: true
+        values:
+        - name: CompletedCostDetailsStatusType
+          value: Completed
+          description: Operation is Completed.
+        - name: NoDataFoundCostDetailsStatusType
+          value: NoDataFound
+          description: Operation is Completed and no cost data found.
+        - name: FailedCostDetailsStatusType
+          value: Failed
+          description: Operation Failed.
+    CostDetailsTimePeriod:
+      type: object
+      description: The start and end date for pulling data for the cost detailed report. API only allows data to be pulled
+        for 1 month or less and no older than 13 months.
+      properties:
+        start:
+          type: string
+          description: The start date to pull data from. example format 2020-03-15
+        end:
+          type: string
+          description: The end date to pull data to. example format 2020-03-15
+      required:
+      - start
+      - end
+    CostManagementResource:
+      type: object
+      description: The Resource model definition.
+      properties:
+        id:
+          type: string
+          description: Resource Id.
+          readOnly: true
+        name:
+          type: string
+          description: Resource name.
+          readOnly: true
+        type:
+          type: string
+          description: Resource type.
+          readOnly: true
+        location:
+          type: string
+          description: Location of the resource.
+          readOnly: true
+        sku:
+          type: string
+          description: SKU of the resource.
+          readOnly: true
+        eTag:
+          type: string
+          description: ETag of the resource.
+          readOnly: true
+        tags:
+          type: object
+          description: Resource tags.
+          additionalProperties:
+            type: string
+          readOnly: true
+    Dimension:
+      type: object
+      description: List of Dimension.
+      properties:
+        properties:
+          $ref: '#/components/schemas/DimensionProperties'
+          description: Dimension properties.
+          x-ms-client-flatten: true
+      allOf:
+      - $ref: '#/components/schemas/CostManagementResource'
+    DimensionProperties:
+      type: object
+      description: Dimension properties.
+      properties:
+        description:
+          type: string
+          description: Dimension description.
+          readOnly: true
+        filterEnabled:
+          type: boolean
+          description: Filter enabled.
+          readOnly: true
+        groupingEnabled:
+          type: boolean
+          description: Grouping enabled.
+          readOnly: true
+        data:
+          type: array
+          description: Dimension data.
+          items:
+            type: string
+        total:
+          type: integer
+          format: int32
+          description: Total number of data for the dimension.
+          readOnly: true
+        category:
+          type: string
+          description: Dimension category.
+          readOnly: true
+        usageStart:
+          type: string
+          format: date-time
+          description: Usage start.
+          readOnly: true
+        usageEnd:
+          type: string
+          format: date-time
+          description: Usage end.
+          readOnly: true
+        nextLink:
+          type: string
+          description: The link (url) to the next page of results.
+          readOnly: true
+    DimensionsListResult:
+      type: object
+      description: Result of listing dimensions. It contains a list of available dimensions.
+      properties:
+        value:
+          type: array
+          description: The list of dimensions.
+          items:
+            $ref: '#/components/schemas/Dimension'
+          readOnly: true
+        nextLink:
+          type: string
+          description: The link (url) to the next page of results.
+    DownloadURL:
+      type: object
+      description: The URL to download the generated report.
+      properties:
+        expiryTime:
+          type: string
+          format: date-time
+          description: The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z.
+          readOnly: true
+        validTill:
+          type: string
+          format: date-time
+          description: The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z.
+        downloadUrl:
+          type: string
+          description: The URL to download the generated report.
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
+    ErrorDetailsWithNestedDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        details:
+          type: array
+          description: The additional details of the error.
+          items:
+            $ref: '#/components/schemas/ErrorDetailsWithNestedDetails'
+          readOnly: true
+          x-ms-identifiers: []
+      allOf:
+      - $ref: '#/components/schemas/ErrorDetails'
+    ErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided
+        in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting
+        for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable
+        - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+    ErrorResponseWithNestedDetails:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided
+        in the error message.
+
+
+        Some Error responses:
+
+
+        * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the "x-ms-ratelimit-microsoft.consumption-retry-after"
+        header.
+
+
+        * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the "Retry-After"
+        header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetailsWithNestedDetails'
+          description: The details of the error.
+    ExportType:
+      type: string
+      description: The type of the export. Note that 'Usage' is equivalent to 'ActualCost' and is applicable to exports that
+        do not yet provide data for charges or amortization for service reservations.
+      enum:
+      - Usage
+      - ActualCost
+      - AmortizedCost
+      - FocusCost
+      - PriceSheet
+      - ReservationTransactions
+      - ReservationRecommendations
+      - ReservationDetails
+      x-ms-enum:
+        name: ExportType
+        modelAsString: true
+        values:
+        - name: Usage
+          value: Usage
+        - name: ActualCost
+          value: ActualCost
+        - name: AmortizedCost
+          value: AmortizedCost
+        - name: FocusCost
+          value: FocusCost
+        - name: PriceSheet
+          value: PriceSheet
+        - name: ReservationTransactions
+          value: ReservationTransactions
+        - name: ReservationRecommendations
+          value: ReservationRecommendations
+        - name: ReservationDetails
+          value: ReservationDetails
+    ForecastAggregation:
+      type: object
+      description: The aggregation expression to be used in the forecast.
+      properties:
+        name:
+          $ref: '#/components/schemas/FunctionName'
+          description: The name of the column to aggregate.
+        function:
+          $ref: '#/components/schemas/FunctionType'
+          description: The name of the aggregation function to use.
+      required:
+      - name
+      - function
+    ForecastColumn:
+      type: object
+      description: Forecast column properties
+      properties:
+        name:
+          type: string
+          description: The name of column.
+        type:
+          type: string
+          description: The type of column.
+    ForecastComparisonExpression:
+      type: object
+      description: The comparison expression to be used in the forecast.
+      properties:
+        name:
+          type: string
+          description: The name of the column to use in comparison.
+        operator:
+          $ref: '#/components/schemas/ForecastOperatorType'
+          description: The operator to use for comparison.
+        values:
+          type: array
+          description: Array of values to use for comparison
+          minItems: 1
+          items:
+            type: string
+      required:
+      - name
+      - operator
+      - values
+    ForecastDataset:
+      type: object
+      description: The definition of data present in the forecast.
+      properties:
+        granularity:
+          $ref: '#/components/schemas/GranularityType'
+          description: The granularity of rows in the forecast.
+        configuration:
+          $ref: '#/components/schemas/ForecastDatasetConfiguration'
+          description: Has configuration information for the data in the export. The configuration will be ignored if aggregation
+            and grouping are provided.
+        aggregation:
+          type: object
+          description: Dictionary of aggregation expression to use in the forecast. The key of each item in the dictionary
+            is the alias for the aggregated column. forecast can have up to 2 aggregation clauses.
+          additionalProperties:
+            $ref: '#/components/schemas/ForecastAggregation'
+        filter:
+          $ref: '#/components/schemas/ForecastFilter'
+          description: Has filter expression to use in the forecast.
+      required:
+      - aggregation
+    ForecastDatasetConfiguration:
+      type: object
+      description: The configuration of dataset in the forecast.
+      properties:
+        columns:
+          type: array
+          description: Array of column names to be included in the forecast. Any valid forecast column name is allowed. If
+            not provided, then forecast includes all columns.
+          items:
+            type: string
+    ForecastDefinition:
+      type: object
+      description: The definition of a forecast.
+      properties:
+        type:
+          $ref: '#/components/schemas/ForecastType'
+          description: The type of the forecast.
+        timeframe:
+          $ref: '#/components/schemas/ForecastTimeframe'
+          description: The time frame for pulling data for the forecast. If custom, then a specific time period must be provided.
+        timePeriod:
+          $ref: '#/components/schemas/ForecastTimePeriod'
+          description: Has time period for pulling data for the forecast.
+        dataset:
+          $ref: '#/components/schemas/ForecastDataset'
+          description: Has definition for data in this forecast.
+        includeActualCost:
+          type: boolean
+          description: A boolean determining if actualCost will be included.
+        includeFreshPartialCost:
+          type: boolean
+          description: A boolean determining if FreshPartialCost will be included.
+      required:
+      - type
+      - timeframe
+      - dataset
+    ForecastFilter:
+      type: object
+      description: The filter expression to be used in the export.
+      properties:
+        and:
+          type: array
+          description: The logical "AND" expression. Must have at least 2 items.
+          minItems: 2
+          items:
+            $ref: '#/components/schemas/ForecastFilter'
+          x-ms-identifiers: []
+        or:
+          type: array
+          description: The logical "OR" expression. Must have at least 2 items.
+          minItems: 2
+          items:
+            $ref: '#/components/schemas/ForecastFilter'
+          x-ms-identifiers: []
+        dimensions:
+          $ref: '#/components/schemas/ForecastComparisonExpression'
+          description: Has comparison expression for a dimension
+        tags:
+          $ref: '#/components/schemas/ForecastComparisonExpression'
+          description: Has comparison expression for a tag
+    ForecastOperatorType:
+      type: string
+      description: The operator to use for comparison.
+      enum:
+      - In
+      x-ms-enum:
+        name: ForecastOperatorType
+        modelAsString: true
+        values:
+        - name: In
+          value: In
+    ForecastProperties:
+      type: object
+      description: Forecast properties
+      properties:
+        nextLink:
+          type: string
+          description: The link (url) to the next page of results.
+        columns:
+          type: array
+          description: Array of columns
+          items:
+            $ref: '#/components/schemas/ForecastColumn'
+          x-ms-identifiers:
+          - name
+        rows:
+          type: array
+          description: Array of rows
+          items:
+            type: array
+            items: {}
+          x-ms-identifiers: []
+    ForecastResult:
+      type: object
+      description: Result of forecast. It contains all columns listed under groupings and aggregation.
+      properties:
+        properties:
+          $ref: '#/components/schemas/ForecastProperties'
+          description: Forecast properties
+          x-ms-client-flatten: true
+      allOf:
+      - $ref: '#/components/schemas/CostManagementResource'
+    ForecastTimePeriod:
+      type: object
+      description: Has time period for pulling data for the forecast.
+      properties:
+        from:
+          type: string
+          format: date-time
+          description: The start date to pull data from.
+        to:
+          type: string
+          format: date-time
+          description: The end date to pull data to.
+      required:
+      - from
+      - to
+    ForecastTimeframe:
+      type: string
+      description: The time frame for pulling data for the forecast.
+      enum:
+      - Custom
+      x-ms-enum:
+        name: ForecastTimeframe
+        modelAsString: true
+        values:
+        - name: Custom
+          value: Custom
+    ForecastType:
+      type: string
+      description: The type of the forecast.
+      enum:
+      - Usage
+      - ActualCost
+      - AmortizedCost
+      x-ms-enum:
+        name: ForecastType
+        modelAsString: true
+        values:
+        - name: Usage
+          value: Usage
+        - name: ActualCost
+          value: ActualCost
+        - name: AmortizedCost
+          value: AmortizedCost
+    FunctionName:
+      type: string
+      description: The name of the column to aggregate.
+      enum:
+      - PreTaxCostUSD
+      - Cost
+      - CostUSD
+      - PreTaxCost
+      x-ms-enum:
+        name: FunctionName
+        modelAsString: true
+        values:
+        - name: PreTaxCostUSD
+          value: PreTaxCostUSD
+        - name: Cost
+          value: Cost
+        - name: CostUSD
+          value: CostUSD
+        - name: PreTaxCost
+          value: PreTaxCost
+    FunctionType:
+      type: string
+      description: The name of the aggregation function to use.
+      enum:
+      - Sum
+      x-ms-enum:
+        name: FunctionType
+        modelAsString: true
+        values:
+        - name: Sum
+          value: Sum
+    GenerateCostDetailsReportErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided
+        in the error message.
+
+
+        Some Error responses:
+
+
+        * 400 Bad Request - Invalid Request Payload. Request payload provided is not in a json format or had an invalid member
+        not accepted in the request payload.
+
+
+        * 400 Bad Request - Invalid request payload:  can only have either timePeriod or invoiceId or billingPeriod. API only
+        allows data to be pulled for either timePeriod or invoiceId or billingPeriod. Customer should provide only one of
+        these parameters.
+
+
+        * 400 Bad Request - Start date must be after . API only allows data to be pulled no older than 13 months from now.
+
+
+        * 400 Bad Request - The maximum allowed date range is 1 months. API only allows data to be pulled for 1 month or less.
+
+
+        * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the "retry-after" header.
+
+
+        * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the "Retry-After"
+        header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+    GenerateCostDetailsReportRequestDefinition:
+      type: object
+      description: The definition of a cost detailed report.
+      properties:
+        metric:
+          $ref: '#/components/schemas/CostDetailsMetricType'
+          description: The type of the detailed report. By default ActualCost is provided
+        timePeriod:
+          $ref: '#/components/schemas/CostDetailsTimePeriod'
+          description: The specific date range of cost details requested for the report. This parameter cannot be used alongside
+            either the invoiceId or billingPeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not
+            provided in the request body the API will return the current month's cost. API only allows data to be pulled for
+            1 month or less and no older than 13 months. If no timePeriod or billingPeriod or invoiceId is provided the API
+            defaults to the open month time period
+        billingPeriod:
+          type: string
+          description: This parameter can be used only by Enterprise Agreement customers. Use the YearMonth(e.g. 202008) format.
+            This parameter cannot be used alongside either the invoiceId or timePeriod parameters. If a timePeriod, invoiceId
+            or billingPeriod parameter is not provided in the request body the API will return the current month's cost.
+        invoiceId:
+          type: string
+          description: This parameter can only be used by Microsoft Customer Agreement customers. Additionally, it can only
+            be used at the Billing Profile or Customer scope. This parameter cannot be used alongside either the billingPeriod
+            or timePeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request
+            body the API will return the current month's cost.
+    GenerateDetailedCostReportDefinition:
+      type: object
+      description: The definition of a cost detailed report.
+      properties:
+        metric:
+          $ref: '#/components/schemas/GenerateDetailedCostReportMetricType'
+          description: The type of the detailed report. By default ActualCost is provided
+        timePeriod:
+          $ref: '#/components/schemas/GenerateDetailedCostReportTimePeriod'
+          description: Has time period for pulling data for the cost detailed report. Can only have one of either timePeriod
+            or invoiceId or billingPeriod parameters. If none provided current month cost is provided.
+        billingPeriod:
+          type: string
+          description: Billing period in YearMonth(e.g. 202008) format. Only for legacy enterprise customers can use this.
+            Can only have one of either timePeriod or invoiceId or billingPeriod parameters. If none provided current month
+            cost is provided.
+        invoiceId:
+          type: string
+          description: Invoice ID for Pay-as-you-go and Microsoft Customer Agreement scopes. Can only have one of either timePeriod
+            or invoiceId or billingPeriod parameters. If none provided current month cost is provided.
+        customerId:
+          type: string
+          description: Customer ID for Microsoft Customer Agreement scopes (Invoice Id is also required for this).
+    GenerateDetailedCostReportErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided
+        in the error message.
+
+
+        Some Error responses:
+
+
+        * 413 Request Entity Too Large - Request is throttled. The amount of data required to fulfill the request exceeds
+        the maximum size permitted of 2Gb. Please utilize our Exports feature instead.
+
+
+        * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the "x-ms-ratelimit-microsoft.consumption-retry-after"
+        header.
+
+
+        * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the "Retry-After"
+        header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+    GenerateDetailedCostReportMetricType:
+      type: string
+      description: The type of the detailed report. By default ActualCost is provided
+      enum:
+      - ActualCost
+      - AmortizedCost
+      x-ms-enum:
+        name: GenerateDetailedCostReportMetricType
+        modelAsString: true
+        values:
+        - name: ActualCost
+          value: ActualCost
+        - name: AmortizedCost
+          value: AmortizedCost
+    GenerateDetailedCostReportOperationResult:
+      type: object
+      description: The result of the long running operation for cost detailed report.
+      properties:
+        properties:
+          $ref: '#/components/schemas/DownloadURL'
+          description: The properties of the resource generated.
+          x-ms-client-flatten: true
+      allOf:
+      - $ref: '#/components/schemas/ArmProxyResource'
+    GenerateDetailedCostReportTimePeriod:
+      type: object
+      description: The start and end date for pulling data for the cost detailed report.
+      properties:
+        start:
+          type: string
+          description: The start date to pull data from. example format 2020-03-15
+        end:
+          type: string
+          description: The end date to pull data to. example format 2020-03-15
+      required:
+      - start
+      - end
+    Grain:
+      type: string
+      description: Grain which corresponds to value.
+      enum:
+      - Hourly
+      - Daily
+      - Monthly
+      x-ms-enum:
+        name: Grain
+        modelAsString: true
+        values:
+        - name: Hourly
+          value: Hourly
+          description: Hourly grain corresponds to value per hour.
+        - name: Daily
+          value: Daily
+          description: Hourly grain corresponds to value per day.
+        - name: Monthly
+          value: Monthly
+          description: Hourly grain corresponds to value per month.
+    GranularityType:
+      type: string
+      description: The granularity of rows in the export. Currently 'Daily' is supported for most cases.
+      enum:
+      - Daily
+      - Monthly
+      x-ms-enum:
+        name: GranularityType
+        modelAsString: true
+        values:
+        - name: Daily
+          value: Daily
+        - name: Monthly
+          value: Monthly
+    LookBackPeriod:
+      type: string
+      description: The number of days used to look back.
+      enum:
+      - Last7Days
+      - Last30Days
+      - Last60Days
+      x-ms-enum:
+        name: LookBackPeriod
+        modelAsString: true
+        values:
+        - name: Last7Days
+          value: Last7Days
+          description: 7 days used to look back.
+        - name: Last30Days
+          value: Last30Days
+          description: 30 days used to look back.
+        - name: Last60Days
+          value: Last60Days
+          description: 60 days used to look back.
+    MCAPriceSheetProperties:
+      type: object
+      description: The properties of the price sheet.
+      properties:
+        billingAccountID:
+          type: string
+          description: Unique identifier for the billing account.
+          readOnly: true
+        billingAccountName:
+          type: string
+          description: Name of the billing profile that is set up to receive invoices. The prices in the price sheet are associated
+            with this billing profile.
+          readOnly: true
+        billingProfileId:
+          type: string
+          description: Unique identifier for the billing profile.
+          readOnly: true
+        billingProfileName:
+          type: string
+          description: Name of the billing profile that is set up to receive invoices. The prices in the price sheet are associated
+            with this billing profile.
+          readOnly: true
+        productOrderName:
+          type: string
+          description: 'Name of the purchased product plan. Indicates if this pricing is standard Azure Plan pricing, Dev/Test
+            pricing etc.
+
+
+            Currently unavailable for Azure 3rd party and ReservedInstance meters.'
+          readOnly: true
+        serviceFamily:
+          type: number
+          format: float
+          description: Type of Azure service. For example, Compute, Analytics, and Security.
+          readOnly: true
+        product:
+          type: string
+          description: Name of the product accruing the charges.
+          readOnly: true
+        productId:
+          type: string
+          description: Unique identifier for the product whose meter is consumed.
+          readOnly: true
+        skuId:
+          type: string
+          description: Unique identifier of the SKU
+          readOnly: true
+        unitOfMeasure:
+          type: string
+          description: How usage is measured for the service
+          readOnly: true
+        meterId:
+          type: string
+          description: Unique identifier of the meter
+          readOnly: true
+        meterName:
+          type: string
+          description: Name of the meter. The meter represents the deployable resource of an Azure service.
+          readOnly: true
+        meterType:
+          type: string
+          description: Name of the meter type
+          readOnly: true
+        meterCategory:
+          type: string
+          description: Name of the classification category for the meter. For example, Cloud services, Networking, etc.
+          readOnly: true
+        meterSubCategory:
+          type: string
+          description: Name of the meter subclassification category.
+          readOnly: true
+        meterRegion:
+          type: string
+          description: Name of the Azure region where the meter for the service is available.
+          readOnly: true
+        tierMinimumUnits:
+          type: string
+          description: Defines the lower bound of the tier range for which prices are defined. For example, if the range is
+            0 to 100, tierMinimumUnits would be 0.
+          readOnly: true
+        effectiveStartDate:
+          type: string
+          format: date-time
+          description: Effective start date of the Price Sheet billing period
+          readOnly: true
+        effectiveEndDate:
+          type: string
+          format: date-time
+          description: Effective end date of the Price Sheet billing period
+          readOnly: true
+        unitPrice:
+          type: string
+          description: 'The per-unit price at the time of billing for a given product or service, inclusive of any negotiated
+            discounts on top of the market price.
+
+
+            For PriceType ReservedInstance, unit price reflects the total cost of the 1 or 3-year commitment including discounts.
+
+
+            Note: The unit price isn''t the same as the effective price in usage details downloads when services have differential
+            prices across tiers.
+
+
+            If services have multi-tiered pricing, the effective price is a blended rate across the tiers and doesn''t show
+            a tier-specific unit price. The blended price or effective price is the net price for the consumed quantity spanning
+            across the multiple tiers (where each tier has a specific unit price).'
+          readOnly: true
+        basePrice:
+          type: string
+          description: 'The unit price at the time the customer signs on or the unit price at the time of service meter GA
+            launch if it is after sign-on.
+
+
+            This is applicable for Enterprise Agreement users'
+          readOnly: true
+        marketPrice:
+          type: string
+          description: 'The current list price for a given product or service. This price is without any negotiations and
+            is based on your Microsoft Agreement type.
+
+
+            For PriceType Consumption, market price is reflected as the pay-as-you-go price.
+
+
+            For PriceType Savings Plan, market price reflects the Savings plan benefit on top of pay-as-you-go price for the
+            corresponding commitment term.
+
+
+            For PriceType ReservedInstance, market price reflects the total price of the 1 or 3-year commitment.'
+          readOnly: true
+        currency:
+          type: string
+          description: Currency in which all the prices are reflected.
+          readOnly: true
+        billingCurrency:
+          type: string
+          description: Currency in which charges are posted.
+          readOnly: true
+        term:
+          type: string
+          description: Term length for Azure Savings Plan or Reservation term – one year or three years (P1Y or P3Y)
+          readOnly: true
+        priceType:
+          type: string
+          description: Price type for a product. For example, an Azure resource with a pay-as-you-go rate with priceType as
+            Consumption. Other price types include ReservedInstance and Savings Plan.
+          readOnly: true
+    OperationStatus:
+      type: object
+      description: The status of the long running operation.
+      properties:
+        status:
+          $ref: '#/components/schemas/OperationStatusType'
+          description: The status of the long running operation.
+        properties:
+          $ref: '#/components/schemas/ReportURL'
+          description: The properties of the resource generated.
+          x-ms-client-flatten: true
+    OperationStatusType:
+      type: string
+      description: Enum representing the status of an async operation.
+      enum:
+      - Running
+      - Completed
+      - Failed
+      x-ms-enum:
+        name: OperationStatusType
+        modelAsString: true
+        values:
+        - name: Running
+          value: Running
+        - name: Completed
+          value: Completed
+        - name: Failed
+          value: Failed
+    PricesheetDownloadProperties:
+      type: object
+      description: The URL to download the generated report.
+      properties:
+        expiryTime:
+          type: string
+          format: date-time
+          description: The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z.
+          readOnly: true
+        downloadUrl:
+          type: string
+          description: The URL to download the generated report.
+        downloadFileProperties:
+          $ref: '#/components/schemas/MCAPriceSheetProperties'
+          description: The properties in downloaded file
+    QueryAggregation:
+      type: object
+      description: The aggregation expression to be used in the query.
+      properties:
+        name:
+          type: string
+          description: The name of the column to aggregate.
+        function:
+          $ref: '#/components/schemas/FunctionType'
+          description: The name of the aggregation function to use.
+      required:
+      - name
+      - function
+    QueryColumn:
+      type: object
+      description: QueryColumn properties
+      properties:
+        name:
+          type: string
+          description: The name of column.
+        type:
+          type: string
+          description: The type of column.
+    QueryColumnType:
+      type: string
+      description: The type of the column in the report.
+      enum:
+      - TagKey
+      - Dimension
+      x-ms-enum:
+        name: QueryColumnType
+        modelAsString: true
+        values:
+        - name: TagKey
+          value: TagKey
+          description: The tag associated with the cost data.
+        - name: Dimension
+          value: Dimension
+          description: The dimension of cost data.
+    QueryComparisonExpression:
+      type: object
+      description: The comparison expression to be used in the query.
+      properties:
+        name:
+          type: string
+          description: The name of the column to use in comparison.
+        operator:
+          $ref: '#/components/schemas/QueryOperatorType'
+          description: The operator to use for comparison.
+        values:
+          type: array
+          description: Array of values to use for comparison
+          minItems: 1
+          items:
+            type: string
+      required:
+      - name
+      - operator
+      - values
+    QueryDataset:
+      type: object
+      description: The definition of data present in the query.
+      properties:
+        granularity:
+          $ref: '#/components/schemas/GranularityType'
+          description: The granularity of rows in the query.
+        configuration:
+          $ref: '#/components/schemas/QueryDatasetConfiguration'
+          description: Has configuration information for the data in the export. The configuration will be ignored if aggregation
+            and grouping are provided.
+        aggregation:
+          type: object
+          description: Dictionary of aggregation expression to use in the query. The key of each item in the dictionary is
+            the alias for the aggregated column. Query can have up to 2 aggregation clauses.
+          additionalProperties:
+            $ref: '#/components/schemas/QueryAggregation'
+        grouping:
+          type: array
+          description: Array of group by expression to use in the query. Query can have up to 2 group by clauses.
+          maxItems: 2
+          items:
+            $ref: '#/components/schemas/QueryGrouping'
+          x-ms-identifiers:
+          - name
+          - type
+        filter:
+          $ref: '#/components/schemas/QueryFilter'
+          description: The filter expression to use in the query. Please reference our Query API REST documentation for how
+            to properly format the filter.
+    QueryDatasetConfiguration:
+      type: object
+      description: The configuration of dataset in the query.
+      properties:
+        columns:
+          type: array
+          description: Array of column names to be included in the query. Any valid query column name is allowed. If not provided,
+            then query includes all columns.
+          items:
+            type: string
+    QueryDefinition:
+      type: object
+      description: The definition of a query.
+      properties:
+        type:
+          $ref: '#/components/schemas/ExportType'
+          description: The type of the query.
+        timeframe:
+          $ref: '#/components/schemas/TimeframeType'
+          description: The time frame for pulling data for the query. If custom, then a specific time period must be provided.
+        timePeriod:
+          $ref: '#/components/schemas/QueryTimePeriod'
+          description: Has time period for pulling data for the query.
+        dataset:
+          $ref: '#/components/schemas/QueryDataset'
+          description: Has definition for data in this query.
+      required:
+      - type
+      - timeframe
+      - dataset
+    QueryFilter:
+      type: object
+      description: The filter expression to be used in the export.
+      properties:
+        and:
+          type: array
+          description: The logical "AND" expression. Must have at least 2 items.
+          minItems: 2
+          items:
+            $ref: '#/components/schemas/QueryFilter'
+          x-ms-identifiers: []
+        or:
+          type: array
+          description: The logical "OR" expression. Must have at least 2 items.
+          minItems: 2
+          items:
+            $ref: '#/components/schemas/QueryFilter'
+          x-ms-identifiers: []
+        dimensions:
+          $ref: '#/components/schemas/QueryComparisonExpression'
+          description: Has comparison expression for a dimension
+        tags:
+          $ref: '#/components/schemas/QueryComparisonExpression'
+          description: Has comparison expression for a tag
+    QueryGrouping:
+      type: object
+      description: The group by expression to be used in the query.
+      properties:
+        type:
+          $ref: '#/components/schemas/QueryColumnType'
+          description: Has type of the column to group.
+        name:
+          type: string
+          description: The name of the column to group.
+      required:
+      - type
+      - name
+    QueryOperatorType:
+      type: string
+      description: The operator to use for comparison.
+      enum:
+      - In
+      x-ms-enum:
+        name: QueryOperatorType
+        modelAsString: true
+        values:
+        - name: In
+          value: In
+    QueryProperties:
+      type: object
+      description: Query properties
+      properties:
+        nextLink:
+          type: string
+          description: The link (url) to the next page of results.
+        columns:
+          type: array
+          description: Array of columns
+          items:
+            $ref: '#/components/schemas/QueryColumn'
+          x-ms-identifiers:
+          - name
+        rows:
+          type: array
+          description: Array of rows
+          items:
+            type: array
+            items: {}
+          x-ms-identifiers: []
+    QueryResult:
+      type: object
+      description: Result of query. It contains all columns listed under groupings and aggregation.
+      properties:
+        properties:
+          $ref: '#/components/schemas/QueryProperties'
+          description: Query properties
+          x-ms-client-flatten: true
+      allOf:
+      - $ref: '#/components/schemas/CostManagementResource'
+    QueryTimePeriod:
+      type: object
+      description: The start and end date for pulling data for the query.
+      properties:
+        from:
+          type: string
+          format: date-time
+          description: The start date to pull data from.
+        to:
+          type: string
+          format: date-time
+          description: The end date to pull data to.
+      required:
+      - from
+      - to
+    Reason:
+      type: string
+      description: The reason this name is not available.
+      enum:
+      - Invalid
+      - AlreadyExists
+      - Valid
+      x-ms-enum:
+        name: Reason
+        modelAsString: true
+        values:
+        - name: Invalid
+          value: Invalid
+        - name: AlreadyExists
+          value: AlreadyExists
+        - name: Valid
+          value: Valid
+    ReportManifest:
+      type: object
+      description: The manifest of the report generated by the operation.
+      properties:
+        manifestVersion:
+          type: string
+          description: The Manifest version.
+        dataFormat:
+          $ref: '#/components/schemas/CostDetailsDataFormat'
+          description: The data format of the report
+        byteCount:
+          type: integer
+          format: int64
+          description: The total number of bytes in all blobs.
+        blobCount:
+          type: integer
+          format: int32
+          description: The total number of blobs.
+        compressData:
+          type: boolean
+          description: Is the data in compressed format.
+        requestContext:
+          $ref: '#/components/schemas/RequestContext'
+          description: The context of the Cost Details request.
+          x-ms-client-flatten: true
+        blobs:
+          type: array
+          description: List of blob information generated by this operation.
+          items:
+            $ref: '#/components/schemas/BlobInfo'
+          x-ms-identifiers:
+          - blobLink
+    ReportURL:
+      type: object
+      description: The URL to download the generated report.
+      properties:
+        reportUrl:
+          $ref: '#/components/schemas/ReservationReportSchema'
+          description: The CSV file from the reportUrl blob link consists of reservation usage data with the following schema
+            at daily granularity
+        validUntil:
+          type: string
+          format: date-time
+          description: The time at which report URL becomes invalid.
+    RequestContext:
+      type: object
+      description: The context of the Cost Details request.
+      properties:
+        requestScope:
+          type: string
+          description: The request scope of the request.
+        requestBody:
+          $ref: '#/components/schemas/GenerateCostDetailsReportRequestDefinition'
+          description: The request payload body provided in Cost Details call
+    ReservationReportSchema:
+      type: string
+      description: The CSV file from the reportUrl blob link consists of reservation usage data with the following schema
+        at daily granularity
+      enum:
+      - InstanceFlexibilityGroup
+      - InstanceFlexibilityRatio
+      - InstanceId
+      - Kind
+      - ReservationId
+      - ReservationOrderId
+      - ReservedHours
+      - SkuName
+      - TotalReservedQuantity
+      - UsageDate
+      - UsedHours
+      x-ms-enum:
+        name: ReservationReportSchema
+        modelAsString: true
+        values:
+        - name: InstanceFlexibilityGroup
+          value: InstanceFlexibilityGroup
+        - name: InstanceFlexibilityRatio
+          value: InstanceFlexibilityRatio
+        - name: InstanceId
+          value: InstanceId
+        - name: Kind
+          value: Kind
+        - name: ReservationId
+          value: ReservationId
+        - name: ReservationOrderId
+          value: ReservationOrderId
+        - name: ReservedHours
+          value: ReservedHours
+        - name: SkuName
+          value: SkuName
+        - name: TotalReservedQuantity
+          value: TotalReservedQuantity
+        - name: UsageDate
+          value: UsageDate
+        - name: UsedHours
+          value: UsedHours
+    Scope:
+      type: string
+      description: Kind of the recommendation scope.
+      enum:
+      - Single
+      - Shared
+      - ManagementGroup
+      x-ms-enum:
+        name: Scope
+        modelAsString: true
+        values:
+        - name: Single
+          value: Single
+          description: Single scope recommendation.
+        - name: Shared
+          value: Shared
+          description: Shared scope recommendation.
+        - name: ManagementGroup
+          value: ManagementGroup
+          description: Management group scope recommendation.
+    Term:
+      type: string
+      description: Grain which corresponds to value.
+      enum:
+      - P1Y
+      - P3Y
+      x-ms-enum:
+        name: Term
+        modelAsString: true
+        values:
+        - name: P1Y
+          value: P1Y
+          description: Benefit term is 1 year.
+        - name: P3Y
+          value: P3Y
+          description: Benefit term is 3 years.
+    TimeframeType:
+      type: string
+      description: The time frame for pulling data for the export. If custom, then a specific time period must be provided.
+      enum:
+      - MonthToDate
+      - BillingMonthToDate
+      - TheLastMonth
+      - TheLastBillingMonth
+      - WeekToDate
+      - Custom
+      - TheCurrentMonth
+      x-ms-enum:
+        name: TimeframeType
+        modelAsString: true
+        values:
+        - name: MonthToDate
+          value: MonthToDate
+        - name: BillingMonthToDate
+          value: BillingMonthToDate
+        - name: TheLastMonth
+          value: TheLastMonth
+        - name: TheLastBillingMonth
+          value: TheLastBillingMonth
+        - name: WeekToDate
+          value: WeekToDate
+        - name: Custom
+          value: Custom
+        - name: TheCurrentMonth
+          value: TheCurrentMonth
+    allSavingsBenefitDetails:
+      type: object
+      description: Benefit recommendation details.
+      properties:
+        overageCost:
+          type: number
+          format: decimal
+          description: The difference between total cost and benefit cost for the 'totalHours' in the look-back period.
+          readOnly: true
+        benefitCost:
+          type: number
+          format: decimal
+          description: The estimated cost with benefit for the 'totalHours' in the look-back period. It's equal to (commitmentAmount
+            * totalHours)
+          readOnly: true
+        totalCost:
+          type: number
+          format: decimal
+          description: Total cost, which is sum of benefit cost and overage cost.
+          readOnly: true
+        savingsAmount:
+          type: number
+          format: decimal
+          description: The amount saved for the 'totalHours' in the look-back period, by purchasing the recommended quantity
+            of the benefit.
+          readOnly: true
+        savingsPercentage:
+          type: number
+          format: decimal
+          description: The savings in percentage for the 'totalHours' in the look-back period, by purchasing the recommended
+            quantity of benefit.
+          readOnly: true
+        coveragePercentage:
+          type: number
+          format: decimal
+          description: Estimated benefit coverage percentage for the 'totalHours' in the look-back period, with this commitment.
+          readOnly: true
+        commitmentAmount:
+          type: number
+          format: decimal
+          description: The commitment amount at the commitmentGranularity.
+          readOnly: true
+        averageUtilizationPercentage:
+          type: number
+          format: decimal
+          description: Estimated average utilization percentage for the 'totalHours' in the look-back period, with this commitment.
+          readOnly: true
+        wastageCost:
+          type: number
+          format: decimal
+          description: Estimated unused portion of the 'benefitCost'.
+          readOnly: true
+    allSavingsList:
+      type: object
+      description: The list of all benefit recommendations with the recommendation details.
+      properties:
+        value:
+          type: array
+          description: The list of benefit recommendations with the recommendation details..
+          items:
+            $ref: '#/components/schemas/allSavingsBenefitDetails'
+          readOnly: true
+          x-ms-identifiers: []
+        nextLink:
+          type: string
+          format: uri
+          description: The link (URL) to the next page of results.
+          readOnly: true
+    benefitRecommendationModel:
+      type: object
+      description: benefit plan recommendation details.
+      properties:
+        properties:
+          $ref: '#/components/schemas/benefitRecommendationProperties'
+          description: The properties of the benefit recommendations.
+      allOf:
+      - $ref: '#/components/schemas/BenefitResource'
+    benefitRecommendationProperties:
+      type: object
+      description: The properties of the benefit recommendations.
+      properties:
+        firstConsumptionDate:
+          type: string
+          format: date-time
+          description: The first usage date used for looking back for computing the recommendations.
+          readOnly: true
+        lastConsumptionDate:
+          type: string
+          format: date-time
+          description: The last usage date used for looking back for computing the recommendations.
+          readOnly: true
+        lookBackPeriod:
+          $ref: '#/components/schemas/LookBackPeriod'
+          description: The number of days of usage evaluated for computing the recommendations.
+        totalHours:
+          type: integer
+          format: int32
+          description: The total hours for which the cost is covered. Its equal to number of records in a property 'properties/usage/charges'.
+          readOnly: true
+        usage:
+          $ref: '#/components/schemas/recommendationUsageDetails'
+          description: On-demand charges between firstConsumptionDate and lastConsumptionDate that were used for computing
+            benefit recommendations.
+        armSkuName:
+          type: string
+          description: ARM SKU name. 'Compute_Savings_Plan' for SavingsPlan.
+          readOnly: true
+        term:
+          $ref: '#/components/schemas/Term'
+          description: Term period of the benefit. For example, P1Y or P3Y.
+        commitmentGranularity:
+          $ref: '#/components/schemas/Grain'
+          description: 'Grain of the proposed commitment amount. Supported values: ''Hourly'''
+        currencyCode:
+          type: string
+          description: An ISO 4217 currency code identifier for the costs and savings amounts.
+          readOnly: true
+        costWithoutBenefit:
+          type: number
+          format: decimal
+          description: The current cost without benefit, corresponds to 'totalHours' in the look-back period.
+          readOnly: true
+        recommendationDetails:
+          $ref: '#/components/schemas/allSavingsBenefitDetails'
+          description: The details of the proposed recommendation.
+        allRecommendationDetails:
+          $ref: '#/components/schemas/allSavingsList'
+          description: The list of all benefit recommendations with the recommendation details.
+          readOnly: true
+        scope:
+          $ref: '#/components/schemas/Scope'
+          description: Benefit scope. For example, Single or Shared.
+      discriminator:
+        propertyName: scope
+      required:
+      - scope
+    benefitRecommendationsListResult:
+      type: object
+      description: Result of listing benefit recommendations.
+      properties:
+        value:
+          type: array
+          description: The list of benefit recommendations.
+          items:
+            $ref: '#/components/schemas/benefitRecommendationModel'
+          readOnly: true
+        nextLink:
+          type: string
+          description: The link (url) to the next page of results.
+    recommendationUsageDetails:
+      type: object
+      description: On-demand charges between firstConsumptionDate and lastConsumptionDate that were used for computing benefit
+        recommendations.
+      properties:
+        usageGrain:
+          $ref: '#/components/schemas/Grain'
+          description: 'The grain of the usage. Supported values: ''Hourly'''
+        charges:
+          type: array
+          description: On-demand charges for each hour between firstConsumptionDate and lastConsumptionDate that were used
+            for computing benefit recommendations.
+          items:
+            type: number
+            format: decimal
+          readOnly: true
+  securitySchemes:
+    azure_auth:
+      type: oauth2
+      flows:
+        implicit:
+          scopes:
+            user_impersonation: impersonate your user account
+          authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+      description: Azure Active Directory OAuth2 Flow.
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      description: The API version to use for this operation.
+      required: true
+      schema:
+        type: string
+        minLength: 1

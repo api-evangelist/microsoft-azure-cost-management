@@ -1,0 +1,146 @@
+generated: '2026-09-17'
+method: probed
+source: live HTTPS probes of every host this record knows (registrable domain + www, each apis[].baseURL
+  host, every OpenAPI servers[] host, the docs/console host, and the authorization host named by the contract's
+  azure_auth securityScheme)
+note: Two real documents were served. www.microsoft.com publishes an RFC 9116 security.txt (saved verbatim)
+  that names the MSRC researcher portal, the bounty policy and the coordinated-vulnerability-disclosure
+  policy. login.microsoftonline.com — the authorization host the CostManagement contract's azure_auth
+  scheme points at — serves the Microsoft Entra ID OpenID Provider metadata at the tenant-scoped /common/v2.0/.well-known/openid-configuration
+  path rather than at the host root; the root path 404s and is recorded as such. Every other probed path
+  returned 404. management.azure.com answers 400 (not 404) on every /.well-known/* path because Azure
+  Resource Manager rejects any request that carries no api-version query parameter; that is a rejected
+  request, not a served document. learn.microsoft.com, azure.microsoft.com and www.microsoft.com answer
+  their 404s with a full HTML error page — recorded as misses, not as documents.
+hosts:
+- host: www.microsoft.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: microsoft-azure-cost-management-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: microsoft.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: 301 to https://www.microsoft.com/.well-known/security.txt — the same document, not a second
+      one
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: login.microsoftonline.com
+  documents:
+  - path: /common/v2.0/.well-known/openid-configuration
+    status: 200
+    content_type: application/json; charset=utf-8
+    file: microsoft-azure-cost-management-openid-configuration.json
+    note: Microsoft Entra ID OpenID Provider metadata (v2.0 endpoint). issuer https://login.microsoftonline.com/{tenantid}/v2.0,
+      jwks_uri https://login.microsoftonline.com/common/discovery/v2.0/keys. This is the authorization
+      host the CostManagement contract's azure_auth securityScheme names.
+  - path: /common/.well-known/openid-configuration
+    status: 200
+    note: v1.0 endpoint metadata, also served; the v2.0 document above is the current one and is the copy
+      saved.
+  - path: /common/v2.0/.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: management.azure.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 400
+    note: Azure Resource Manager answers 400 InvalidApiVersionParameter on any request with no api-version
+      query parameter. Not a document, and not a 404 either.
+  - path: /.well-known/openid-configuration
+    status: 400
+  - path: /.well-known/oauth-authorization-server
+    status: 400
+  - path: /.well-known/api-catalog
+    status: 400
+  - path: /.well-known/ai-plugin.json
+    status: 400
+  - path: /.well-known/agent-card.json
+    status: 400
+  - path: /.well-known/agent.json
+    status: 400
+- host: learn.microsoft.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: azure.microsoft.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: portal.azure.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404

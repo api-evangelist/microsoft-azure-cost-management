@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Azure Cost Management generatecostdetailsreport
+  version: 1.0.0
+  x-generated: '2026-09-17'
+  x-method: generated
+  x-source: openapi/microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml (derived
+    from openapi/_original/microsoft-azure-cost-management-openapi.json)
+  x-note: Annotations authored by API Evangelist, not by Microsoft. Applying this overlay never changes
+    the provider contract; it adds the retry, reversibility and read-only facts an agent needs and the
+    Swagger 2.0 source cannot carry.
+extends: openapi/microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml
+actions:
+- target: $.info
+  description: Record that this document was refined by API Evangelist from the provider-published contract,
+    and point at the artifacts that carry the runtime semantics the contract leaves out.
+  update:
+    x-api-evangelist-source: openapi/_original/microsoft-azure-cost-management-openapi.json
+    x-api-evangelist-source-upstream: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cost-management/resource-manager/Microsoft.CostManagement/CostManagement/stable/2026-06-01/openapi.json
+    x-api-evangelist-conventions: conventions/microsoft-azure-cost-management-conventions.yml
+    x-api-evangelist-errors: errors/microsoft-azure-cost-management-problem-types.yml
+    x-api-evangelist-rate-limits: rate-limits/microsoft-azure-cost-management-rate-limits.yml
+- target: $
+  description: Attach the documentation surface the provider publishes for this resource group.
+  update:
+    externalDocs:
+      description: Azure Cost Management REST API reference
+      url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+- target: $.paths['/{scope}/providers/Microsoft.CostManagement/costDetailsOperationResults/{operationId}'].get
+  description: Runtime semantics for GenerateCostDetailsReport_GetOperationResults that the provider contract
+    does not express.
+  update:
+    x-api-evangelist-read-only: true

@@ -1,0 +1,41 @@
+generated: '2026-09-17'
+method: searched
+probe: true
+source: https://www.microsoft.com/en-us/trust-center
+url: https://www.microsoft.com/en-us/trust-center
+certifications:
+- GDPR
+evidence:
+- source: https://www.microsoft.com/en-us/trust-center
+  keywords:
+  - trust center
+  - gdpr
+certification_programs:
+- name: ISO/IEC 27001
+  scope: azure-platform
+  evidence: https://learn.microsoft.com/en-us/azure/compliance/offerings/
+- name: SOC 1 / SOC 2 / SOC 3
+  scope: azure-platform
+  evidence: https://learn.microsoft.com/en-us/azure/compliance/offerings/
+- name: PCI DSS
+  scope: azure-platform
+  evidence: https://learn.microsoft.com/en-us/azure/compliance/offerings/
+- name: FedRAMP
+  scope: azure-platform
+  evidence: https://learn.microsoft.com/en-us/azure/compliance/offerings/
+- name: GDPR
+  scope: microsoft-corporate
+  evidence: https://www.microsoft.com/en-us/trust-center
+audit_reports:
+  name: Microsoft Service Trust Portal
+  url: https://servicetrust.microsoft.com/
+  http_status: 200
+  checked: '2026-09-17'
+  note: Where the SOC and ISO audit reports themselves are downloaded, behind a Microsoft
+    account sign-in.
+compliance_offerings: https://learn.microsoft.com/en-us/azure/compliance/offerings/
+service_scope_reference: https://learn.microsoft.com/en-us/azure/security/fundamentals/services-technologies
+scope_caveat: >-
+  These are Azure-platform and Microsoft-corporate attestations that Cost Management inherits as
+  an Azure service. No Cost-Management-specific certification exists and none is claimed here.
+  The service is listed by name in the Azure security services and technologies reference.

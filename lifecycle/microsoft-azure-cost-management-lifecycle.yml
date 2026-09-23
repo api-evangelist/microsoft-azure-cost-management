@@ -1,0 +1,109 @@
+generated: '2026-09-17'
+method: searched
+source: https://learn.microsoft.com/en-us/rest/api/cost-management/
+note: >-
+  Cost Management versions with the Azure Resource Manager api-version query parameter, and the
+  full version history is public: Microsoft publishes every stable and preview api-version as a
+  directory in Azure/azure-rest-api-specs. That is an unusually complete lifecycle record — the
+  version list below is read from the provider's own repository, not inferred.
+versioning:
+  scheme: date-based api-version query parameter
+  parameter: api-version
+  required: true
+  current_stable: '2026-06-01'
+  stable_versions:
+  - '2026-06-01'
+  - '2025-03-01'
+  - '2024-08-01'
+  - '2023-11-01'
+  - '2023-09-01'
+  - '2023-08-01'
+  - '2023-03-01'
+  - '2022-10-01'
+  - '2022-05-01'
+  - '2021-10-01'
+  - '2021-01-01'
+  - '2020-06-01'
+  - '2019-11-01'
+  - '2019-10-01'
+  - '2019-09-01'
+  - '2019-01-01'
+  - '2018-08-31'
+  - '2018-05-31'
+  preview_versions:
+  - '2024-10-01-preview'
+  - '2023-07-01-preview'
+  - '2023-04-01-preview'
+  - '2022-10-05-preview'
+  - '2022-10-01-preview'
+  - '2022-08-01-preview'
+  - '2022-06-01-preview'
+  - '2022-04-01-preview'
+  - '2022-02-01-preview'
+  - '2020-12-01-preview'
+  - '2020-08-01-preview'
+  - '2020-03-01-preview'
+  - '2019-04-01-preview'
+  - '2019-03-01-preview'
+  - '2018-12-01-preview'
+  - '2018-08-01-preview'
+  source: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cost-management/resource-manager/Microsoft.CostManagement/CostManagement
+  note: >-
+    Old api-versions stay callable. Nothing in the contract or the docs states a sunset date for
+    any stable api-version, so a client pinned to 2018-05-31 is not on a published clock — it is
+    simply unsupported by omission.
+deprecation:
+  policy_published: true
+  policy: https://learn.microsoft.com/en-us/lifecycle/policies/modern
+  policy_name: Microsoft Modern Lifecycle Policy
+  notice_channel: https://azure.microsoft.com/en-us/updates/?updateType=retirements
+  minimum_notice: 12 months
+  minimum_notice_source: >-
+    Microsoft Modern Lifecycle Policy — Microsoft states it will give a minimum of 12 months
+    notice before ending support for a Modern Lifecycle product or service, except for free
+    services and previews.
+  rfc8594_sunset_headers: false
+  rfc8594_note: >-
+    The API does not emit RFC 8594 Sunset or Deprecation response headers, and no operation in
+    the 2026-06-01 contract is flagged deprecated.
+  retirements:
+  - what: Azure Enterprise Reporting APIs (the legacy EA consumption/usage endpoints)
+    status: retired
+    replacement: Cost Management APIs (Query, Exports, GenerateCostDetailsReport)
+    source: https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/migrate-cost-management-api
+    evidence: 'Migration guide states: "All Azure Enterprise Reporting APIs are retired."'
+  - what: Usage Details API (synchronous, paged)
+    status: superseded
+    replacement: Cost Details API (GenerateCostDetailsReport_CreateOperation — asynchronous,
+      report-based)
+    source: https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/automation-ingest-usage-details-overview
+  - what: Price Sheet API fields
+    status: partially retired
+    detail: The migration guide carries an explicit "Retired Price Sheet API fields" table.
+    source: https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/migrate-cost-management-api
+  deprecated_operations_in_spec: 0
+status_page:
+  url: https://azure.status.microsoft/en-us/status
+  alias: https://status.azure.com/
+  verified: '2026-09-17'
+  http_status: 200
+  note: Azure-wide status page. Cost Management does not have a component-level status of its
+    own; incidents surface under the Azure region/service grid.
+  history: https://azure.status.microsoft/en-us/status/history/
+sla:
+  published: false
+  note: >-
+    Cost Management is delivered at no additional cost as part of Azure (see
+    plans/microsoft-azure-cost-management-plans-pricing.yml). No service-level agreement
+    specific to the Cost Management APIs was found on the Microsoft SLA pages, and none is
+    asserted here. Data freshness is documented instead — see data_freshness.
+data_freshness:
+  refresh_interval: every 4 hours
+  retention: 13 months of cost detail available to GenerateCostDetailsReport
+  source: https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/manage-automation
+  note: The docs recommend calling no more than once per day because more frequent calls return
+    the same data.
+support:
+  channel: https://support.microsoft.com/
+  docs_feedback: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  spec_issues: https://github.com/Azure/azure-rest-api-specs/issues

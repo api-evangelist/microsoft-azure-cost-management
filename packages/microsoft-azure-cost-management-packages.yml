@@ -1,0 +1,109 @@
+generated: '2026-09-17'
+method: searched
+source: registry metadata endpoints (registry.npmjs.org, pypi.org, api.nuget.org,
+  search.maven.org, proxy.golang.org, rubygems.org, powershellgallery.com) plus the
+  Azure CLI extension index
+note: >-
+  Microsoft ships a first-party Cost Management management-plane client in every language
+  the Azure SDK covers. Each entry below was read from that language registry's own
+  metadata endpoint on 2026-09-17, so `version` and `published` are the registry's values,
+  not a reading of the docs. The currency spread is the finding: the JavaScript and Python
+  clients tracked the 2026 contract (July 2026), .NET is a year behind, Java has not shipped
+  since December 2024, Go has not shipped since April 2023, and the Ruby gem is part of the
+  retired azure-sdk-for-ruby generation and last moved in June 2020. A consumer picking Go or
+  Ruby is picking a client written against an api-version several years older than the
+  2026-06-01 contract in openapi/_original/.
+packages:
+- name: '@azure/arm-costmanagement'
+  registry: npm
+  language: javascript
+  official: true
+  version: 1.0.0
+  published: '2026-07-16'
+  url: https://www.npmjs.com/package/@azure/arm-costmanagement
+  source: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cost-management/arm-costmanagement
+  description: A generated SDK for CostManagementClient.
+  note: First stable release; supersedes the 1.0.0-beta line. Generated from the same
+    azure-rest-api-specs contract saved in openapi/_original/.
+- name: azure-mgmt-costmanagement
+  registry: pypi
+  language: python
+  official: true
+  version: 5.0.0
+  published: '2026-07-08'
+  url: https://pypi.org/project/azure-mgmt-costmanagement/
+  source: https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/costmanagement/azure-mgmt-costmanagement
+  description: Microsoft Azure Costmanagement Management Client Library for Python
+- name: Azure.ResourceManager.CostManagement
+  registry: nuget
+  language: dotnet
+  official: true
+  version: 1.0.3
+  published: '2026-04-22'
+  url: https://www.nuget.org/packages/Azure.ResourceManager.CostManagement
+  source: https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/costmanagement/Azure.ResourceManager.CostManagement
+  description: Azure Resource Manager client SDK for Azure resource provider CostManagement.
+- name: com.azure.resourcemanager:azure-resourcemanager-costmanagement
+  registry: maven
+  language: java
+  official: true
+  version: 1.0.0
+  published: '2024-12-24'
+  url: https://central.sonatype.com/artifact/com.azure.resourcemanager/azure-resourcemanager-costmanagement
+  source: https://github.com/Azure/azure-sdk-for-java/tree/main/sdk/costmanagement/azure-resourcemanager-costmanagement
+  note: Last published 2024-12-24 — roughly eighteen months behind the 2026-06-01 contract.
+- name: github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/costmanagement/armcostmanagement
+  registry: go
+  language: go
+  official: true
+  version: v1.1.1
+  published: '2023-04-14'
+  url: https://pkg.go.dev/github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/costmanagement/armcostmanagement
+  source: https://github.com/Azure/azure-sdk-for-go/tree/main/sdk/resourcemanager/costmanagement/armcostmanagement
+  note: Read from proxy.golang.org/@latest. No release since April 2023; the strongest
+    decay signal in this set.
+- name: azure_mgmt_cost_management
+  registry: rubygems
+  language: ruby
+  official: true
+  version: 0.17.1
+  published: '2020-06-02'
+  url: https://rubygems.org/gems/azure_mgmt_cost_management
+  description: Official Ruby client library to consume CostManagement
+  note: Part of the retired azure-sdk-for-ruby generation. Last published 2020-06-02.
+- name: costmanagement
+  registry: azure-cli-extension
+  language: python
+  official: true
+  version: 1.0.0
+  published: null
+  url: https://learn.microsoft.com/en-us/cli/azure/costmanagement
+  source: https://github.com/Azure/azure-cli-extensions/tree/main/src/costmanagement
+  note: >-
+    Read from the Azure CLI extension index (azcliextensionsync.blob.core.windows.net/index1/index.json),
+    which publishes a version and a wheel download URL but no release date field, so
+    `published` is null — checked, nothing to record. The command surface is captured in
+    cli/microsoft-azure-cost-management-cli.yml.
+- name: Az.CostManagement
+  registry: powershellgallery
+  language: powershell
+  official: true
+  version: 0.4.2
+  published: '2025-06-03'
+  url: https://www.powershellgallery.com/packages/Az.CostManagement
+  source: https://github.com/Azure/azure-powershell
+  note: Still on a 0.x preview line after five years of the module existing.
+summary:
+  package_count: 8
+  official_count: 8
+  registries:
+  - npm
+  - pypi
+  - nuget
+  - maven
+  - go
+  - rubygems
+  - azure-cli-extension
+  - powershellgallery
+  newest_release: '2026-07-16'
+  oldest_release: '2020-06-02'

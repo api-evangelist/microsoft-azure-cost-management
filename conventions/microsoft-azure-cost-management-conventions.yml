@@ -1,0 +1,281 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/_original/microsoft-azure-cost-management-openapi.json
+docs:
+- https://learn.microsoft.com/en-us/rest/api/cost-management/
+- https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/manage-automation
+- https://learn.microsoft.com/en-us/rest/api/azure/
+note: >-
+  Cost Management is an Azure Resource Manager (ARM) resource provider, so its cross-cutting
+  semantics are ARM's, not a bespoke set: bearer tokens from Microsoft Entra ID, a mandatory
+  api-version query parameter, nextLink pagination, the ARM error envelope, and a scope path
+  segment that decides whether you are asking about a subscription, a resource group, a
+  management group, a billing account or a billing profile.
+authentication:
+  style: oauth2-bearer
+  scheme: azure_auth
+  provider: Microsoft Entra ID
+  authorization_url: https://login.microsoftonline.com/common/oauth2/authorize
+  discovery: https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration
+  header: 'Authorization: Bearer <token>'
+  spec_declared_flow: implicit
+  note: >-
+    The contract declares only the implicit flow with the single delegated scope
+    user_impersonation. That is the ARM convention in the swagger, not the whole truth —
+    Entra ID also issues client-credentials tokens for the resource
+    https://management.azure.com/.default, which is how an unattended agent authenticates.
+    Authorization is then RBAC, not scopes; see scopes/ and authentication/.
+  see:
+  - authentication/microsoft-azure-cost-management-authentication.yml
+  - scopes/microsoft-azure-cost-management-scopes.yml
+scope_model:
+  style: path-segment
+  parameter: '{scope}'
+  x-ms-skip-url-encoding: true
+  description: >-
+    Most operations take a `{scope}` path segment that is itself a fully qualified ARM
+    resource identifier. The same operationId therefore serves several org levels.
+  accepted_values:
+  - subscriptions/{subscriptionId}
+  - subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+  - providers/Microsoft.Management/managementGroups/{managementGroupId}
+  - providers/Microsoft.Billing/billingAccounts/{billingAccountId}
+  - providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}
+  - providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}
+  - providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}
+versioning:
+  style: query-parameter
+  parameter: api-version
+  required: true
+  current: '2026-06-01'
+  note: Every operation requires api-version. A request without it is rejected 400
+    InvalidApiVersionParameter before routing — which is why management.azure.com answers
+    400 rather than 404 on unknown paths.
+  see: lifecycle/microsoft-azure-cost-management-lifecycle.yml
+pagination:
+  style: continuation-link
+  response_field: nextLink
+  operations_declaring_pageable: 15
+  extension: x-ms-pageable
+  additional_params:
+  - name: $skiptoken
+    scope: Dimensions_List, Dimensions_ByExternalCloudProviderType
+    description: Continuation token echoed from a partial previous response.
+  - name: $top
+    description: Limit the number of results returned.
+  note: >-
+    There is no page-number or cursor parameter. A client follows nextLink until it is absent.
+    Query_Usage results are NOT paged this way — a query that would exceed the response cap
+    must be narrowed or moved to Exports.
+filtering:
+  style: odata-subset
+  parameters:
+  - $filter
+  - $orderby
+  - $expand
+  - $top
+  - $skiptoken
+  note: >-
+    The contract calls these "OData filter option" by name, but supports only a small subset
+    per operation — Budgets_List supports `eq` only; ScheduledActions_List supports `eq` on
+    properties/viewId. Each parameter's description names exactly which properties and
+    operators it accepts. Do not assume general OData.
+  see: conformance/microsoft-azure-cost-management-conformance.yml
+request_id_tracing:
+  header: x-ms-correlation-request-id
+  response_headers:
+  - x-ms-request-id
+  - x-ms-correlation-request-id
+  method: derived-from-arm-platform
+  note: >-
+    These are ARM platform headers documented at the ARM layer rather than in the Cost
+    Management contract, so they are recorded here as platform behaviour and not as a
+    Cost-Management-specific guarantee.
+long_running_operations:
+  style: azure-async-operation
+  extension: x-ms-long-running-operation
+  operations: 15
+  pattern: >-
+    A 202 carries a Location header; the client polls that URL until it returns 200 with the
+    result. GenerateCostDetailsReport and GenerateDetailedCostReport additionally expose
+    explicit poller operations (GenerateCostDetailsReport_GetOperationResults,
+    GenerateDetailedCostReportOperationResults_Get,
+    GenerateDetailedCostReportOperationStatus_Get).
+  response_headers:
+  - Location
+  - OData-EntityId
+error_envelope:
+  format: azure-arm-error
+  rfc9457: false
+  root_field: error
+  see: errors/microsoft-azure-cost-management-problem-types.yml
+rate_limit_signaling:
+  status_on_exhaustion: 429
+  headers:
+  - x-ms-ratelimit-microsoft.costmanagement-qpu-consumed
+  - x-ms-ratelimit-microsoft.costmanagement-qpu-remaining
+  - x-ms-ratelimit-microsoft.costmanagement-qpu-retry-after
+  - x-ms-ratelimit-microsoft.consumption-retry-after
+  - Retry-After
+  see: rate-limits/microsoft-azure-cost-management-rate-limits.yml
+idempotency:
+  coverage: partial
+  mechanism: http-put-plus-etag
+  key_header: null
+  scope:
+  - Budgets_CreateOrUpdate
+  - Exports_CreateOrUpdate
+  - Views_CreateOrUpdate
+  - Views_CreateOrUpdateByScope
+  - ScheduledActions_CreateOrUpdate
+  - ScheduledActions_CreateOrUpdateByScope
+  - Settings_CreateOrUpdateByScope
+  - MarkupRules_CreateOrUpdate
+  - CostAllocationRules_CreateOrUpdate
+  description: >-
+    There is no Idempotency-Key header anywhere in the contract — the string "idempoten" does
+    not appear in it. Replay protection comes from HTTP semantics instead: every resource
+    create is a PUT to a client-chosen name, so re-sending it converges rather than duplicating,
+    and Export, Budget, View, Alert and ScheduledAction all carry an `eTag` for optimistic
+    concurrency. Only ScheduledActions_CreateOrUpdate and ScheduledActions_CreateOrUpdateByScope
+    accept an `If-Match` header, and it is optional there.
+  uncovered:
+  - Exports_Execute
+  - ScheduledActions_Run
+  - ScheduledActions_RunByScope
+  - GenerateCostDetailsReport_CreateOperation
+  - GenerateDetailedCostReport_CreateOperation
+  - GenerateBenefitUtilizationSummariesReport_GenerateByBillingAccount
+  - GenerateBenefitUtilizationSummariesReport_GenerateByBillingProfile
+  - GenerateBenefitUtilizationSummariesReport_GenerateByReservationId
+  - GenerateBenefitUtilizationSummariesReport_GenerateByReservationOrderId
+  - GenerateBenefitUtilizationSummariesReport_GenerateBySavingsPlanId
+  - GenerateBenefitUtilizationSummariesReport_GenerateBySavingsPlanOrderId
+  - GenerateReservationDetailsReport_ByBillingAccountId
+  - GenerateReservationDetailsReport_ByBillingProfileId
+  - PriceSheet_DownloadByBillingAccount
+  - PriceSheet_DownloadByBillingProfile
+  - PriceSheet_DownloadByInvoice
+  uncovered_note: >-
+    The job-triggering POSTs have no replay protection at all. Re-firing Exports_Execute or a
+    report generation runs the job again and consumes QPU quota again. An agent retrying a
+    timed-out POST here should poll for an existing operation rather than re-POST.
+reversibility:
+  grade: documented
+  credit: 0.4
+  summary: >-
+    Every managed resource can be deleted, and every delete is reversible only by recreating
+    the resource with the same PUT — there is no restore, undelete, recycle bin or retention
+    window anywhere in the 2026-06-01 contract, and the docs state none. The one true reversal
+    operation is the alert dismiss/reactivate pair. Nothing in this API moves money, so the
+    cost of an irreversible action is lost configuration and lost export history, not spend.
+  write_surfaces:
+  - action: Create or replace a budget
+    operation: Budgets_CreateOrUpdate
+    reversal: Budgets_Delete
+    reversal_kind: delete
+    window: null
+    window_source: null
+    note: PUT replaces the resource wholesale. The previous budget definition is not retained
+      and cannot be rolled back; capture the GET body before updating if you need to restore it.
+  - action: Delete a budget
+    operation: Budgets_Delete
+    reversal: null
+    reversal_kind: none
+    window: null
+    note: No restore operation exists. Recreate with Budgets_CreateOrUpdate from your own copy.
+  - action: Create or replace a scheduled export
+    operation: Exports_CreateOrUpdate
+    reversal: Exports_Delete
+    reversal_kind: delete
+    window: null
+  - action: Delete an export
+    operation: Exports_Delete
+    reversal: null
+    reversal_kind: none
+    window: null
+    note: Deleting the export definition does not delete the CSV/parquet files already written
+      to the destination storage account; those live under the storage account's own lifecycle.
+      Run history (Exports_GetExecutionHistory) is lost with the definition.
+  - action: Run an export now
+    operation: Exports_Execute
+    reversal: null
+    reversal_kind: none
+    window: null
+    note: Not cancellable. The run writes files to the configured destination and consumes
+      quota; there is no cancel operation in the contract.
+  - action: Create or replace a view
+    operation: Views_CreateOrUpdate / Views_CreateOrUpdateByScope
+    reversal: Views_Delete / Views_DeleteByScope
+    reversal_kind: delete
+    window: null
+  - action: Create or replace a scheduled action
+    operation: ScheduledActions_CreateOrUpdate / ScheduledActions_CreateOrUpdateByScope
+    reversal: ScheduledActions_Delete / ScheduledActions_DeleteByScope
+    reversal_kind: delete
+    window: null
+    note: The only operations in the contract that accept If-Match, so a lost-update can be
+      prevented here even though it cannot be undone.
+  - action: Run a scheduled action now (sends email)
+    operation: ScheduledActions_Run / ScheduledActions_RunByScope
+    reversal: null
+    reversal_kind: none
+    window: null
+    note: >-
+      Irreversible and externally visible — it emails the addresses in
+      NotificationProperties.to (up to 20 recipients). An agent should treat this as a send,
+      not a rehearsal.
+  - action: Dismiss an alert
+    operation: Alerts_Dismiss
+    reversal: Alerts_Dismiss
+    reversal_kind: reverse
+    window: null
+    window_source: null
+    note: >-
+      The same PATCH carries a DismissAlertPayload whose AlertProperties.status is an
+      AlertStatus enum (None, Active, Overridden, Resolved, Dismissed), so a dismissed alert
+      can be set back to Active with a second call. No window is documented for this and none
+      is asserted here.
+  - action: Create or replace a cost allocation rule
+    operation: CostAllocationRules_CreateOrUpdate
+    reversal: CostAllocationRules_Delete
+    reversal_kind: delete
+    window: null
+  - action: Create or replace a markup rule
+    operation: MarkupRules_CreateOrUpdate
+    reversal: MarkupRules_Delete
+    reversal_kind: delete
+    window: null
+    note: Markup rules change what a partner's customers are billed. The rule can be deleted,
+      but invoices already issued under it are not restated by this API.
+  - action: Create or replace a setting
+    operation: Settings_CreateOrUpdateByScope
+    reversal: Settings_DeleteByScope
+    reversal_kind: delete
+    window: null
+dry_run_mode:
+  supported: false
+  note: >-
+    No preview, validate-only or what-if parameter exists on any of the 75 operations. The
+    closest thing is the pair of name-availability checks
+    (ScheduledActions_CheckNameAvailability, CostAllocationRules_CheckNameAvailability), which
+    rehearse one precondition of a create and nothing else. The read surface (Query_Usage,
+    Forecast_Usage, Dimensions_List) is POST-but-read-only and can be used to rehearse a
+    question safely.
+metadata:
+  supported: partial
+  note: Budgets, Exports, Views and Scheduled Actions carry ARM resource tags via the standard
+    resource envelope; there is no free-form metadata bag on request bodies.
+sparse_fields_and_expansion:
+  parameter: $expand
+  values:
+  - Exports_List / Exports_Get — 'runHistory'
+  - Dimensions_List — 'properties/data'
+  - BenefitRecommendations_List — 'properties/usage', 'properties/allRecommendationDetails'
+  note: Expansion is opt-in and enumerated per operation; there is no generic field selector.
+cross_links:
+- errors/microsoft-azure-cost-management-problem-types.yml
+- lifecycle/microsoft-azure-cost-management-lifecycle.yml
+- authentication/microsoft-azure-cost-management-authentication.yml
+- rate-limits/microsoft-azure-cost-management-rate-limits.yml
+- conformance/microsoft-azure-cost-management-conformance.yml

@@ -7,7 +7,13 @@ artifacts:
     method: generated
     evidence: declared in the artifact
   authentication/microsoft-azure-cost-management-authentication.yml:
-    method: derived
+    method: searched
+    evidence: declared in the artifact
+  changelog/microsoft-azure-cost-management-changelog.yml:
+    method: searched
+    evidence: declared in the artifact
+  cli/microsoft-azure-cost-management-cli.yml:
+    method: searched
     evidence: declared in the artifact
   collections/microsoft-azure-cost-management-exports-api.opencollection.json:
     method: derived
@@ -27,28 +33,505 @@ artifacts:
   collections/microsoft-azure-cost-management.postman_collection.json:
     method: derived
     evidence: openapi/microsoft-azure-cost-management
+  conformance/microsoft-azure-cost-management-conformance.yml:
+    method: derived
+    evidence: declared in the artifact
+  conventions/microsoft-azure-cost-management-conventions.yml:
+    method: derived
+    evidence: declared in the artifact
+  data-model/microsoft-azure-cost-management-data-model.yml:
+    method: derived
+    evidence: declared in the artifact
+  errors/microsoft-azure-cost-management-problem-types.yml:
+    method: derived
+    evidence: declared in the artifact
+  examples/BenefitRecommendationsByBillingAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/BenefitRecommendationsByBillingAccountForManagementGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/BillingAccountAlerts.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/BillingAccountDimensionsList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/BillingAccountDimensionsListExpandAndTop.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/BillingAccountDimensionsListWithFilter.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/BillingAccountForecast.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/BillingAccountQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/BillingAccountQueryGrouping.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/BillingProfileAlerts.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/BillingProfileForecast.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/CostAllocationRuleCheckNameAvailability.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/CostAllocationRuleCreate.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/CostAllocationRuleCreateTag.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/CostAllocationRuleDelete.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/CostAllocationRuleGet.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/CostAllocationRulesList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/CostDetailsOperationResultsBySubscriptionScope.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/DepartmentAlerts.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/DepartmentDimensionsList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/DepartmentDimensionsListExpandAndTop.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/DepartmentDimensionsListWithFilter.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/DepartmentForecast.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/DepartmentQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/DepartmentQueryGrouping.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/DismissResourceGroupAlerts.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/DismissSubscriptionAlerts.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/EAPriceSheetForBillingPeriod.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/EnrollmentAccountAlerts.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/EnrollmentAccountDimensionsList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/EnrollmentAccountDimensionsListExpandAndTop.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/EnrollmentAccountDimensionsListWithFilter.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/EnrollmentAccountForecast.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/EnrollmentAccountQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/EnrollmentAccountQueryGrouping.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateByBillingAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateByBillingAccountCustom.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateByBillingAccountMonthly.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateByBillingAccountPricesheet.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateByBillingAccountReservationDetails.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateByBillingAccountReservationRecommendation.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateByBillingAccountReservationTransactions.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateByDepartment.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateByEnrollmentAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateByManagementGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateByResourceGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportCreateOrUpdateBySubscription.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportDeleteByBillingAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportDeleteByDepartment.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportDeleteByEnrollmentAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportDeleteByManagementGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportDeleteByResourceGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportDeleteBySubscription.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportGetByBillingAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportGetByDepartment.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportGetByEnrollmentAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportGetByManagementGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportGetByResourceGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportGetBySubscription.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunByBillingAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunByBillingAccountWithOptionalRequestBody.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunByDepartment.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunByEnrollmentAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunByManagementGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunByResourceGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunBySubscription.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunHistoryGetByBillingAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunHistoryGetByDepartment.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunHistoryGetByEnrollmentAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunHistoryGetByManagementGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunHistoryGetByResourceGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportRunHistoryGetBySubscription.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportsGetByBillingAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportsGetByDepartment.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportsGetByEnrollmentAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportsGetByManagementGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportsGetByResourceGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExportsGetBySubscription.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExternalBillingAccountAlerts.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExternalBillingAccountForecast.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExternalBillingAccountsDimensions.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExternalBillingAccountsQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExternalSubscriptionAlerts.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExternalSubscriptionForecast.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExternalSubscriptionsDimensions.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ExternalSubscriptionsQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateCostDetailsReportByBillingAccountEnterpriseAgreementCustomerAndBillingPeriod.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateCostDetailsReportByBillingProfileAndInvoiceId.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateCostDetailsReportByBillingProfileAndInvoiceIdAndCustomerId.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateCostDetailsReportByCustomerAndTimePeriod.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateCostDetailsReportByDepartmentsAndTimePeriod.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateCostDetailsReportByEnrollmentAccountsAndTimePeriod.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateCostDetailsReportBySubscriptionAndTimePeriod.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateDetailedCostReportByBillingAccountLegacyAndBillingPeriod.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateDetailedCostReportByBillingProfileAndInvoiceId.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateDetailedCostReportByBillingProfileAndInvoiceIdAndCustomerId.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateDetailedCostReportByCustomerAndTimePeriod.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateDetailedCostReportBySubscriptionAndTimePeriod.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateDetailedCostReportOperationResultsBySubscriptionScope.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateDetailedCostReportOperationStatusBySubscriptionScope.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateReservationDetailsReportByBillingAccount.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/GenerateReservationDetailsReportByBillingProfile.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/InvoiceSectionAlerts.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/InvoiceSectionForecast.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCABillingAccountDimensionsList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCABillingAccountDimensionsListExpandAndTop.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCABillingAccountDimensionsListWithFilter.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCABillingAccountQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCABillingAccountQueryGrouping.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCABillingProfileDimensionsList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCABillingProfileDimensionsListExpandAndTop.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCABillingProfileDimensionsListWithFilter.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCABillingProfileQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCABillingProfileQueryGrouping.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCACustomerDimensionsList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCACustomerDimensionsListExpandAndTop.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCACustomerDimensionsListWithFilter.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCACustomerQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCACustomerQueryGrouping.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCAInvoiceSectionDimensionsList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCAInvoiceSectionDimensionsListExpandAndTop.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCAInvoiceSectionDimensionsListWithFilter.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCAInvoiceSectionQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MCAInvoiceSectionQueryGrouping.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ManagementGroupDimensionsList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ManagementGroupDimensionsListExpandAndTop.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ManagementGroupDimensionsListWithFilter.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ManagementGroupQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ManagementGroupQueryGrouping.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MarkupRulesCreateOrUpdate.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MarkupRulesDelete.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MarkupRulesGet.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/MarkupRulesList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/OperationList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/PricesheetDownload.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/PricesheetDownloadByBillingProfile.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/PrivateView.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/PrivateViewCreateOrUpdate.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/PrivateViewDelete.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/PrivateViewList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ResourceGroupAlerts.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ResourceGroupDimensionsList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ResourceGroupForecast.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ResourceGroupQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ResourceGroupQueryGrouping.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/SingleResourceGroupAlert.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/SingleSubscriptionAlert.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/SubscriptionAlerts.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/SubscriptionDimensionsList.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/SubscriptionForecast.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/SubscriptionQuery.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/SubscriptionQueryGrouping.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ViewByResourceGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ViewCreateOrUpdateByResourceGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ViewDeleteByResourceGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/ViewListByResourceGroup.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/_index.yml:
+    method: searched
+    evidence: declared in the artifact
+  examples/setting-delete.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/setting-get.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/settings-createOrUpdate.json:
+    method: unknown
+    evidence: no authorship recorded
+  examples/settingsList.json:
+    method: unknown
+    evidence: no authorship recorded
   finops/microsoft-azure-cost-management-finops.yml:
     method: generated
     evidence: declared in the artifact
-  kin/checks-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-06T210741.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-07T135032.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T093022.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-10T111628.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-11T211707.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-12T193225.yml:
+  kin/checks-2026-09-16T225339.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-08-17T064519.yml:
@@ -165,24 +648,225 @@ artifacts:
   kin/score-2026-09-05T072335.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T144739.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T195450.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-05T211839.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T011047.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T211804.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-06T224210.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T200636.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-07T213054.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T214843.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-08T232836.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T204815.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-10T222408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T062655.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T080032.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T204651.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-12T221936.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-13T214537.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T064754.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T210656.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-14T225847.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T211329.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-15T230249.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T210549.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-16T225339.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  lifecycle/microsoft-azure-cost-management-lifecycle.yml:
+    method: searched
+    evidence: declared in the artifact
   llms/microsoft-azure-cost-management-llms-probe.yml:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
-  openapi/microsoft-azure-cost-management-exports-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  openapi/microsoft-azure-cost-management-operations-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
-  plans/microsoft-azure-cost-management-plans-pricing.yml:
+  llms/microsoft-azure-cost-management-llms.txt:
     method: generated
-    evidence: declared in the artifact
-  rate-limits/microsoft-azure-cost-management-rate-limits.yml:
-    method: generated
-    evidence: declared in the artifact
-  scopes/microsoft-azure-cost-management-scopes.yml:
+    evidence: carries an API Evangelist house phrase
+  mcp/microsoft-azure-cost-management-mcp.yml:
     method: derived
     evidence: declared in the artifact
+  openapi/_original/microsoft-azure-cost-management-openapi.json:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/_original/microsoft-azure-cost-management-openapi.json.archived.txt:
+    method: harvested
+    evidence: fetched from the provider as-is; byte-identical to the source
+  openapi/microsoft-azure-cost-management-alerts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-budgets-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-exports-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationresults-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-markuprules-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-operations-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-providers-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-scheduledactionoperationgroup-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-scheduledactions-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-settings-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-viewoperationgroup-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-views-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  overlays/microsoft-azure-cost-management-alerts-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-budgets-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-costallocationruledefinitions-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-exports-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-generatecostdetailsreport-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-generatedetailedcostreportoperationresults-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-markuprules-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-operations-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-providers-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-scheduledactionoperationgroup-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-scheduledactions-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-settings-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-viewoperationgroup-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/microsoft-azure-cost-management-views-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  packages/microsoft-azure-cost-management-packages.yml:
+    method: searched
+    evidence: declared in the artifact
+  plans/microsoft-azure-cost-management-plans-pricing.yml:
+    method: searched
+    evidence: declared in the artifact
+  rate-limits/microsoft-azure-cost-management-rate-limits.yml:
+    method: searched
+    evidence: declared in the artifact
+  scopes/microsoft-azure-cost-management-scopes.yml:
+    method: searched
+    evidence: declared in the artifact
   security/microsoft-azure-cost-management-domain-security.yml:
+    method: unknown
+    evidence: no authorship recorded
+  security/microsoft-azure-cost-management-trust-center.yml:
+    method: searched
+    evidence: declared in the artifact
+  security/microsoft-azure-cost-management-vulnerability-disclosure.yml:
+    method: searched
+    evidence: declared in the artifact
+  skills/_index.yml:
+    method: generated
+    evidence: declared in the artifact
+  skills/microsoft-azure-cost-management-analyze-costs.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/microsoft-azure-cost-management-focus-exports.md:
+    method: generated
+    evidence: declared in the artifact
+  skills/microsoft-azure-cost-management-manage-budgets.md:
+    method: generated
+    evidence: declared in the artifact
+  well-known/microsoft-azure-cost-management-openid-configuration.json:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/microsoft-azure-cost-management-security.txt:
+    method: unknown
+    evidence: no authorship recorded
+  well-known/microsoft-azure-cost-management-well-known.yml:
     method: unknown
     evidence: no authorship recorded

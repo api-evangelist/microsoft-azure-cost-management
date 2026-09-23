@@ -1,6 +1,12 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/microsoft-azure-cost-management-openapi.yml
+generated: '2026-09-17'
+method: searched
+source: openapi/microsoft-azure-cost-management-alerts-api-openapi.yml, openapi/microsoft-azure-cost-management-budgets-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml, openapi/microsoft-azure-cost-management-exports-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml, openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationresults-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-markuprules-api-openapi.yml, openapi/microsoft-azure-cost-management-operations-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-providers-api-openapi.yml, openapi/microsoft-azure-cost-management-scheduledactionoperationgroup-api-openapi.yml,
+  openapi/microsoft-azure-cost-management-scheduledactions-api-openapi.yml ...
 summary:
   types:
   - oauth2
@@ -15,4 +21,53 @@ schemes:
     scopes: 1
   description: Azure Active Directory OAuth2 Flow.
   sources:
-  - openapi/microsoft-azure-cost-management-openapi.yml
+  - openapi/microsoft-azure-cost-management-alerts-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-budgets-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-exports-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationresults-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-markuprules-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-operations-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-providers-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-scheduledactionoperationgroup-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-scheduledactions-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-settings-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-viewoperationgroup-api-openapi.yml
+  - openapi/microsoft-azure-cost-management-views-api-openapi.yml
+docs:
+- https://learn.microsoft.com/en-us/rest/api/azure/
+- https://learn.microsoft.com/en-us/entra/identity-platform/v2-oauth2-client-creds-grant-flow
+- https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/assign-access-acm-data
+- https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/management-and-governance
+discovery: https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration
+discovery_artifact: well-known/microsoft-azure-cost-management-openid-configuration.json
+provider: Microsoft Entra ID
+resource: https://management.azure.com
+token_header: 'Authorization: Bearer <token>'
+docs_note: >-
+  The contract declares one securityScheme, azure_auth, with the implicit flow and the single
+  delegated scope user_impersonation. That is the Azure Resource Manager boilerplate every ARM
+  swagger carries; it is not how a service principal or an agent actually authenticates. Microsoft
+  Entra ID also issues client-credentials tokens for the resource https://management.azure.com
+  (scope https://management.azure.com/.default), which is the unattended path, and
+  authorization-code tokens for delegated user access. The OpenID Provider metadata was fetched
+  and saved; the implicit flow the swagger names is not the only option and should not be read as
+  a constraint.
+authorization_model:
+  style: azure-rbac
+  note: >-
+    Cost Management does not authorize by OAuth scope. Once a token is accepted, what it can see
+    and change is decided by Azure RBAC role assignments at the {scope} in the request path.
+  roles:
+  - name: Cost Management Reader
+    grants: read cost data, budgets, views, alerts and exports at the assigned scope
+  - name: Cost Management Contributor
+    grants: read plus create, update and delete budgets, exports, views and scheduled actions
+  source: https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/management-and-governance
+scope_paths:
+  note: >-
+    Billing-account and billing-profile scopes use billing-account roles (Enterprise Agreement
+    enrollment roles, or Microsoft Customer Agreement billing roles) rather than Azure RBAC.
+  source: https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/understand-work-scopes

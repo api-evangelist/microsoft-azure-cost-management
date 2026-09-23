@@ -1,0 +1,51 @@
+generated: '2026-09-17'
+method: generated
+source: openapi/_original/microsoft-azure-cost-management-openapi.json
+note: >-
+  Three packaged Agent Skills for Azure Cost Management, one per marquee flow. Every operationId
+  named in them was read out of the 2026-06-01 contract; none is invented. Microsoft publishes no
+  AGENTS.md or skills bundle for this product, so these are generated, not harvested.
+skills:
+- name: analyze-azure-costs
+  file: skills/microsoft-azure-cost-management-analyze-costs.md
+  writes: false
+  description: Query, dimension and forecast Azure spend at any scope. Entirely read-only.
+  operations:
+  - Dimensions_List
+  - Query_Usage
+  - Forecast_Usage
+  - Query_UsageByExternalCloudProviderType
+  - Operations_List
+- name: manage-azure-cost-budgets
+  file: skills/microsoft-azure-cost-management-manage-budgets.md
+  writes: true
+  destructive: true
+  description: Create, replace and delete budgets; list and dismiss the alerts they raise.
+  operations:
+  - Budgets_List
+  - Budgets_Get
+  - Budgets_CreateOrUpdate
+  - Budgets_Delete
+  - Alerts_List
+  - Alerts_Get
+  - Alerts_Dismiss
+- name: schedule-focus-cost-exports
+  file: skills/microsoft-azure-cost-management-focus-exports.md
+  writes: true
+  destructive: true
+  description: Configure recurring cost exports including FOCUS-format output, run them, and pull
+    one-off cost detail reports.
+  operations:
+  - Exports_List
+  - Exports_Get
+  - Exports_CreateOrUpdate
+  - Exports_Execute
+  - Exports_GetExecutionHistory
+  - Exports_Delete
+  - GenerateCostDetailsReport_CreateOperation
+  - GenerateCostDetailsReport_GetOperationResults
+grounding:
+  conventions: conventions/microsoft-azure-cost-management-conventions.yml
+  errors: errors/microsoft-azure-cost-management-problem-types.yml
+  rate_limits: rate-limits/microsoft-azure-cost-management-rate-limits.yml
+  authentication: authentication/microsoft-azure-cost-management-authentication.yml

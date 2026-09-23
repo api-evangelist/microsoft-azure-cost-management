@@ -1,0 +1,244 @@
+openapi: 3.2.0
+info:
+  title: CostManagementClient Generate Detailed Cost Report Operation Status API
+  version: '2026-06-01'
+  description: CostManagement management client provides access to CostManagement resources for Azure Enterprise Subscriptions.
+  x-typespec-generated:
+  - emitter: '@azure-tools/typespec-autorest'
+  x-api-evangelist-common-types: Azure Resource Manager common-types v5 components referenced by this contract were inlined
+    from https://github.com/Azure/azure-rest-api-specs/tree/main/specification/common-types/resource-management/v5 and prefixed
+    Arm, so the document resolves standalone. Microsoft's published document $refs them by relative path across repository
+    directories.
+servers:
+- url: https://management.azure.com
+security:
+- azure_auth:
+  - user_impersonation
+tags:
+- name: GenerateDetailedCostReportOperationStatus
+paths:
+  /{scope}/providers/Microsoft.CostManagement/operationStatus/{operationId}:
+    get:
+      operationId: GenerateDetailedCostReportOperationStatus_Get
+      tags:
+      - GenerateDetailedCostReportOperationStatus
+      description: Get the status of the specified operation. This link is provided in the GenerateDetailedCostReport creation
+        request response header.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The fully qualified Azure Resource manager identifier of the resource.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      - name: operationId
+        in: path
+        description: The target operation Id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateDetailedCostReportOperationStatuses'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        Get details of the operation status:
+          $ref: ../examples/GenerateDetailedCostReportOperationStatusBySubscriptionScope.json
+components:
+  schemas:
+    ArmProxyResource:
+      type: object
+      title: Proxy Resource
+      description: The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a
+        location
+      allOf:
+      - $ref: '#/components/schemas/ArmResource'
+    ArmResource:
+      type: object
+      title: Resource
+      description: Common fields that are returned in the response for all Azure Resource Manager resources
+      properties:
+        id:
+          type: string
+          format: arm-id
+          description: Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          readOnly: true
+        name:
+          type: string
+          description: The name of the resource
+          readOnly: true
+        type:
+          type: string
+          description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+          readOnly: true
+        systemData:
+          $ref: '#/components/schemas/ArmsystemData'
+          description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+          readOnly: true
+      x-ms-azure-resource: true
+    ArmsystemData:
+      type: object
+      description: Metadata pertaining to creation and last modification of the resource.
+      properties:
+        createdBy:
+          type: string
+          description: The identity that created the resource.
+        createdByType:
+          type: string
+          description: The type of identity that created the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource creation (UTC).
+        lastModifiedBy:
+          type: string
+          description: The identity that last modified the resource.
+        lastModifiedByType:
+          type: string
+          description: The type of identity that last modified the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        lastModifiedAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource last modification (UTC)
+      readOnly: true
+    DownloadURL:
+      type: object
+      description: The URL to download the generated report.
+      properties:
+        expiryTime:
+          type: string
+          format: date-time
+          description: The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z.
+          readOnly: true
+        validTill:
+          type: string
+          format: date-time
+          description: The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z.
+        downloadUrl:
+          type: string
+          description: The URL to download the generated report.
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
+    ErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided
+        in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting
+        for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable
+        - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+    GenerateDetailedCostReportOperationStatuses:
+      type: object
+      description: The status of the long running operation for cost detailed report.
+      properties:
+        properties:
+          $ref: '#/components/schemas/DownloadURL'
+          description: The properties of the usage file generated.
+          x-ms-client-flatten: true
+        status:
+          $ref: '#/components/schemas/Status'
+          description: The status of the long running operation.
+        startTime:
+          type: string
+          description: The startTime of the operation.
+        endTime:
+          type: string
+          description: The endTime of the operation.
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+      allOf:
+      - $ref: '#/components/schemas/ArmProxyResource'
+    ReportOperationStatusType:
+      type: string
+      description: The status of the long running operation.
+      enum:
+      - InProgress
+      - Completed
+      - Failed
+      - Queued
+      - NoDataFound
+      - ReadyToDownload
+      - TimedOut
+      x-ms-enum:
+        name: ReportOperationStatusType
+        modelAsString: true
+        values:
+        - name: InProgress
+          value: InProgress
+        - name: Completed
+          value: Completed
+        - name: Failed
+          value: Failed
+        - name: Queued
+          value: Queued
+        - name: NoDataFound
+          value: NoDataFound
+        - name: ReadyToDownload
+          value: ReadyToDownload
+        - name: TimedOut
+          value: TimedOut
+    Status:
+      type: object
+      description: The status of the long running operation.
+      properties:
+        status:
+          $ref: '#/components/schemas/ReportOperationStatusType'
+          description: The status of the long running operation.
+  securitySchemes:
+    azure_auth:
+      type: oauth2
+      flows:
+        implicit:
+          scopes:
+            user_impersonation: impersonate your user account
+          authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+      description: Azure Active Directory OAuth2 Flow.
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      description: The API version to use for this operation.
+      required: true
+      schema:
+        type: string
+        minLength: 1

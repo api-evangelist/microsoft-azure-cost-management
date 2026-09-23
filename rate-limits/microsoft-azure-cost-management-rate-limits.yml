@@ -4,84 +4,94 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: microsoft-azure-cost-management
 providerId: microsoft-azure-cost-management
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+modified: '2026-09-17'
+generated: '2026-09-17'
+method: searched
+source: https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/manage-automation
 tags:
   - Rate Limiting
   - Quotas
   - Throttling
-description: Machine-readable rate limit definitions for the microsoft-azure-cost-management API surface.
-  Captures per-tier quotas, burst behavior, response signaling, and recovery semantics. Defaults are scaffold
-  values to be replaced with published provider limits.
+  - FinOps
+description: >-
+  Published Cost Management limits, replacing the 2026-05-04 scaffold that carried invented
+  X-RateLimit-* headers and invented per-tier quotas. Cost Management does NOT use the generic
+  X-RateLimit-* family. It throttles on two independent mechanisms: the Azure Resource Manager
+  platform limits that apply to every ARM call, and — unique to this resource provider — a
+  Query Processing Unit (QPU) budget that prices a call by how much data it asks for rather than
+  by how many calls you make. The QPU quotas are per TENANT, not per subscription or per key,
+  so every team in an organisation shares one budget.
 headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
+  qpuConsumed: x-ms-ratelimit-microsoft.costmanagement-qpu-consumed
+  qpuRemaining: x-ms-ratelimit-microsoft.costmanagement-qpu-remaining
+  qpuRetryAfter: x-ms-ratelimit-microsoft.costmanagement-qpu-retry-after
+  consumptionRetryAfter: x-ms-ratelimit-microsoft.consumption-retry-after
   retryAfter: Retry-After
-  policy: RateLimit-Policy
+headers_note: >-
+  Read x-ms-ratelimit-microsoft.costmanagement-qpu-remaining on every response and slow down
+  before you are throttled — it is a list of the remaining quotas, one per window. On a 429, the
+  number of seconds to wait is in the QPU retry-after header on Query, and in
+  x-ms-ratelimit-microsoft.consumption-retry-after or retry-after on the report generators.
+  Sources: the manage-automation doc for the QPU headers, and the ErrorResponse /
+  GenerateCostDetailsReportErrorResponse schema descriptions in the 2026-06-01 contract for the
+  retry headers.
 responseCodes:
   throttled: 429
-  quotaExceeded: 429
   serviceUnavailable: 503
+  payloadTooLarge: 413
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Azure Cost Management REST API
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 1000
-    timeFrame: month
-    applies:
-      - Azure Cost Management REST API
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Azure Cost Management REST API
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
-    limit: 100000
-    timeFrame: month
-    applies:
-      - Azure Cost Management REST API
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
-    limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Azure Cost Management REST API
-policies:
-  - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
-  - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
-maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+  - name: Query API — QPU per 10 seconds
+    scope: tenant
+    metric: query-processing-units
+    limit: 12
+    window: 10s
+    applies_to:
+      - Query_Usage
+      - Query_UsageByExternalCloudProviderType
+    source: https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/manage-automation
+  - name: Query API — QPU per minute
+    scope: tenant
+    metric: query-processing-units
+    limit: 60
+    window: 1m
+    applies_to:
+      - Query_Usage
+      - Query_UsageByExternalCloudProviderType
+    source: https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/manage-automation
+  - name: Query API — QPU per hour
+    scope: tenant
+    metric: query-processing-units
+    limit: 600
+    window: 1h
+    applies_to:
+      - Query_Usage
+      - Query_UsageByExternalCloudProviderType
+    source: https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/manage-automation
+qpu_model:
+  unit: Query Processing Unit
+  definition: >-
+    A performance currency abstracting CPU and memory, described by Microsoft as analogous to
+    Cosmos DB RUs. One QPU is currently deducted per MONTH OF DATA queried.
+  drivers:
+    - Date range — the wider the requested window, the more QPU the call consumes.
+  volatility: >-
+    Microsoft states the QPU calculation logic and the quotas may change without notice, and
+    that further QPU factors may be added. Do not hard-code the 12/60/600 numbers into a
+    scheduler; read the remaining header.
+  source: https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/manage-automation
+guidance:
+  recommended_call_frequency: no more than once per day per scope
+  reason: Cost data refreshes every four hours; more frequent calls return the same data and
+    only add load.
+  report_generation: Generate a cost details report no more than once a day for a given scope
+    and date range; split large pulls into daily or weekly windows.
+  large_result_sets: >-
+    GenerateDetailedCostReport returns 413 when the request would exceed 2 GB — move to Exports
+    rather than retrying.
+platform_limits:
+  note: >-
+    Cost Management is an ARM resource provider, so the Azure Resource Manager per-subscription
+    and per-tenant read/write throttling applies underneath the QPU model. Those limits are
+    documented at the platform layer and are not Cost-Management-specific.
+  source: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling
+limit_count: 3

@@ -1,0 +1,82 @@
+generated: '2026-09-17'
+method: searched
+source: https://learn.microsoft.com/en-us/cli/azure/costmanagement
+note: >-
+  Two first-party command-line surfaces cover Cost Management, and they cover different
+  amounts of it. The Azure CLI extension (`az costmanagement`) is Exports-only plus the
+  detailed-report operation poller. The Azure PowerShell module (Az.CostManagement) adds the
+  Query and detailed-report surfaces. Neither reaches Budgets, Alerts, Views, Scheduled Actions,
+  Settings, Markup Rules or Cost Allocation Rules — those are REST- and SDK-only, which is
+  worth knowing before scripting against the CLI.
+clis:
+- name: Azure CLI — costmanagement extension
+  command: az costmanagement
+  official: true
+  docs: https://learn.microsoft.com/en-us/cli/azure/costmanagement
+  source: https://github.com/Azure/azure-cli-extensions/tree/main/src/costmanagement
+  version: 1.0.0
+  install:
+  - method: azure-cli-extension
+    command: az extension add --name costmanagement
+  - method: host-cli
+    command: Install the Azure CLI first — https://learn.microsoft.com/en-us/cli/azure/install-azure-cli
+  groups:
+  - name: export
+    description: Create, read, update, delete and list Cost Management scheduled exports.
+    commands:
+    - az costmanagement export create
+    - az costmanagement export list
+    - az costmanagement export show
+    - az costmanagement export update
+    - az costmanagement export delete
+    rest: Exports_CreateOrUpdate, Exports_List, Exports_Get, Exports_Delete
+  - name: operation result
+    description: Poll the result of a long-running detailed cost report operation.
+    commands:
+    - az costmanagement show-operation-result --operation-id
+    rest: GenerateDetailedCostReportOperationResults_Get
+- name: Azure PowerShell — Az.CostManagement
+  command: Az.CostManagement
+  official: true
+  docs: https://learn.microsoft.com/en-us/powershell/module/az.costmanagement/
+  source: https://github.com/Azure/azure-powershell
+  version: 0.4.2
+  install:
+  - method: powershellgallery
+    command: Install-Module -Name Az.CostManagement
+  groups:
+  - name: exports
+    commands:
+    - Get-AzCostManagementExport
+    - Get-AzCostManagementExportExecutionHistory
+    - New-AzCostManagementExport
+    - Update-AzCostManagementExport
+    - Remove-AzCostManagementExport
+    - Invoke-AzCostManagementExecuteExport
+    rest: Exports_Get, Exports_GetExecutionHistory, Exports_CreateOrUpdate, Exports_Delete,
+      Exports_Execute
+  - name: query and reports
+    commands:
+    - Invoke-AzCostManagementQuery
+    - New-AzCostManagementDetailReport
+    - Invoke-AzCostManagementReservationDetailReport
+    - New-AzCostManagementQueryFilterObject
+    - New-AzCostManagementQueryComparisonExpressionObject
+    rest: Query_Usage, GenerateDetailedCostReport_CreateOperation,
+      GenerateReservationDetailsReport_ByBillingAccountId
+coverage:
+  rest_operations_total: 75
+  reachable_from_cli: partial
+  uncovered_surfaces:
+  - Budgets
+  - Alerts
+  - Views
+  - ScheduledActions
+  - Settings
+  - MarkupRules
+  - CostAllocationRuleDefinitions
+  - BenefitRecommendations
+  - BenefitUtilizationSummaries
+  - Dimensions
+  - Forecast
+  - PriceSheet

@@ -1,100 +1,172 @@
 openapi: 3.2.0
 info:
-  title: Azure Cost Management REST Exports Operations API
-  description: Azure Cost Management helps monitor, allocate, and optimize cloud costs. The REST API supports queries, exports, budgets, alerts, and forecasts across subscriptions and management groups.
-  version: '2024-01-01'
+  title: CostManagementClient Operations API
+  version: '2026-06-01'
+  description: CostManagement management client provides access to CostManagement resources for Azure Enterprise Subscriptions.
+  x-typespec-generated:
+  - emitter: '@azure-tools/typespec-autorest'
+  x-api-evangelist-common-types: Azure Resource Manager common-types v5 components referenced by this contract were inlined
+    from https://github.com/Azure/azure-rest-api-specs/tree/main/specification/common-types/resource-management/v5 and prefixed
+    Arm, so the document resolves standalone. Microsoft's published document $refs them by relative path across repository
+    directories.
 servers:
 - url: https://management.azure.com
-  description: Azure Resource Manager
 security:
 - azure_auth:
   - user_impersonation
 tags:
 - name: Operations
-  description: Operations operations
 paths:
   /providers/Microsoft.CostManagement/operations:
     get:
-      operationId: listOperations
-      summary: Azure Cost Management REST API List operations
-      description: Lists all available REST API operations for Microsoft.CostManagement.
+      operationId: Operations_List
       tags:
       - Operations
+      description: List the operations for the provider
       parameters:
-      - $ref: '#/components/parameters/apiVersion'
+      - $ref: '#/components/parameters/ApiVersionParameter'
       responses:
         '200':
-          description: Operations list
+          description: Azure operation completed successfully.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OperationList'
+                $ref: '#/components/schemas/OperationListResult'
         default:
-          description: Error
+          description: An unexpected error response.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        OperationList:
+          $ref: ../examples/OperationList.json
+      x-ms-pageable:
+        nextLinkName: nextLink
 components:
   schemas:
-    ErrorResponse:
+    ArmOperation:
       type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            target:
-              type: string
-    OperationList:
-      type: object
-      properties:
-        value:
-          type: array
-          items:
-            $ref: '#/components/schemas/Operation'
-        nextLink:
-          type: string
-    Operation:
-      type: object
+      title: REST API Operation
+      description: Details of a REST API operation, returned from the Resource Provider Operations API
       properties:
         name:
           type: string
+          description: 'The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write",
+            "Microsoft.Compute/virtualMachines/capture/action"'
+          readOnly: true
+        isDataAction:
+          type: boolean
+          description: Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for
+            ARM/control-plane operations.
+          readOnly: true
         display:
           type: object
+          description: Localized display information for this particular operation.
           properties:
             provider:
               type: string
+              description: The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights"
+                or "Microsoft Compute".
+              readOnly: true
             resource:
               type: string
+              description: The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines"
+                or "Job Schedule Collections".
+              readOnly: true
             operation:
               type: string
+              description: The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or
+                Update Virtual Machine", "Restart Virtual Machine".
+              readOnly: true
             description:
               type: string
-        isDataAction:
-          type: boolean
-  parameters:
-    apiVersion:
-      name: api-version
-      in: query
-      required: true
-      description: The API version to use for this operation.
-      schema:
-        type: string
+              description: The short, localized friendly description of the operation; suitable for tool tips and detailed
+                views.
+              readOnly: true
+        origin:
+          type: string
+          description: The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX.
+            Default value is "user,system"
+          enum:
+          - user
+          - system
+          - user,system
+          x-ms-enum:
+            name: Origin
+            modelAsString: true
+          readOnly: true
+        actionType:
+          type: string
+          description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+          enum:
+          - Internal
+          x-ms-enum:
+            name: ActionType
+            modelAsString: true
+          readOnly: true
+    CostManagementOperation:
+      type: object
+      description: A Cost management REST API operation.
+      properties:
+        id:
+          type: string
+          description: 'Operation id: {provider}/{resource}/{operation}.'
+          readOnly: true
+      allOf:
+      - $ref: '#/components/schemas/ArmOperation'
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
+    ErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided
+        in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting
+        for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable
+        - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+    OperationListResult:
+      type: object
+      description: Result of listing cost management operations. It contains a list of operations and a URL link to get the
+        next set of results.
+      properties:
+        value:
+          type: array
+          description: List of cost management operations supported by the Microsoft.CostManagement resource provider.
+          items:
+            $ref: '#/components/schemas/CostManagementOperation'
+          readOnly: true
+        nextLink:
+          type: string
+          description: URL to get the next set of operation list results if there are any.
+          readOnly: true
   securitySchemes:
     azure_auth:
       type: oauth2
-      description: Azure Active Directory OAuth2 Flow.
       flows:
         implicit:
-          authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
           scopes:
-            user_impersonation: Impersonate your user account
-externalDocs:
-  description: Azure Cost Management REST API Documentation
-  url: https://learn.microsoft.com/en-us/rest/api/cost-management/
-x-generated-from: https://learn.microsoft.com/en-us/rest/api/cost-management/
-x-generated-by: claude-crawl-2026-05-08
+            user_impersonation: impersonate your user account
+          authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+      description: Azure Active Directory OAuth2 Flow.
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      description: The API version to use for this operation.
+      required: true
+      schema:
+        type: string
+        minLength: 1

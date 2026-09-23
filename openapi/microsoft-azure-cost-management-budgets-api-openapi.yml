@@ -1,0 +1,1051 @@
+openapi: 3.2.0
+info:
+  title: CostManagementClient Budgets API
+  version: '2026-06-01'
+  description: CostManagement management client provides access to CostManagement resources for Azure Enterprise Subscriptions.
+  x-typespec-generated:
+  - emitter: '@azure-tools/typespec-autorest'
+  x-api-evangelist-common-types: Azure Resource Manager common-types v5 components referenced by this contract were inlined
+    from https://github.com/Azure/azure-rest-api-specs/tree/main/specification/common-types/resource-management/v5 and prefixed
+    Arm, so the document resolves standalone. Microsoft's published document $refs them by relative path across repository
+    directories.
+servers:
+- url: https://management.azure.com
+security:
+- azure_auth:
+  - user_impersonation
+tags:
+- name: Budgets
+paths:
+  /{scope}/providers/Microsoft.CostManagement/budgets:
+    get:
+      operationId: Budgets_List
+      tags:
+      - Budgets
+      description: Lists all budgets for the defined scope.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/CostManagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The fully qualified Azure Resource manager identifier of the resource.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      - name: $filter
+        in: query
+        description: OData filter option. May be used to filter budgets by properties/category. The filter supports 'eq' only.
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BudgetsListResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        BillingAccountBudgetsList-EA:
+          $ref: ../examples/Budgets/List/EA/BillingAccountBudgetsList-EA.json
+        BillingAccountBudgetsList-EA-CategoryTypeFilter:
+          $ref: ../examples/Budgets/List/EA/BillingAccountBudgetsList-EA-CategoryTypeFilter.json
+        BillingAccountBudgetsList-MCA:
+          $ref: ../examples/Budgets/List/MCA/BillingAccountBudgetsList-MCA.json
+        BillingAccountBudgetsList-MCA-CategoryTypeFilter:
+          $ref: ../examples/Budgets/List/MCA/BillingAccountBudgetsList-MCA-CategoryTypeFilter.json
+        BillingProfileBudgetsList-MCA:
+          $ref: ../examples/Budgets/List/MCA/BillingProfileBudgetsList.json
+        BillingProfileBudgetsList-MCA-CategoryTypeFilter:
+          $ref: ../examples/Budgets/List/MCA/BillingProfileBudgetsList-CategoryTypeFilter.json
+        CustomerBudgetsList-MCA-CSP:
+          $ref: ../examples/Budgets/List/MCA/CustomerBudgetsList.json
+        CustomerBudgetsList-MCA-CSP-CategoryTypeFilter:
+          $ref: ../examples/Budgets/List/MCA/CustomerBudgetsList-CategoryTypeFilter.json
+        DepartmentBudgetsList-EA:
+          $ref: ../examples/Budgets/List/EA/DepartmentBudgetsList.json
+        EnrollmentAccountBudgetsList-EA:
+          $ref: ../examples/Budgets/List/EA/EnrollmentAccountBudgetsList.json
+        InvoiceSectionBudgetsList-MCA:
+          $ref: ../examples/Budgets/List/MCA/InvoiceSectionBudgetsList.json
+        ManagementGroupBudgetsList:
+          $ref: ../examples/Budgets/List/RBAC/ManagementGroupBudgetsList.json
+        ResourceGroupBudgetsList:
+          $ref: ../examples/Budgets/List/RBAC/ResourceGroupBudgetsList.json
+        SubscriptionBudgetsList:
+          $ref: ../examples/Budgets/List/RBAC/SubscriptionBudgetsList.json
+      x-ms-pageable:
+        nextLinkName: nextLink
+  /{scope}/providers/Microsoft.CostManagement/budgets/{budgetName}:
+    get:
+      operationId: Budgets_Get
+      tags:
+      - Budgets
+      description: Gets the budget for the scope by budget name.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/CostManagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The fully qualified Azure Resource manager identifier of the resource.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      - name: budgetName
+        in: path
+        description: Budget Name.
+        required: true
+        schema:
+          type: string
+          maxLength: 63
+          minLength: 1
+          pattern: ^[a-zA-Z0-9_-]+$
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        Get-Cost-Budget:
+          $ref: ../examples/Budgets/Get/Cost/Get-Cost-Budget.json
+        Get-ReservationUtilization-AlertRule:
+          $ref: ../examples/Budgets/Get/ReservationUtilization/Get-ReservationUtilization-AlertRule.json
+    put:
+      operationId: Budgets_CreateOrUpdate
+      tags:
+      - Budgets
+      description: The operation to create or update a budget. You can optionally provide an eTag if desired as a form of
+        concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/CostManagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The fully qualified Azure Resource manager identifier of the resource.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      - name: budgetName
+        in: path
+        description: Budget Name.
+        required: true
+        schema:
+          type: string
+          maxLength: 63
+          minLength: 1
+          pattern: ^[a-zA-Z0-9_-]+$
+      responses:
+        '200':
+          description: Resource 'Budget' update operation succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+        '201':
+          description: Resource 'Budget' create operation succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budget'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        CreateOrUpdate-Cost-Subscription-Budget:
+          $ref: ../examples/Budgets/CreateOrUpdate/Cost/CreateOrUpdate-Cost-Subscription-Budget.json
+        CreateOrUpdate-ReservationUtilization-BillingAccountEA-AlertRule:
+          $ref: ../examples/Budgets/CreateOrUpdate/ReservationUtilization/EA/BillingAccountEA-AlertRule.json
+        CreateOrUpdate-ReservationUtilization-BillingAccountEA-AlertRule-ReservationIdFilter:
+          $ref: ../examples/Budgets/CreateOrUpdate/ReservationUtilization/EA/BillingAccountEA-AlertRule-ReservationIdFilter.json
+        CreateOrUpdate-ReservationUtilization-BillingAccountEA-AlertRule-ReservedResourceTypeFilter:
+          $ref: ../examples/Budgets/CreateOrUpdate/ReservationUtilization/EA/BillingAccountEA-AlertRule-ReservedResourceTypeFilter.json
+        CreateOrUpdate-ReservationUtilization-BillingProfileMCA-AlertRule-ReservationIdFilter:
+          $ref: ../examples/Budgets/CreateOrUpdate/ReservationUtilization/MCA/BillingProfile-AlertRule-ReservationIdFilter.json
+        CreateOrUpdate-ReservationUtilization-BillingProfileMCA-AlertRule-ReservedResourceTypeFilter:
+          $ref: ../examples/Budgets/CreateOrUpdate/ReservationUtilization/MCA/BillingProfile-AlertRule-ReservedResourceTypeFilter.json
+        CreateOrUpdate-ReservationUtilization-BillingProfileMCA-AlertRule.json:
+          $ref: ../examples/Budgets/CreateOrUpdate/ReservationUtilization/MCA/BillingProfile-AlertRule.json
+        CreateOrUpdate-ReservationUtilization-CustomerCSP-AlertRule-ReservationIdFilter:
+          $ref: ../examples/Budgets/CreateOrUpdate/ReservationUtilization/MCA/Customer-AlertRule-ReservationIdFilter.json
+        CreateOrUpdate-ReservationUtilization-CustomerCSP-AlertRule-ReservedResourceTypeFilter:
+          $ref: ../examples/Budgets/CreateOrUpdate/ReservationUtilization/MCA/Customer-AlertRule-ReservedResourceTypeFilter.json
+        CreateOrUpdate-ReservationUtilization-CustomerCSP-AlertRule.json:
+          $ref: ../examples/Budgets/CreateOrUpdate/ReservationUtilization/MCA/Customer-AlertRule.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Budget'
+        description: Parameters supplied to the Create Budget operation.
+        required: true
+    delete:
+      operationId: Budgets_Delete
+      tags:
+      - Budgets
+      description: The operation to delete a budget.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/CostManagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: The fully qualified Azure Resource manager identifier of the resource.
+        required: true
+        x-ms-skip-url-encoding: true
+        schema:
+          type: string
+      - name: budgetName
+        in: path
+        description: Budget Name.
+        required: true
+        schema:
+          type: string
+          maxLength: 63
+          minLength: 1
+          pattern: ^[a-zA-Z0-9_-]+$
+      responses:
+        '200':
+          description: Resource deleted successfully.
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        DeleteBudget:
+          $ref: ../examples/Budgets/Delete/DeleteBudget.json
+components:
+  schemas:
+    ArmProxyResource:
+      type: object
+      title: Proxy Resource
+      description: The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a
+        location
+      allOf:
+      - $ref: '#/components/schemas/ArmResource'
+    ArmResource:
+      type: object
+      title: Resource
+      description: Common fields that are returned in the response for all Azure Resource Manager resources
+      properties:
+        id:
+          type: string
+          format: arm-id
+          description: Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          readOnly: true
+        name:
+          type: string
+          description: The name of the resource
+          readOnly: true
+        type:
+          type: string
+          description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+          readOnly: true
+        systemData:
+          $ref: '#/components/schemas/ArmsystemData'
+          description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+          readOnly: true
+      x-ms-azure-resource: true
+    ArmsystemData:
+      type: object
+      description: Metadata pertaining to creation and last modification of the resource.
+      properties:
+        createdBy:
+          type: string
+          description: The identity that created the resource.
+        createdByType:
+          type: string
+          description: The type of identity that created the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource creation (UTC).
+        lastModifiedBy:
+          type: string
+          description: The identity that last modified the resource.
+        lastModifiedByType:
+          type: string
+          description: The type of identity that last modified the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        lastModifiedAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource last modification (UTC)
+      readOnly: true
+    Azure.Core.eTag:
+      type: string
+      description: 'The ETag (or entity tag) HTTP response header is an identifier for a specific version of a resource.
+
+        It lets caches be more efficient and save bandwidth, as a web server does not need to resend a full response if the
+        content was not changed.
+
+
+        It is a string of ASCII characters placed between double quotes, like "675af34563dc-tr34".'
+    Budget:
+      type: object
+      description: A budget resource.
+      properties:
+        properties:
+          $ref: '#/components/schemas/BudgetProperties'
+          description: The properties of the budget.
+          x-ms-client-flatten: true
+        eTag:
+          $ref: '#/components/schemas/Azure.Core.eTag'
+          description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether
+            the user is updating the latest version or not.
+      allOf:
+      - $ref: '#/components/schemas/ArmProxyResource'
+    BudgetComparisonExpression:
+      type: object
+      description: The comparison expression to be used in the budgets.
+      properties:
+        name:
+          type: string
+          description: The name of the column to use in comparison.
+        operator:
+          $ref: '#/components/schemas/BudgetOperatorType'
+          description: The operator to use for comparison.
+        values:
+          type: array
+          description: Array of values to use for comparison
+          minItems: 0
+          items:
+            type: string
+      required:
+      - name
+      - operator
+      - values
+    BudgetFilter:
+      type: object
+      description: 'May be used to filter budgets by user-specified dimensions and/or tags.
+
+
+        Supported for CategoryType(s): Cost, ReservationUtilization.'
+      properties:
+        and:
+          type: array
+          description: 'The logical "AND" expression. Must have at least 2 items.
+
+
+            Supported for CategoryType(s): Cost.'
+          minItems: 0
+          items:
+            $ref: '#/components/schemas/BudgetFilterProperties'
+          x-ms-identifiers: []
+        dimensions:
+          $ref: '#/components/schemas/BudgetComparisonExpression'
+          description: 'Has comparison expression for a dimension.
+
+
+            Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+            Supported dimension names for **CategoryType: ReservationUtilization**
+
+            - ReservationId
+
+            - ReservedResourceType'
+        tags:
+          $ref: '#/components/schemas/BudgetComparisonExpression'
+          description: 'Has comparison expression for a tag.
+
+
+            Supported for CategoryType(s): Cost.'
+    BudgetFilterProperties:
+      type: object
+      description: 'The Dimensions or Tags to filter a budget by.
+
+
+        Supported for CategoryType(s): Cost, ReservationUtilization.'
+      properties:
+        dimensions:
+          $ref: '#/components/schemas/BudgetComparisonExpression'
+          description: 'Has comparison expression for a dimension.
+
+
+            Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+            Supported dimension names for **CategoryType: ReservationUtilization**
+
+            - ReservationId
+
+            - ReservedResourceType'
+        tags:
+          $ref: '#/components/schemas/BudgetComparisonExpression'
+          description: 'Has comparison expression for a tag.
+
+
+            Supported for CategoryType(s): Cost.'
+    BudgetNotificationOperatorType:
+      type: string
+      description: 'The comparison operator.
+
+
+        Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+        Supported operators for **CategoryType: Cost**
+
+        - GreaterThan
+
+        - GreaterThanOrEqualTo
+
+
+        Supported operators for **CategoryType: ReservationUtilization**
+
+        - LessThan'
+      enum:
+      - EqualTo
+      - GreaterThan
+      - GreaterThanOrEqualTo
+      - LessThan
+      x-ms-enum:
+        name: BudgetNotificationOperatorType
+        modelAsString: true
+        values:
+        - name: EqualTo
+          value: EqualTo
+          description: 'Notification will be triggered if the evaluated cost is the same as threshold value. Note: It’s not
+            recommended to use this OperatorType as there’s low chance of cost being exactly the same as threshold value,
+            leading to missing of your alert. This OperatorType will be deprecated in future.
+
+
+            Supported for CategoryType(s): Cost.'
+        - name: GreaterThan
+          value: GreaterThan
+          description: 'Notification will be triggered if the evaluated cost is greater than the threshold value. Note: This
+            is the recommended OperatorType while configuring Budget Alert.
+
+
+            Supported for CategoryType(s): Cost.'
+        - name: GreaterThanOrEqualTo
+          value: GreaterThanOrEqualTo
+          description: 'Notification will be triggered if the evaluated cost is greater than or equal to the threshold value.
+
+
+            Supported for CategoryType(s): Cost.'
+        - name: LessThan
+          value: LessThan
+          description: 'Notification will be triggered if any Reservations in the scope of the Reservation Utilization Alert
+            Rule have a utilization less than the threshold percentage.
+
+
+            Supported for CategoryType(s): ReservationUtilization.'
+    BudgetOperatorType:
+      type: string
+      description: The operator to use for comparison.
+      enum:
+      - In
+      x-ms-enum:
+        name: BudgetOperatorType
+        modelAsString: true
+        values:
+        - name: In
+          value: In
+    BudgetProperties:
+      type: object
+      description: The properties of the budget.
+      properties:
+        category:
+          $ref: '#/components/schemas/CategoryType'
+          description: 'The category of the budget.
+
+            - ''Cost'' defines a Budget.
+
+            - ''ReservationUtilization'' defines a Reservation Utilization Alert Rule.'
+        amount:
+          type: number
+          format: float
+          description: 'The total amount of cost to track with the budget.
+
+
+            Supported for CategoryType(s): Cost.
+
+
+            Required for CategoryType(s): Cost.'
+        timeGrain:
+          $ref: '#/components/schemas/TimeGrainType'
+          description: 'The time covered by a budget. Tracking of the amount will be reset based on the time grain.
+
+
+            Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+            Supported timeGrainTypes for **CategoryType: Cost**
+
+
+            - Monthly
+
+            - Quarterly
+
+            - Annually
+
+            - BillingMonth*
+
+            - BillingQuarter*
+
+            - BillingAnnual*
+
+
+            *only supported for Web Direct customers.
+
+
+            Supported timeGrainTypes for **CategoryType: ReservationUtilization**
+
+            - Last7Days
+
+            - Last30Days
+
+
+            Required for CategoryType(s): Cost, ReservationUtilization.'
+        timePeriod:
+          $ref: '#/components/schemas/BudgetTimePeriod'
+          description: 'The time period that defines the active period of the budget. The budget will evaluate data on or
+            after the startDate and will expire on the endDate.
+
+
+            Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+            Required for CategoryType(s): Cost, ReservationUtilization.'
+        filter:
+          $ref: '#/components/schemas/BudgetFilter'
+          description: 'May be used to filter budgets by user-specified dimensions and/or tags.
+
+
+            Supported for CategoryType(s): Cost, ReservationUtilization.'
+        currentSpend:
+          $ref: '#/components/schemas/CurrentSpend'
+          description: 'The current amount of cost which is being tracked for a budget.
+
+
+            Supported for CategoryType(s): Cost.'
+          readOnly: true
+        notifications:
+          type: object
+          description: 'Dictionary of notifications associated with the budget.
+
+
+            Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+            - Constraints for **CategoryType: Cost** - Budget can have up to 5 notifications with thresholdType: Actual and
+            5 notifications with thresholdType: Forecasted.
+
+            - Constraints for **CategoryType: ReservationUtilization** - Only one notification allowed. thresholdType is not
+            applicable.'
+          additionalProperties:
+            $ref: '#/components/schemas/Notification'
+        forecastSpend:
+          $ref: '#/components/schemas/ForecastSpend'
+          description: 'The forecasted cost which is being tracked for a budget.
+
+
+            Supported for CategoryType(s): Cost.'
+          readOnly: true
+      required:
+      - category
+      - timeGrain
+      - timePeriod
+    BudgetTimePeriod:
+      type: object
+      description: 'The time period that defines the active period of the budget. The budget will evaluate data on or after
+        the startDate and will expire on the endDate.
+
+
+        Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+        Required for CategoryType(s): Cost, ReservationUtilization.'
+      properties:
+        startDate:
+          type: string
+          format: date-time
+          description: 'The start date for the budget.
+
+
+            - Constraints for **CategoryType: Cost** - Must be first of the month and should be less than the end date. Budget
+            start date must be on or after June 1, 2017. Future start date should not be more than twelve months. Past start
+            date should  be selected within the timegrain period.
+
+
+            - Constraints for **CategoryType: ReservationUtilization** - Must be on or after the current date and less than
+            the end date.'
+        endDate:
+          type: string
+          format: date-time
+          description: 'The end date for the budget.
+
+
+            - Constraints for **CategoryType: Cost** - No constraints. If not provided, we default this to 10 years from the
+            start date.
+
+
+            - Constraints for **CategoryType: ReservationUtilization** - End date cannot be more than 3 years after the start
+            date.'
+      required:
+      - startDate
+    BudgetsListResult:
+      type: object
+      description: Result of listing budgets. It contains a list of available budgets in the scope provided.
+      properties:
+        value:
+          type: array
+          description: The list of budgets.
+          items:
+            $ref: '#/components/schemas/Budget'
+          readOnly: true
+        nextLink:
+          type: string
+          description: The link (url) to the next page of results.\r\nIt's null for now, added for future use.
+    CategoryType:
+      type: string
+      description: 'The category of the budget.
+
+        - ''Cost'' defines a Budget.
+
+        - ''ReservationUtilization'' defines a Reservation Utilization Alert Rule.'
+      enum:
+      - Cost
+      - ReservationUtilization
+      x-ms-enum:
+        name: CategoryType
+        modelAsString: true
+        values:
+        - name: Cost
+          value: Cost
+          description: A Budget that evaluates monetary cost of Azure resources against an amount, and alerts based on a configured
+            notification threshold.
+        - name: ReservationUtilization
+          value: ReservationUtilization
+          description: An Alert Rule that evaluates the utilization percentage of Azure Reservations, and alerts based on
+            a configured notification threshold.
+    CultureCode:
+      type: string
+      description: 'Language in which the recipient will receive the notification,
+
+
+        Supported for CategoryType(s): Cost, ReservationUtilization.'
+      enum:
+      - en-us
+      - ja-jp
+      - zh-cn
+      - de-de
+      - es-es
+      - fr-fr
+      - it-it
+      - ko-kr
+      - pt-br
+      - ru-ru
+      - zh-tw
+      - cs-cz
+      - pl-pl
+      - tr-tr
+      - da-dk
+      - en-gb
+      - hu-hu
+      - nb-no
+      - nl-nl
+      - pt-pt
+      - sv-se
+      x-ms-enum:
+        name: CultureCode
+        modelAsString: true
+        values:
+        - name: en-us
+          value: en-us
+        - name: ja-jp
+          value: ja-jp
+        - name: zh-cn
+          value: zh-cn
+        - name: de-de
+          value: de-de
+        - name: es-es
+          value: es-es
+        - name: fr-fr
+          value: fr-fr
+        - name: it-it
+          value: it-it
+        - name: ko-kr
+          value: ko-kr
+        - name: pt-br
+          value: pt-br
+        - name: ru-ru
+          value: ru-ru
+        - name: zh-tw
+          value: zh-tw
+        - name: cs-cz
+          value: cs-cz
+        - name: pl-pl
+          value: pl-pl
+        - name: tr-tr
+          value: tr-tr
+        - name: da-dk
+          value: da-dk
+        - name: en-gb
+          value: en-gb
+        - name: hu-hu
+          value: hu-hu
+        - name: nb-no
+          value: nb-no
+        - name: nl-nl
+          value: nl-nl
+        - name: pt-pt
+          value: pt-pt
+        - name: sv-se
+          value: sv-se
+    CurrentSpend:
+      type: object
+      description: 'The current amount of cost which is being tracked for a budget.
+
+
+        Supported for CategoryType(s): Cost.'
+      properties:
+        amount:
+          type: number
+          format: float
+          description: The total amount of cost which is being tracked by the budget.
+          readOnly: true
+        unit:
+          type: string
+          description: The unit of measure for the budget amount.
+          readOnly: true
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
+    ErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided
+        in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting
+        for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable
+        - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+    ForecastSpend:
+      type: object
+      description: 'The forecasted cost which is being tracked for a budget.
+
+
+        Supported for CategoryType(s): Cost.'
+      properties:
+        amount:
+          type: number
+          format: float
+          description: The forecasted cost for the total time period which is being tracked by the budget. This value is only
+            provided if the budget contains a forecast alert type.
+          readOnly: true
+        unit:
+          type: string
+          description: The unit of measure for the budget amount.
+          readOnly: true
+    Frequency:
+      type: string
+      description: 'Frequency of a notification. Represents how long the notification will be silent after triggering an alert
+        for a threshold breach. If not specified, the frequency will be set by default based on the timeGrain (Weekly when
+        timeGrain: Last7Days, Monthly when timeGrain: Last30Days).
+
+
+        Supported for CategoryType(s): ReservationUtilization.'
+      enum:
+      - Daily
+      - Weekly
+      - Monthly
+      x-ms-enum:
+        name: Frequency
+        modelAsString: true
+        values:
+        - name: Daily
+          value: Daily
+          description: After the threshold breaches and an Alert is fired, no further alerts will be sent until the next calendar
+            day.
+        - name: Weekly
+          value: Weekly
+          description: After the threshold breaches and an Alert is fired, no further alerts will be sent for 7 calendar days.
+        - name: Monthly
+          value: Monthly
+          description: After the threshold breaches and an Alert is fired, no further alerts will be sent for 30 calendar
+            days.
+    Notification:
+      type: object
+      description: 'The notification associated with a budget.
+
+
+        Supported for CategoryType(s): Cost, ReservationUtilization.'
+      properties:
+        enabled:
+          type: boolean
+          description: 'The notification is enabled or not.
+
+
+            Supported for CategoryType(s): Cost, ReservationUtilization.'
+        operator:
+          $ref: '#/components/schemas/BudgetNotificationOperatorType'
+          description: 'The comparison operator.
+
+
+            Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+            Supported operators for **CategoryType: Cost**
+
+            - GreaterThan
+
+            - GreaterThanOrEqualTo
+
+
+            Supported operators for **CategoryType: ReservationUtilization**
+
+            - LessThan'
+        threshold:
+          type: number
+          format: float
+          description: 'Threshold value associated with a notification. It is always percent with a maximum of 2 decimal places.
+
+
+            Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+            **CategoryType: Cost** - Must be between 0 and 1000. Notification is sent when the cost exceeded the threshold.
+
+
+            **CategoryType: ReservationUtilization** - Must be between 0 and 100. Notification is sent when a reservation
+            has a utilization percentage below the threshold.'
+        frequency:
+          $ref: '#/components/schemas/Frequency'
+          description: 'Frequency of a notification. Represents how long the notification will be silent after triggering
+            an alert for a threshold breach. If not specified, the frequency will be set by default based on the timeGrain
+            (Weekly when timeGrain: Last7Days, Monthly when timeGrain: Last30Days).
+
+
+            Supported for CategoryType(s): ReservationUtilization.'
+        contactEmails:
+          type: array
+          description: 'Email addresses to send the notification to when the threshold is breached. Must have at least one
+            contact email or contact group specified at the Subscription or Resource Group scopes. All other scopes must have
+            at least one contact email specified.
+
+
+            Supported for CategoryType(s): Cost, ReservationUtilization.'
+          minItems: 0
+          maxItems: 50
+          items:
+            type: string
+        contactRoles:
+          type: array
+          description: 'Subscription or Resource Group scopes only. Contact roles to send the notification to when the threshold
+            is breached.
+
+
+            Supported for CategoryType(s): Cost.'
+          items:
+            type: string
+        contactGroups:
+          type: array
+          description: 'Subscription or Resource Group scopes only. Action groups to send the notification to when the threshold
+            is exceeded. Must be provided as a fully qualified Azure resource id.
+
+
+            Supported for CategoryType(s): Cost.'
+          minItems: 0
+          maxItems: 50
+          items:
+            type: string
+        thresholdType:
+          type: string
+          description: 'The type of threshold.
+
+
+            Supported for CategoryType(s): Cost.'
+          default: Actual
+          enum:
+          - Actual
+          - Forecasted
+          x-ms-enum:
+            name: ThresholdType
+            modelAsString: true
+            values:
+            - name: Actual
+              value: Actual
+              description: Actual costs budget alerts notify when the actual accrued cost exceeds the allocated budget.
+            - name: Forecasted
+              value: Forecasted
+              description: Forecasted costs budget alerts provide advanced notification that your spending trends are likely
+                to exceed your allocated budget, as it relies on forecasted cost predictions.
+        locale:
+          $ref: '#/components/schemas/CultureCode'
+          description: 'Language in which the recipient will receive the notification,
+
+
+            Supported for CategoryType(s): Cost, ReservationUtilization.'
+      required:
+      - enabled
+      - operator
+      - threshold
+      - contactEmails
+    TimeGrainType:
+      type: string
+      description: 'The time covered by a budget. Tracking of the amount will be reset based on the time grain.
+
+
+        Supported for CategoryType(s): Cost, ReservationUtilization.
+
+
+        Supported timeGrainTypes for **CategoryType: Cost**
+
+
+        - Monthly
+
+        - Quarterly
+
+        - Annually
+
+        - BillingMonth*
+
+        - BillingQuarter*
+
+        - BillingAnnual*
+
+
+        *only supported for Web Direct customers.
+
+
+        Supported timeGrainTypes for **CategoryType: ReservationUtilization**
+
+        - Last7Days
+
+        - Last30Days
+
+
+        Required for CategoryType(s): Cost, ReservationUtilization.'
+      enum:
+      - Monthly
+      - Quarterly
+      - Annually
+      - BillingMonth
+      - BillingQuarter
+      - BillingAnnual
+      - Last7Days
+      - Last30Days
+      x-ms-enum:
+        name: TimeGrainType
+        modelAsString: true
+        values:
+        - name: Monthly
+          value: Monthly
+          description: 'The budget will track costs in the current calendar month against the amount.
+
+
+            Supported for CategoryType: Cost only.'
+        - name: Quarterly
+          value: Quarterly
+          description: 'The budget will track costs in the current calendar quarter against the amount.
+
+
+            Supported for CategoryType: Cost only.'
+        - name: Annually
+          value: Annually
+          description: 'The budget will track costs in the current calendar year against the amount.
+
+
+            Supported for CategoryType: Cost only.'
+        - name: BillingMonth
+          value: BillingMonth
+          description: 'The budget will track costs in the current billing month against the amount.
+
+
+            Supported for CategoryType: Cost and Web Direct customers only.'
+        - name: BillingQuarter
+          value: BillingQuarter
+          description: 'The budget will track costs in the current billing quarter against the amount.
+
+
+            Supported for CategoryType: Cost and Web Direct customers only.'
+        - name: BillingAnnual
+          value: BillingAnnual
+          description: 'The budget will track costs in the current billing year against the amount.
+
+
+            Supported for CategoryType: Cost and Web Direct customers only.'
+        - name: Last7Days
+          value: Last7Days
+          description: 'The Reservation Utilization Alert Rule will evaluate reservations based on their 7-Day utilization
+            percentage.
+
+
+            Supported for CategoryType: ReservationUtilization only.'
+        - name: Last30Days
+          value: Last30Days
+          description: 'The Reservation Utilization Alert Rule will evaluate reservations based on their 30-Day utilization
+            percentage.
+
+
+            Supported for CategoryType: ReservationUtilization only.'
+  securitySchemes:
+    azure_auth:
+      type: oauth2
+      flows:
+        implicit:
+          scopes:
+            user_impersonation: impersonate your user account
+          authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+      description: Azure Active Directory OAuth2 Flow.
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      description: The API version to use for this operation.
+      required: true
+      schema:
+        type: string
+        minLength: 1

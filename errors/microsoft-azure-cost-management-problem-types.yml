@@ -1,0 +1,109 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/_original/microsoft-azure-cost-management-openapi.json
+docs: https://learn.microsoft.com/en-us/azure/azure-resource-manager/troubleshooting/common-deployment-errors
+format: azure-arm-error
+rfc9457: false
+note: >-
+  Cost Management does NOT use RFC 9457 application/problem+json. It returns the Azure Resource
+  Manager error envelope — a JSON object with a single `error` member carrying `code` and
+  `message`, and on some surfaces a recursive `details[]` array of the same shape. Every one of
+  the 75 operations declares a `default` error response; none declares a typed 4xx or 5xx status.
+  The concrete conditions below are not invented: they are transcribed from the `description`
+  text the provider wrote on its four error schemas in the 2026-06-01 contract, which is where
+  Microsoft documents the status codes this API actually returns.
+envelope:
+  media_type: application/json
+  root_field: error
+  fields:
+  - name: error.code
+    type: string
+    read_only: true
+    description: Error code.
+  - name: error.message
+    type: string
+    read_only: true
+    description: Error message indicating why the operation failed.
+  - name: error.details[]
+    type: array
+    description: Recursive array of nested ErrorDetails, on the schemas that use
+      ErrorResponseWithNestedDetails.
+schemas:
+- name: ErrorResponse
+  ref: '#/definitions/ErrorResponse'
+  used_by: most operations
+- name: ErrorResponseWithNestedDetails
+  ref: '#/definitions/ErrorResponseWithNestedDetails'
+  used_by: operations that report multiple validation failures at once
+- name: GenerateCostDetailsReportErrorResponse
+  ref: '#/definitions/GenerateCostDetailsReportErrorResponse'
+  used_by: GenerateCostDetailsReport_CreateOperation, GenerateCostDetailsReport_GetOperationResults
+- name: GenerateDetailedCostReportErrorResponse
+  ref: '#/definitions/GenerateDetailedCostReportErrorResponse'
+  used_by: GenerateDetailedCostReport_CreateOperation
+problem_types:
+- status: 400
+  title: Invalid Request Payload
+  detail: Request payload provided is not in a json format or had an invalid member not
+    accepted in the request payload.
+  remediation: Validate the body against the operation's requestBody schema before sending.
+  scope: GenerateCostDetailsReport
+  evidence: '#/definitions/GenerateCostDetailsReportErrorResponse description'
+- status: 400
+  title: Mutually exclusive time selectors
+  detail: 'Invalid request payload: can only have either timePeriod or invoiceId or
+    billingPeriod. The API only allows data to be pulled for one of these three.'
+  remediation: Send exactly one of timePeriod, invoiceId or billingPeriod.
+  scope: GenerateCostDetailsReport
+  evidence: '#/definitions/GenerateCostDetailsReportErrorResponse description'
+- status: 400
+  title: Start date out of retention window
+  detail: Start date must be within the retention window. The API only allows data to be
+    pulled no older than 13 months from now.
+  remediation: Clamp the requested start date to within 13 months of today.
+  scope: GenerateCostDetailsReport
+  evidence: '#/definitions/GenerateCostDetailsReportErrorResponse description'
+- status: 400
+  title: Date range too large
+  detail: The maximum allowed date range is 1 month. The API only allows data to be pulled
+    for 1 month or less.
+  remediation: Split the request into monthly windows.
+  scope: GenerateCostDetailsReport
+  evidence: '#/definitions/GenerateCostDetailsReportErrorResponse description'
+- status: 413
+  title: Request Entity Too Large
+  detail: The amount of data required to fulfill the request exceeds the maximum permitted
+    size of 2 GB.
+  remediation: Use the Exports surface (Exports_CreateOrUpdate) instead of a synchronous
+    detailed report.
+  scope: GenerateDetailedCostReport
+  evidence: '#/definitions/GenerateDetailedCostReportErrorResponse description'
+- status: 429
+  title: TooManyRequests
+  detail: Request is throttled. Back off for the time named in the retry header before
+    retrying.
+  retry_after_header: x-ms-ratelimit-microsoft.consumption-retry-after
+  alternate_retry_headers:
+  - x-ms-ratelimit-microsoft.costmanagement-qpu-retry-after
+  - retry-after
+  remediation: Honour the retry header. See rate-limits/microsoft-azure-cost-management-rate-limits.yml
+    for the QPU quota model that produces this status.
+  scope: all
+  evidence: '#/definitions/ErrorResponse description'
+- status: 503
+  title: ServiceUnavailable
+  detail: Service is temporarily unavailable. Retry after waiting for the time specified in
+    the Retry-After header.
+  retry_after_header: Retry-After
+  remediation: Retry with exponential backoff, never faster than Retry-After.
+  scope: all
+  evidence: '#/definitions/ErrorResponse description'
+summary:
+  problem_type_count: 7
+  typed_4xx_5xx_responses_in_spec: 0
+  operations_with_default_error_response: 75
+  gap: >-
+    The contract declares only `default` for every failure, so a client cannot tell from the
+    spec which operation can return 400 vs 413 vs 429. The conditions are documented in prose
+    on the error schemas instead. Adding typed 4xx responses per operation would be the single
+    biggest contract-quality improvement available here.

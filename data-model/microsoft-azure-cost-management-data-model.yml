@@ -1,0 +1,288 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/_original/microsoft-azure-cost-management-openapi.json
+docs: https://learn.microsoft.com/en-us/rest/api/cost-management/
+note: >-
+  Cost Management is not a conventional CRUD domain with foreign keys between its entities.
+  It has two distinct halves. One half is a set of ARM proxy resources — Export, Budget, View,
+  Alert, ScheduledAction, Setting, MarkupRule, CostAllocationRuleDefinition — each hung off a
+  `{scope}` rather than off each other. The other half is a query surface (Query, Forecast,
+  Dimensions, BenefitRecommendations, BenefitUtilizationSummaries, PriceSheet) that returns
+  computed result sets with no identity and no lifecycle. The relationships below are the ones
+  actually expressed in the contract, by $ref or by an id-bearing field; nothing is inferred
+  from resemblance.
+identity:
+  style: arm-resource-id
+  pattern: '{scope}/providers/Microsoft.CostManagement/{collection}/{name}'
+  id_field: id
+  name_field: name
+  type_field: type
+  concurrency_field: eTag
+  note: >-
+    Names are client-chosen on create (PUT), which is why creates are idempotent. Two
+    name-availability probes exist — ScheduledActions_CheckNameAvailability and
+    CostAllocationRules_CheckNameAvailability.
+root:
+  entity: Scope
+  synthetic: true
+  description: >-
+    Not a resource in the contract, but the organising axis of the whole API. Every managed
+    resource and almost every query hangs off a scope string: a subscription, resource group,
+    management group, billing account, billing profile, department or enrollment account.
+entities:
+- name: Export
+  kind: managed-resource
+  base: ProxyResource
+  operations:
+  - Exports_CreateOrUpdate
+  - Exports_Get
+  - Exports_List
+  - Exports_Delete
+  - Exports_Execute
+  - Exports_GetExecutionHistory
+  key_fields:
+  - id
+  - name
+  - eTag
+  - identity
+  - location
+  - properties.schedule
+  - properties.definition
+  - properties.deliveryInfo
+  - properties.format
+  - properties.compressionMode
+  - properties.dataOverwriteBehavior
+  description: A recurring cost-data extract written to a customer storage destination.
+- name: ExportExecution
+  kind: child-record
+  parent: Export
+  operations:
+  - Exports_GetExecutionHistory
+  description: One run of an export, with status, timing and the file it produced.
+- name: Budget
+  kind: managed-resource
+  base: ProxyResource
+  operations:
+  - Budgets_CreateOrUpdate
+  - Budgets_Get
+  - Budgets_List
+  - Budgets_Delete
+  key_fields:
+  - properties.category
+  - properties.amount
+  - properties.timeGrain
+  - properties.timePeriod
+  - properties.filter
+  - properties.notifications
+  - properties.currentSpend
+  - eTag
+  description: A cost or reservation-utilization threshold with notification rules.
+- name: Notification
+  kind: embedded
+  parent: Budget
+  key_fields:
+  - enabled
+  - operator
+  - threshold
+  - frequency
+  - contactEmails
+  - contactRoles
+  - contactGroups
+  description: Threshold rule embedded in a budget. `contactGroups` names Azure Monitor action
+    groups, which is the only outbound integration point in the contract.
+- name: Alert
+  kind: managed-resource
+  base: ProxyResource
+  operations:
+  - Alerts_Get
+  - Alerts_List
+  - Alerts_Dismiss
+  - Alerts_ListExternal
+  key_fields:
+  - properties.definition
+  - properties.status
+  - properties.source
+  - properties.costEntityId
+  - eTag
+  description: A raised cost alert. Status moves across the AlertStatus enum (None, Active,
+    Overridden, Resolved, Dismissed).
+- name: View
+  kind: managed-resource
+  base: ProxyResource
+  operations:
+  - Views_CreateOrUpdate
+  - Views_CreateOrUpdateByScope
+  - Views_Get
+  - Views_GetByScope
+  - Views_List
+  - Views_ListByScope
+  - Views_Delete
+  - Views_DeleteByScope
+  key_fields:
+  - properties.query
+  - properties.chart
+  - properties.accumulated
+  - properties.dateRange
+  - eTag
+  description: A saved Cost Analysis configuration — the persisted form of a query.
+- name: ScheduledAction
+  kind: managed-resource
+  base: ProxyResource
+  operations:
+  - ScheduledActions_CreateOrUpdate
+  - ScheduledActions_CreateOrUpdateByScope
+  - ScheduledActions_Get
+  - ScheduledActions_GetByScope
+  - ScheduledActions_List
+  - ScheduledActions_ListByScope
+  - ScheduledActions_Delete
+  - ScheduledActions_DeleteByScope
+  - ScheduledActions_Run
+  - ScheduledActions_RunByScope
+  key_fields:
+  - properties.viewId
+  - properties.notification
+  - properties.schedule
+  - properties.status
+  - kind
+  - eTag
+  description: A scheduled email of a saved view.
+- name: Setting
+  kind: managed-resource
+  base: ProxyResource
+  operations:
+  - Settings_CreateOrUpdateByScope
+  - Settings_GetByScope
+  - Settings_List
+  - Settings_DeleteByScope
+  key_fields:
+  - kind
+- name: MarkupRule
+  kind: managed-resource
+  base: ProxyResource
+  operations:
+  - MarkupRules_CreateOrUpdate
+  - MarkupRules_Get
+  - MarkupRules_List
+  - MarkupRules_Delete
+  description: Partner markup applied at a billing profile. Only addressable under a billing
+    account / billing profile scope.
+- name: CostAllocationRuleDefinition
+  kind: managed-resource
+  base: ProxyResource
+  operations:
+  - CostAllocationRules_CreateOrUpdate
+  - CostAllocationRules_Get
+  - CostAllocationRules_List
+  - CostAllocationRules_Delete
+  - CostAllocationRules_CheckNameAvailability
+  description: Rule that redistributes shared cost between scopes at a billing account.
+- name: QueryResult
+  kind: computed-result
+  base: CostManagementResource
+  operations:
+  - Query_Usage
+  - Query_UsageByExternalCloudProviderType
+  description: Multidimensional usage/cost result. No identity, no lifecycle. POST is used for
+    the request body, not because the call mutates anything.
+- name: ForecastResult
+  kind: computed-result
+  base: CostManagementResource
+  operations:
+  - Forecast_Usage
+  - Forecast_ExternalCloudProviderUsage
+- name: Dimension
+  kind: computed-result
+  base: CostManagementResource
+  operations:
+  - Dimensions_List
+  - Dimensions_ByExternalCloudProviderType
+  description: The set of groupable/filterable dimensions available at a scope — the vocabulary
+    a Query or View is built from.
+- name: BenefitRecommendationModel
+  kind: computed-result
+  operations:
+  - BenefitRecommendations_List
+- name: BenefitUtilizationSummary
+  kind: computed-result
+  operations:
+  - BenefitUtilizationSummaries_ListByBillingAccountId
+  - BenefitUtilizationSummaries_ListByBillingProfileId
+  - BenefitUtilizationSummaries_ListBySavingsPlanId
+  - BenefitUtilizationSummaries_ListBySavingsPlanOrder
+- name: OperationStatus
+  kind: operation-record
+  operations:
+  - GenerateCostDetailsReport_GetOperationResults
+  - GenerateDetailedCostReportOperationResults_Get
+  - GenerateDetailedCostReportOperationStatus_Get
+  description: Async job record for the report generators; carries the download blob when
+    complete.
+relationships:
+- from: ScheduledAction
+  to: View
+  kind: belongs_to
+  via: properties.viewId
+  evidence: ScheduledActionProperties.viewId; ScheduledActions_ListByScope $filter supports
+    properties/viewId
+  confidence: high
+- from: Export
+  to: ExportExecution
+  kind: has_many
+  via: Exports_GetExecutionHistory ($expand=runHistory on Exports_Get / Exports_List)
+  confidence: high
+- from: Budget
+  to: Notification
+  kind: has_many
+  via: properties.notifications (map of name -> Notification)
+  confidence: high
+- from: Budget
+  to: Alert
+  kind: has_many
+  via: AlertProperties.definition / AlertProperties.costEntityId — a budget-sourced alert
+    references the budget that raised it
+  confidence: medium
+  note: The linkage is by an identifier string in the alert definition, not by a typed $ref.
+- from: View
+  to: QueryResult
+  kind: describes
+  via: ViewProperties.query is the same QueryDefinition shape Query_Usage accepts
+  confidence: high
+- from: Scope
+  to: Export/Budget/View/Alert/ScheduledAction/Setting
+  kind: has_many
+  via: '{scope} path parameter'
+  confidence: high
+- from: MarkupRule
+  to: BillingProfile
+  kind: belongs_to
+  via: path segment billingProfiles/{billingProfileId}
+  confidence: high
+  note: BillingProfile is a Microsoft.Billing resource, not a Cost Management one — this is a
+    cross-provider reference.
+- from: CostAllocationRuleDefinition
+  to: BillingAccount
+  kind: belongs_to
+  via: path segment billingAccounts/{billingAccountId}
+  confidence: high
+list_envelope:
+  shape: '{ value: [...], nextLink: string }'
+  wrappers:
+  - BudgetsListResult
+  - ViewListResult
+  - ScheduledActionListResult
+  - DimensionsListResult
+  - BenefitUtilizationSummariesListResult
+  - benefitRecommendationsListResult
+  - OperationListResult
+  without_nextlink:
+  - ExportListResult
+  - ExportExecutionListResult
+  - SettingsListResult
+  note: Exports and Settings return an unpaged value array — an inconsistency worth knowing if
+    you write one generic pager.
+summary:
+  definitions_in_contract: 220
+  managed_resources: 8
+  computed_results: 5
+  relationships: 8

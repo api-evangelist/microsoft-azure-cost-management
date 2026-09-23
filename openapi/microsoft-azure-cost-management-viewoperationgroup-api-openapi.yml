@@ -1,0 +1,757 @@
+openapi: 3.2.0
+info:
+  title: CostManagementClient View Operation Group API
+  version: '2026-06-01'
+  description: CostManagement management client provides access to CostManagement resources for Azure Enterprise Subscriptions.
+  x-typespec-generated:
+  - emitter: '@azure-tools/typespec-autorest'
+  x-api-evangelist-common-types: Azure Resource Manager common-types v5 components referenced by this contract were inlined
+    from https://github.com/Azure/azure-rest-api-specs/tree/main/specification/common-types/resource-management/v5 and prefixed
+    Arm, so the document resolves standalone. Microsoft's published document $refs them by relative path across repository
+    directories.
+servers:
+- url: https://management.azure.com
+security:
+- azure_auth:
+  - user_impersonation
+tags:
+- name: ViewOperationGroup
+paths:
+  /{scope}/providers/Microsoft.CostManagement/views:
+    get:
+      operationId: Views_ListByScope
+      tags:
+      - ViewOperationGroup
+      description: Lists all views at the given scope.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: undefined
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewListResult'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        ResourceGroupViewList:
+          $ref: ../examples/ViewListByResourceGroup.json
+      x-ms-pageable:
+        nextLinkName: nextLink
+  /{scope}/providers/Microsoft.CostManagement/views/{viewName}:
+    get:
+      operationId: Views_GetByScope
+      tags:
+      - ViewOperationGroup
+      description: Gets the view for the defined scope by view name.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: undefined
+        required: true
+        schema:
+          type: string
+      - name: viewName
+        in: path
+        description: View name
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/View'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        ResourceGroupView:
+          $ref: ../examples/ViewByResourceGroup.json
+    put:
+      operationId: Views_CreateOrUpdateByScope
+      tags:
+      - ViewOperationGroup
+      description: The operation to create or update a view. Update operation requires latest eTag to be set in the request.
+        You may obtain the latest eTag by performing a get operation. Create operation does not require eTag.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: undefined
+        required: true
+        schema:
+          type: string
+      - name: viewName
+        in: path
+        description: View name
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Resource 'View' update operation succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/View'
+        '201':
+          description: Resource 'View' create operation succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/View'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        ResourceGroupCreateOrUpdateView:
+          $ref: ../examples/ViewCreateOrUpdateByResourceGroup.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/View'
+        description: Parameters supplied to the CreateOrUpdate View operation.
+        required: true
+    delete:
+      operationId: Views_DeleteByScope
+      tags:
+      - ViewOperationGroup
+      description: The operation to delete a view.
+      externalDocs:
+        url: https://docs.microsoft.com/en-us/rest/api/costmanagement/
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: scope
+        in: path
+        description: undefined
+        required: true
+        schema:
+          type: string
+      - name: viewName
+        in: path
+        description: View name
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Resource deleted successfully.
+        '204':
+          description: Resource does not exist.
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        ResourceGroupDeleteView:
+          $ref: ../examples/ViewDeleteByResourceGroup.json
+components:
+  schemas:
+    AccumulatedType:
+      type: string
+      description: Show costs accumulated over time.
+      enum:
+      - 'true'
+      - 'false'
+      x-ms-enum:
+        name: AccumulatedType
+        modelAsString: true
+        values:
+        - name: 'true'
+          value: 'true'
+        - name: 'false'
+          value: 'false'
+    ArmProxyResource:
+      type: object
+      title: Proxy Resource
+      description: The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a
+        location
+      allOf:
+      - $ref: '#/components/schemas/ArmResource'
+    ArmResource:
+      type: object
+      title: Resource
+      description: Common fields that are returned in the response for all Azure Resource Manager resources
+      properties:
+        id:
+          type: string
+          format: arm-id
+          description: Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          readOnly: true
+        name:
+          type: string
+          description: The name of the resource
+          readOnly: true
+        type:
+          type: string
+          description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+          readOnly: true
+        systemData:
+          $ref: '#/components/schemas/ArmsystemData'
+          description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+          readOnly: true
+      x-ms-azure-resource: true
+    ArmsystemData:
+      type: object
+      description: Metadata pertaining to creation and last modification of the resource.
+      properties:
+        createdBy:
+          type: string
+          description: The identity that created the resource.
+        createdByType:
+          type: string
+          description: The type of identity that created the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource creation (UTC).
+        lastModifiedBy:
+          type: string
+          description: The identity that last modified the resource.
+        lastModifiedByType:
+          type: string
+          description: The type of identity that last modified the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        lastModifiedAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource last modification (UTC)
+      readOnly: true
+    Azure.Core.eTag:
+      type: string
+      description: 'The ETag (or entity tag) HTTP response header is an identifier for a specific version of a resource.
+
+        It lets caches be more efficient and save bandwidth, as a web server does not need to resend a full response if the
+        content was not changed.
+
+
+        It is a string of ASCII characters placed between double quotes, like "675af34563dc-tr34".'
+    ChartType:
+      type: string
+      description: Chart type of the main view in Cost Analysis. Required.
+      enum:
+      - Area
+      - Line
+      - StackedColumn
+      - GroupedColumn
+      - Table
+      x-ms-enum:
+        name: ChartType
+        modelAsString: true
+        values:
+        - name: Area
+          value: Area
+        - name: Line
+          value: Line
+        - name: StackedColumn
+          value: StackedColumn
+        - name: GroupedColumn
+          value: GroupedColumn
+        - name: Table
+          value: Table
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
+    ErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided
+        in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting
+        for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable
+        - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+    FunctionType:
+      type: string
+      description: The name of the aggregation function to use.
+      enum:
+      - Sum
+      x-ms-enum:
+        name: FunctionType
+        modelAsString: true
+        values:
+        - name: Sum
+          value: Sum
+    KpiProperties:
+      type: object
+      description: Each KPI must contain a 'type' and 'enabled' key.
+      properties:
+        type:
+          $ref: '#/components/schemas/KpiTypeType'
+          description: KPI type (Forecast, Budget).
+        id:
+          type: string
+          description: ID of resource related to metric (budget).
+        enabled:
+          type: boolean
+          description: show the KPI in the UI?
+    KpiTypeType:
+      type: string
+      description: KPI type (Forecast, Budget).
+      enum:
+      - Forecast
+      - Budget
+      x-ms-enum:
+        name: KpiTypeType
+        modelAsString: true
+        values:
+        - name: Forecast
+          value: Forecast
+        - name: Budget
+          value: Budget
+    MetricType:
+      type: string
+      description: Metric to use when displaying costs.
+      enum:
+      - ActualCost
+      - AmortizedCost
+      - AHUB
+      x-ms-enum:
+        name: MetricType
+        modelAsString: true
+        values:
+        - name: ActualCost
+          value: ActualCost
+        - name: AmortizedCost
+          value: AmortizedCost
+        - name: AHUB
+          value: AHUB
+    OperatorType:
+      type: string
+      description: The operator to use for comparison.
+      enum:
+      - In
+      - Contains
+      x-ms-enum:
+        name: OperatorType
+        modelAsString: true
+        values:
+        - name: In
+          value: In
+        - name: Contains
+          value: Contains
+    PivotProperties:
+      type: object
+      description: Each pivot must contain a 'type' and 'name'.
+      properties:
+        type:
+          $ref: '#/components/schemas/PivotTypeType'
+          description: Data type to show in view.
+        name:
+          type: string
+          description: Data field to show in view.
+    PivotTypeType:
+      type: string
+      description: Data type to show in view.
+      enum:
+      - Dimension
+      - TagKey
+      x-ms-enum:
+        name: PivotTypeType
+        modelAsString: true
+        values:
+        - name: Dimension
+          value: Dimension
+        - name: TagKey
+          value: TagKey
+    QueryColumnType:
+      type: string
+      description: The type of the column in the report.
+      enum:
+      - TagKey
+      - Dimension
+      x-ms-enum:
+        name: QueryColumnType
+        modelAsString: true
+        values:
+        - name: TagKey
+          value: TagKey
+          description: The tag associated with the cost data.
+        - name: Dimension
+          value: Dimension
+          description: The dimension of cost data.
+    ReportConfigAggregation:
+      type: object
+      description: The aggregation expression to be used in the report.
+      properties:
+        name:
+          type: string
+          description: The name of the column to aggregate.
+        function:
+          $ref: '#/components/schemas/FunctionType'
+          description: The name of the aggregation function to use.
+      required:
+      - name
+      - function
+    ReportConfigComparisonExpression:
+      type: object
+      description: The comparison expression to be used in the report.
+      properties:
+        name:
+          type: string
+          description: The name of the column to use in comparison.
+        operator:
+          $ref: '#/components/schemas/OperatorType'
+          description: The operator to use for comparison.
+        values:
+          type: array
+          description: Array of values to use for comparison
+          minItems: 1
+          items:
+            type: string
+      required:
+      - name
+      - operator
+      - values
+    ReportConfigDataset:
+      type: object
+      description: The definition of data present in the report.
+      properties:
+        granularity:
+          $ref: '#/components/schemas/ReportGranularityType'
+          description: The granularity of rows in the report.
+        configuration:
+          $ref: '#/components/schemas/ReportConfigDatasetConfiguration'
+          description: Has configuration information for the data in the report. The configuration will be ignored if aggregation
+            and grouping are provided.
+        aggregation:
+          type: object
+          description: Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is
+            the alias for the aggregated column. Report can have up to 2 aggregation clauses.
+          additionalProperties:
+            $ref: '#/components/schemas/ReportConfigAggregation'
+        grouping:
+          type: array
+          description: Array of group by expression to use in the report. Report can have up to 2 group by clauses.
+          maxItems: 2
+          items:
+            $ref: '#/components/schemas/ReportConfigGrouping'
+          x-ms-identifiers:
+          - name
+          - type
+        sorting:
+          type: array
+          description: Array of order by expression to use in the report.
+          items:
+            $ref: '#/components/schemas/ReportConfigSorting'
+          x-ms-identifiers: []
+        filter:
+          $ref: '#/components/schemas/ReportConfigFilter'
+          description: Has filter expression to use in the report.
+    ReportConfigDatasetConfiguration:
+      type: object
+      description: The configuration of dataset in the report.
+      properties:
+        columns:
+          type: array
+          description: Array of column names to be included in the report. Any valid report column name is allowed. If not
+            provided, then report includes all columns.
+          items:
+            type: string
+    ReportConfigDefinition:
+      type: object
+      description: The definition of a report config.
+      properties:
+        type:
+          $ref: '#/components/schemas/ReportType'
+          description: The type of the report. Usage represents actual usage, forecast represents forecasted data and UsageAndForecast
+            represents both usage and forecasted data. Actual usage and forecasted data can be differentiated based on dates.
+        timeframe:
+          $ref: '#/components/schemas/ReportTimeframeType'
+          description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
+        timePeriod:
+          $ref: '#/components/schemas/ReportConfigTimePeriod'
+          description: Has time period for pulling data for the report.
+        dataSet:
+          $ref: '#/components/schemas/ReportConfigDataset'
+          description: Has definition for data in this report config.
+        includeMonetaryCommitment:
+          type: boolean
+          description: If true, report includes monetary commitment.
+      required:
+      - type
+      - timeframe
+    ReportConfigFilter:
+      type: object
+      description: The filter expression to be used in the report.
+      properties:
+        and:
+          type: array
+          description: The logical "AND" expression. Must have at least 2 items.
+          minItems: 2
+          items:
+            $ref: '#/components/schemas/ReportConfigFilter'
+          x-ms-identifiers: []
+        or:
+          type: array
+          description: The logical "OR" expression. Must have at least 2 items.
+          minItems: 2
+          items:
+            $ref: '#/components/schemas/ReportConfigFilter'
+          x-ms-identifiers: []
+        dimensions:
+          $ref: '#/components/schemas/ReportConfigComparisonExpression'
+          description: Has comparison expression for a dimension
+        tags:
+          $ref: '#/components/schemas/ReportConfigComparisonExpression'
+          description: Has comparison expression for a tag
+    ReportConfigGrouping:
+      type: object
+      description: The group by expression to be used in the report.
+      properties:
+        type:
+          $ref: '#/components/schemas/QueryColumnType'
+          description: Has type of the column to group.
+        name:
+          type: string
+          description: The name of the column to group. This version supports subscription lowest possible grain.
+      required:
+      - type
+      - name
+    ReportConfigSorting:
+      type: object
+      description: The order by expression to be used in the report.
+      properties:
+        direction:
+          $ref: '#/components/schemas/ReportConfigSortingType'
+          description: Direction of sort.
+        name:
+          type: string
+          description: The name of the column to sort.
+      required:
+      - name
+    ReportConfigSortingType:
+      type: string
+      description: Direction of sort.
+      enum:
+      - Ascending
+      - Descending
+      x-ms-enum:
+        name: ReportConfigSortingType
+        modelAsString: true
+        values:
+        - name: Ascending
+          value: Ascending
+        - name: Descending
+          value: Descending
+    ReportConfigTimePeriod:
+      type: object
+      description: The start and end date for pulling data for the report.
+      properties:
+        from:
+          type: string
+          format: date-time
+          description: The start date to pull data from.
+        to:
+          type: string
+          format: date-time
+          description: The end date to pull data to.
+      required:
+      - from
+      - to
+    ReportGranularityType:
+      type: string
+      description: The granularity of rows in the report.
+      enum:
+      - Daily
+      - Monthly
+      x-ms-enum:
+        name: ReportGranularityType
+        modelAsString: true
+        values:
+        - name: Daily
+          value: Daily
+        - name: Monthly
+          value: Monthly
+    ReportTimeframeType:
+      type: string
+      description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
+      enum:
+      - WeekToDate
+      - MonthToDate
+      - YearToDate
+      - Custom
+      x-ms-enum:
+        name: ReportTimeframeType
+        modelAsString: true
+        values:
+        - name: WeekToDate
+          value: WeekToDate
+        - name: MonthToDate
+          value: MonthToDate
+        - name: YearToDate
+          value: YearToDate
+        - name: Custom
+          value: Custom
+    ReportType:
+      type: string
+      description: The type of the report. Usage represents actual usage, forecast represents forecasted data and UsageAndForecast
+        represents both usage and forecasted data. Actual usage and forecasted data can be differentiated based on dates.
+      enum:
+      - Usage
+      x-ms-enum:
+        name: ReportType
+        modelAsString: true
+        values:
+        - name: Usage
+          value: Usage
+    View:
+      type: object
+      description: States and configurations of Cost Analysis.
+      properties:
+        properties:
+          $ref: '#/components/schemas/ViewProperties'
+          description: The properties of the view.
+          x-ms-client-flatten: true
+        eTag:
+          $ref: '#/components/schemas/Azure.Core.eTag'
+          description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether
+            the user is updating the latest version or not.
+      allOf:
+      - $ref: '#/components/schemas/ArmProxyResource'
+    ViewListResult:
+      type: object
+      description: Result of listing views. It contains a list of available views.
+      properties:
+        value:
+          type: array
+          description: The list of views.
+          items:
+            $ref: '#/components/schemas/View'
+          readOnly: true
+        nextLink:
+          type: string
+          description: The link (url) to the next page of results.
+    ViewProperties:
+      type: object
+      description: The properties of the view.
+      properties:
+        displayName:
+          type: string
+          description: User input name of the view. Required.
+        scope:
+          type: string
+          description: Cost Management scope to save the view on. This includes 'subscriptions/{subscriptionId}' for subscription
+            scope, 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}'
+            for Billing Account scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}'
+            for Department scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}'
+            for EnrollmentAccount scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
+            for BillingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+            for InvoiceSection scope, 'providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management
+            Group scope, '/providers/Microsoft.CostManagement/externalBillingAccounts/{externalBillingAccountName}' for ExternalBillingAccount
+            scope, and '/providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for ExternalSubscription
+            scope.
+        createdOn:
+          type: string
+          format: date-time
+          description: Date the user created this view.
+          readOnly: true
+        modifiedOn:
+          type: string
+          format: date-time
+          description: Date when the user last modified this view.
+        dateRange:
+          type: string
+          description: Date range of the current view.
+        currency:
+          type: string
+          description: Currency of the current view.
+          readOnly: true
+        query:
+          $ref: '#/components/schemas/ReportConfigDefinition'
+          description: Query body configuration. Required.
+          x-ms-client-flatten: true
+        chart:
+          $ref: '#/components/schemas/ChartType'
+          description: Chart type of the main view in Cost Analysis. Required.
+        accumulated:
+          $ref: '#/components/schemas/AccumulatedType'
+          description: Show costs accumulated over time.
+        metric:
+          $ref: '#/components/schemas/MetricType'
+          description: Metric to use when displaying costs.
+        kpis:
+          type: array
+          description: List of KPIs to show in Cost Analysis UI.
+          items:
+            $ref: '#/components/schemas/KpiProperties'
+        pivots:
+          type: array
+          description: Configuration of 3 sub-views in the Cost Analysis UI.
+          items:
+            $ref: '#/components/schemas/PivotProperties'
+          x-ms-identifiers:
+          - name
+  securitySchemes:
+    azure_auth:
+      type: oauth2
+      flows:
+        implicit:
+          scopes:
+            user_impersonation: impersonate your user account
+          authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+      description: Azure Active Directory OAuth2 Flow.
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      description: The API version to use for this operation.
+      required: true
+      schema:
+        type: string
+        minLength: 1

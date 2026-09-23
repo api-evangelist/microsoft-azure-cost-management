@@ -1,0 +1,118 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/_original/microsoft-azure-cost-management-openapi.json
+docs:
+- https://learn.microsoft.com/en-us/azure/compliance/
+- https://www.microsoft.com/en-us/trust-center
+- https://servicetrust.microsoft.com/
+note: >-
+  Two different things are recorded here, and they are graded differently. The `entries` below
+  are cross-cutting technical conformances read out of the contract itself. `domain_standard`
+  is the FinOps-market standard the contract declares for its own market, and it is a genuine
+  hit: FOCUS appears as an ExportType enum value, not as a marketing claim. The compliance
+  programs at the bottom are Microsoft-wide/Azure-platform attestations, not Cost-Management-
+  specific ones, and are labelled as such.
+entries:
+- id: oauth2
+  conforms: true
+  evidence: '#/securityDefinitions/azure_auth — type oauth2, authorizationUrl
+    https://login.microsoftonline.com/common/oauth2/authorize, scope user_impersonation'
+  note: The contract declares only the implicit flow. Microsoft Entra ID additionally issues
+    client-credentials and authorization-code tokens for the https://management.azure.com
+    resource; the contract does not say so.
+- id: oidc
+  conforms: true
+  evidence: https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration
+  evidence_status: 200
+  detail: Microsoft Entra ID publishes full OpenID Provider metadata (issuer, jwks_uri,
+    token_endpoint, scopes_supported) at the tenant-scoped v2.0 discovery path. Saved to
+    well-known/microsoft-azure-cost-management-openid-configuration.json.
+- id: rfc9116
+  conforms: true
+  evidence: https://www.microsoft.com/.well-known/security.txt
+  evidence_status: 200
+  detail: RFC 9116 security.txt with Contact, Policy, Acknowledgments, Encryption, Expires,
+    Preferred-Languages and a CSAF field.
+- id: rfc9457
+  conforms: false
+  evidence: '#/definitions/ErrorResponse'
+  detail: Errors use the Azure Resource Manager envelope ({"error":{"code","message"}}) served
+    as application/json. No application/problem+json anywhere in the contract.
+- id: odata
+  conforms: partial
+  evidence: '$filter / $orderby / $expand / $top / $skiptoken query parameters; the contract
+    calls them "OData filter option" verbatim on Budgets_List'
+  detail: >-
+    OData query-option NAMING is used, but there is no $metadata document, no OData service
+    root, no $count and no general expression grammar — each parameter documents the small
+    subset of properties and operators it supports (Budgets_List is `eq` only). This is
+    OData-flavoured ARM, not an OData service.
+- id: pagination
+  conforms: true
+  evidence: x-ms-pageable on 15 operations; nextLink continuation field; $skiptoken on
+    Dimensions_List
+- id: idempotency
+  conforms: partial
+  evidence: conventions/microsoft-azure-cost-management-conventions.yml#idempotency
+  detail: No Idempotency-Key header exists. Resource creates are PUT-to-a-named-resource and
+    carry eTag; If-Match is accepted on the two ScheduledActions CreateOrUpdate operations only.
+    The report-generating POSTs have no replay protection.
+- id: rfc8594
+  conforms: false
+  evidence: no Sunset or Deprecation response header declared on any of the 75 operations
+- id: long-running-operations
+  conforms: true
+  evidence: x-ms-long-running-operation on 15 operations; 202 + Location polling; dedicated
+    operation-result and operation-status pollers
+- id: arm-resource-provider
+  conforms: true
+  evidence: 'host management.azure.com; mandatory api-version parameter; Operations_List at
+    /providers/Microsoft.CostManagement/operations; common-types v5 parameter $refs'
+  detail: Conformance to the Azure Resource Manager resource-provider contract, which is what
+    makes the API uniformly callable from the Azure CLI, PowerShell, Terraform and Bicep.
+domain_standard:
+  id: focus
+  name: FOCUS — FinOps Open Cost and Usage Specification
+  body: FinOps Foundation
+  conforms: true
+  declared_in_contract: true
+  evidence: openapi/_original/microsoft-azure-cost-management-openapi.json#/definitions/ExportType
+  evidence_detail: >-
+    The ExportType enum — the field that decides the shape of every scheduled cost export —
+    carries the value `FocusCost` alongside the proprietary Usage / ActualCost / AmortizedCost
+    values. Requesting FocusCost makes Exports emit the FinOps Foundation's cross-vendor
+    cost-and-usage schema rather than Azure's own columns.
+  why_it_matters: >-
+    This is the difference between a FinOps team writing one ingestion for every cloud and
+    writing a bespoke Azure connector. An organisation that already speaks FOCUS integrates
+    Azure cost data with no mapping layer; one that does not needs a bilateral connector per
+    provider. Cloud cost management is precisely a market where a standard exists, so the
+    reward is real and the absence would have been a real gap.
+  related_artifact: finops/microsoft-azure-cost-management-finops.yml
+  dataset_versioning: '#/definitions/ExportDatasetConfiguration.dataVersion — selects the data
+    version for the export; defaults to latest.'
+compliance_programs:
+  scope: microsoft-azure-platform
+  scope_note: >-
+    These are Azure-platform and Microsoft-corporate attestations that Cost Management inherits
+    as an Azure service. No Cost-Management-specific certification was found, and none is
+    claimed.
+  programs:
+  - name: ISO/IEC 27001
+    evidence: https://learn.microsoft.com/en-us/azure/compliance/offerings/
+  - name: SOC 1 / SOC 2 / SOC 3
+    evidence: https://learn.microsoft.com/en-us/azure/compliance/offerings/
+  - name: PCI DSS
+    evidence: https://learn.microsoft.com/en-us/azure/compliance/offerings/
+  - name: FedRAMP
+    evidence: https://learn.microsoft.com/en-us/azure/compliance/offerings/
+  - name: GDPR
+    evidence: https://www.microsoft.com/en-us/trust-center
+  audit_reports: https://servicetrust.microsoft.com/
+  service_scope_reference: https://learn.microsoft.com/en-us/azure/security/fundamentals/services-technologies
+summary:
+  entries: 10
+  conforming: 6
+  partial: 2
+  not_conforming: 2
+  domain_standard_declared: true

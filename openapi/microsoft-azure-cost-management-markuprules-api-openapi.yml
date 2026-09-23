@@ -1,0 +1,370 @@
+openapi: 3.2.0
+info:
+  title: CostManagementClient Markup Rules API
+  version: '2026-06-01'
+  description: CostManagement management client provides access to CostManagement resources for Azure Enterprise Subscriptions.
+  x-typespec-generated:
+  - emitter: '@azure-tools/typespec-autorest'
+  x-api-evangelist-common-types: Azure Resource Manager common-types v5 components referenced by this contract were inlined
+    from https://github.com/Azure/azure-rest-api-specs/tree/main/specification/common-types/resource-management/v5 and prefixed
+    Arm, so the document resolves standalone. Microsoft's published document $refs them by relative path across repository
+    directories.
+servers:
+- url: https://management.azure.com
+security:
+- azure_auth:
+  - user_impersonation
+tags:
+- name: MarkupRules
+paths:
+  ? /providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/markupRules
+  : get:
+      operationId: MarkupRules_List
+      tags:
+      - MarkupRules
+      description: List all markup rules for a billing account and billing profile.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: billingProfileId
+        in: path
+        description: BillingProfile ID
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarkupRulePagedResponse'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        MarkupRulesList:
+          $ref: ../examples/MarkupRulesList.json
+      x-ms-pageable:
+        nextLinkName: nextLink
+  ? /providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/providers/Microsoft.CostManagement/markupRules/{ruleName}
+  : get:
+      operationId: MarkupRules_Get
+      tags:
+      - MarkupRules
+      description: Get a markup rule by name for a billing account and billing profile.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: billingProfileId
+        in: path
+        description: BillingProfile ID
+        required: true
+        schema:
+          type: string
+      - name: ruleName
+        in: path
+        description: Markup rule name.
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_][a-zA-Z0-9_-]{0,63}$
+      responses:
+        '200':
+          description: Azure operation completed successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarkupRule'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        MarkupRulesGet:
+          $ref: ../examples/MarkupRulesGet.json
+    put:
+      operationId: MarkupRules_CreateOrUpdate
+      tags:
+      - MarkupRules
+      description: Create or update a markup rule for a billing account and billing profile.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: billingProfileId
+        in: path
+        description: BillingProfile ID
+        required: true
+        schema:
+          type: string
+      - name: ruleName
+        in: path
+        description: Markup rule name.
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_][a-zA-Z0-9_-]{0,63}$
+      responses:
+        '200':
+          description: Resource 'MarkupRule' update operation succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarkupRule'
+        '201':
+          description: Resource 'MarkupRule' create operation succeeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MarkupRule'
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        MarkupRulesCreateOrUpdate:
+          $ref: ../examples/MarkupRulesCreateOrUpdate.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarkupRule'
+        description: The markup rule to create or update.
+        required: true
+    delete:
+      operationId: MarkupRules_Delete
+      tags:
+      - MarkupRules
+      description: Delete a markup rule for a billing account and billing profile.
+      parameters:
+      - $ref: '#/components/parameters/ApiVersionParameter'
+      - name: billingAccountId
+        in: path
+        description: BillingAccount ID
+        required: true
+        schema:
+          type: string
+      - name: billingProfileId
+        in: path
+        description: BillingProfile ID
+        required: true
+        schema:
+          type: string
+      - name: ruleName
+        in: path
+        description: Markup rule name.
+        required: true
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9_][a-zA-Z0-9_-]{0,63}$
+      responses:
+        '200':
+          description: Resource deleted successfully.
+        '204':
+          description: Resource does not exist.
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-ms-examples:
+        MarkupRulesDelete:
+          $ref: ../examples/MarkupRulesDelete.json
+components:
+  schemas:
+    ArmProxyResource:
+      type: object
+      title: Proxy Resource
+      description: The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a
+        location
+      allOf:
+      - $ref: '#/components/schemas/ArmResource'
+    ArmResource:
+      type: object
+      title: Resource
+      description: Common fields that are returned in the response for all Azure Resource Manager resources
+      properties:
+        id:
+          type: string
+          format: arm-id
+          description: Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+          readOnly: true
+        name:
+          type: string
+          description: The name of the resource
+          readOnly: true
+        type:
+          type: string
+          description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+          readOnly: true
+        systemData:
+          $ref: '#/components/schemas/ArmsystemData'
+          description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+          readOnly: true
+      x-ms-azure-resource: true
+    ArmsystemData:
+      type: object
+      description: Metadata pertaining to creation and last modification of the resource.
+      properties:
+        createdBy:
+          type: string
+          description: The identity that created the resource.
+        createdByType:
+          type: string
+          description: The type of identity that created the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        createdAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource creation (UTC).
+        lastModifiedBy:
+          type: string
+          description: The identity that last modified the resource.
+        lastModifiedByType:
+          type: string
+          description: The type of identity that last modified the resource.
+          enum:
+          - User
+          - Application
+          - ManagedIdentity
+          - Key
+          x-ms-enum:
+            name: createdByType
+            modelAsString: true
+        lastModifiedAt:
+          type: string
+          format: date-time
+          description: The timestamp of resource last modification (UTC)
+      readOnly: true
+    CustomerMetadata:
+      type: object
+      description: The customer billing metadata
+      properties:
+        billingAccountId:
+          type: string
+          description: Customer billing account id
+        billingProfileId:
+          type: string
+          description: Customer billing profile id
+      required:
+      - billingAccountId
+      - billingProfileId
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
+    ErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided
+        in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting
+        for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable
+        - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+    MarkupRule:
+      type: object
+      description: Markup rule
+      properties:
+        properties:
+          $ref: '#/components/schemas/MarkupRuleProperties'
+          description: Markup rule properties
+      allOf:
+      - $ref: '#/components/schemas/ArmProxyResource'
+    MarkupRulePagedResponse:
+      type: object
+      description: Markup rule list result. It contains a list of Markup rules.
+      properties:
+        value:
+          type: array
+          description: The list of markup rules.
+          items:
+            $ref: '#/components/schemas/MarkupRule'
+          x-ms-identifiers:
+          - id
+        nextLink:
+          type: string
+          description: The link (url) to the next page of results.
+    MarkupRuleProperties:
+      type: object
+      description: The properties of the markup rule.
+      properties:
+        description:
+          type: string
+          description: The description of the markup rule.
+        percentage:
+          type: number
+          format: double
+          description: The markup percentage of the rule.
+        startDate:
+          type: string
+          format: date-time
+          description: Starting date of the markup rule.
+        endDate:
+          type: string
+          format: date-time
+          description: Ending date of the markup rule.
+        customerDetails:
+          $ref: '#/components/schemas/CustomerMetadata'
+          description: Customer information for the markup rule.
+      required:
+      - percentage
+      - startDate
+      - customerDetails
+  securitySchemes:
+    azure_auth:
+      type: oauth2
+      flows:
+        implicit:
+          scopes:
+            user_impersonation: impersonate your user account
+          authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+      description: Azure Active Directory OAuth2 Flow.
+  parameters:
+    ApiVersionParameter:
+      name: api-version
+      in: query
+      description: The API version to use for this operation.
+      required: true
+      schema:
+        type: string
+        minLength: 1
