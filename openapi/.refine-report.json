@@ -1,7 +1,8 @@
 {
   "provider": "microsoft-azure-cost-management",
   "sources": [
-    "microsoft-azure-cost-management-openapi.json"
+    "_original/microsoft-azure-cost-management-openapi.json",
+    "_ae-authored/microsoft-azure-cost-management-openapi.yml"
   ],
   "outputs": [
     "microsoft-azure-cost-management-alerts-api-openapi.yml",
@@ -20,12 +21,12 @@
     "microsoft-azure-cost-management-viewoperationgroup-api-openapi.yml",
     "microsoft-azure-cost-management-views-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/microsoft-azure-cost-management-openapi.json"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
+    "2 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "microsoft-azure-cost-management-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
     "microsoft-azure-cost-management-openapi.json: tagged paths GET /{billingScope}/providers/Microsoft.CostManagement/benefitRecommendations -> Providers",
     "microsoft-azure-cost-management-openapi.json: tagged paths POST /{scope}/providers/Microsoft.CostManagement/checkNameAvailability -> Providers",
@@ -56,7 +57,28 @@
     "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Capacity/reservationorders/{reservationOrderId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport -> Providers",
     "microsoft-azure-cost-management-openapi.json: tagged paths POST /providers/microsoft.Capacity/reservationorders/{reservationOrderId}/reservations/{reservationId}/providers/Microsoft.CostManagement/generateBenefitUtilizationSummariesReport -> Providers",
     "microsoft-azure-cost-management-openapi.json: declared missing tag: Providers",
-    "apis.yml register: written (+13 apis, 15 total)"
+    "microsoft-azure-cost-management-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "tag 'Exports' spans 2 source specs (microsoft-azure-cost-management-openapi.json, microsoft-azure-cost-management-openapi.yml): per-path servers applied",
+    "tag 'Operations' spans 2 source specs (microsoft-azure-cost-management-openapi.json, microsoft-azure-cost-management-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "_ae-authored/microsoft-azure-cost-management-operations-api-openapi.yml: archived document superseded by a larger archived document",
+    "_ae-authored/microsoft-azure-cost-management-exports-api-openapi.yml: archived document superseded by a larger archived document",
+    "microsoft-azure-cost-management-alerts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-budgets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-exports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-generatedetailedcostreportoperationresults-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-markuprules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-operations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-providers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-scheduledactionoperationgroup-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-scheduledactions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-settings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-viewoperationgroup-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "microsoft-azure-cost-management-views-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
