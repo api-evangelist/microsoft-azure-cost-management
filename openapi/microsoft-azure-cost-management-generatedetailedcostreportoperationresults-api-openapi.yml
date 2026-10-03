@@ -75,6 +75,22 @@ components:
           type: string
           description: Error message indicating why the operation failed.
           readOnly: true
+    DownloadURL:
+      type: object
+      description: The URL to download the generated report.
+      properties:
+        expiryTime:
+          type: string
+          format: date-time
+          description: The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z.
+          readOnly: true
+        validTill:
+          type: string
+          format: date-time
+          description: The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z.
+        downloadUrl:
+          type: string
+          description: The URL to download the generated report.
     ErrorResponse:
       type: object
       description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
@@ -92,22 +108,6 @@ components:
           x-ms-client-flatten: true
       allOf:
       - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
-    DownloadURL:
-      type: object
-      description: The URL to download the generated report.
-      properties:
-        expiryTime:
-          type: string
-          format: date-time
-          description: The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z.
-          readOnly: true
-        validTill:
-          type: string
-          format: date-time
-          description: The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z.
-        downloadUrl:
-          type: string
-          description: The URL to download the generated report.
   securitySchemes:
     azure_auth:
       type: oauth2

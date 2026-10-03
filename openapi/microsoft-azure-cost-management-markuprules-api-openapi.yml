@@ -220,15 +220,18 @@ components:
         nextLink:
           type: string
           description: The link (url) to the next page of results.
-    MarkupRule:
+    ErrorDetails:
       type: object
-      description: Markup rule
+      description: The details of the error.
       properties:
-        properties:
-          $ref: '#/components/schemas/MarkupRuleProperties'
-          description: Markup rule properties
-      allOf:
-      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
     CustomerMetadata:
       type: object
       description: The customer billing metadata
@@ -242,18 +245,6 @@ components:
       required:
       - billingAccountId
       - billingProfileId
-    ErrorDetails:
-      type: object
-      description: The details of the error.
-      properties:
-        code:
-          type: string
-          description: Error code.
-          readOnly: true
-        message:
-          type: string
-          description: Error message indicating why the operation failed.
-          readOnly: true
     MarkupRuleProperties:
       type: object
       description: The properties of the markup rule.
@@ -280,6 +271,15 @@ components:
       - percentage
       - startDate
       - customerDetails
+    MarkupRule:
+      type: object
+      description: Markup rule
+      properties:
+        properties:
+          $ref: '#/components/schemas/MarkupRuleProperties'
+          description: Markup rule properties
+      allOf:
+      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
   securitySchemes:
     azure_auth:
       type: oauth2

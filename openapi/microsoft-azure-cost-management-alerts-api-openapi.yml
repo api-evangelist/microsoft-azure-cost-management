@@ -156,90 +156,55 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    AlertOperator:
+    AlertCategory:
       type: string
-      description: operator used to compare currentSpend with amount
+      description: Alert category
+      enum:
+      - Cost
+      - Usage
+      - Billing
+      - System
+      x-ms-enum:
+        name: AlertCategory
+        modelAsString: true
+        values:
+        - name: Cost
+          value: Cost
+        - name: Usage
+          value: Usage
+        - name: Billing
+          value: Billing
+        - name: System
+          value: System
+    AlertTimeGrainType:
+      type: string
+      description: Type of timegrain cadence
       enum:
       - None
-      - EqualTo
-      - GreaterThan
-      - GreaterThanOrEqualTo
-      - LessThan
-      - LessThanOrEqualTo
+      - Monthly
+      - Quarterly
+      - Annually
+      - BillingMonth
+      - BillingQuarter
+      - BillingAnnual
       x-ms-enum:
-        name: AlertOperator
+        name: AlertTimeGrainType
         modelAsString: true
         values:
         - name: None
           value: None
-        - name: EqualTo
-          value: EqualTo
-        - name: GreaterThan
-          value: GreaterThan
-        - name: GreaterThanOrEqualTo
-          value: GreaterThanOrEqualTo
-        - name: LessThan
-          value: LessThan
-        - name: LessThanOrEqualTo
-          value: LessThanOrEqualTo
-    AlertCriteria:
-      type: string
-      description: Criteria that triggered alert
-      enum:
-      - CostThresholdExceeded
-      - UsageThresholdExceeded
-      - CreditThresholdApproaching
-      - CreditThresholdReached
-      - QuotaThresholdApproaching
-      - QuotaThresholdReached
-      - MultiCurrency
-      - ForecastCostThresholdExceeded
-      - ForecastUsageThresholdExceeded
-      - InvoiceDueDateApproaching
-      - InvoiceDueDateReached
-      - CrossCloudNewDataAvailable
-      - CrossCloudCollectionError
-      - GeneralThresholdError
-      x-ms-enum:
-        name: AlertCriteria
-        modelAsString: true
-        values:
-        - name: CostThresholdExceeded
-          value: CostThresholdExceeded
-        - name: UsageThresholdExceeded
-          value: UsageThresholdExceeded
-        - name: CreditThresholdApproaching
-          value: CreditThresholdApproaching
-        - name: CreditThresholdReached
-          value: CreditThresholdReached
-        - name: QuotaThresholdApproaching
-          value: QuotaThresholdApproaching
-        - name: QuotaThresholdReached
-          value: QuotaThresholdReached
-        - name: MultiCurrency
-          value: MultiCurrency
-        - name: ForecastCostThresholdExceeded
-          value: ForecastCostThresholdExceeded
-        - name: ForecastUsageThresholdExceeded
-          value: ForecastUsageThresholdExceeded
-        - name: InvoiceDueDateApproaching
-          value: InvoiceDueDateApproaching
-        - name: InvoiceDueDateReached
-          value: InvoiceDueDateReached
-        - name: CrossCloudNewDataAvailable
-          value: CrossCloudNewDataAvailable
-        - name: CrossCloudCollectionError
-          value: CrossCloudCollectionError
-        - name: GeneralThresholdError
-          value: GeneralThresholdError
-    Azure.Core.eTag:
-      type: string
-      description: 'The ETag (or entity tag) HTTP response header is an identifier for a specific version of a resource.
-
-        It lets caches be more efficient and save bandwidth, as a web server does not need to resend a full response if the content was not changed.
-
-
-        It is a string of ASCII characters placed between double quotes, like "675af34563dc-tr34".'
+        - name: Monthly
+          value: Monthly
+        - name: Quarterly
+          value: Quarterly
+        - name: Annually
+          value: Annually
+        - name: BillingMonth
+          value: BillingMonth
+        - name: BillingQuarter
+          value: BillingQuarter
+        - name: BillingAnnual
+          value: BillingAnnual
     ErrorResponse:
       type: object
       description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
@@ -247,6 +212,33 @@ components:
         error:
           $ref: '#/components/schemas/ErrorDetails'
           description: The details of the error.
+    AlertsResult:
+      type: object
+      description: Result of alerts.
+      properties:
+        value:
+          type: array
+          description: List of alerts.
+          items:
+            $ref: '#/components/schemas/Alert'
+          readOnly: true
+        nextLink:
+          type: string
+          description: URL to get the next set of alerts results if there are any.
+          readOnly: true
+    Alert:
+      type: object
+      description: An individual alert.
+      properties:
+        properties:
+          $ref: '#/components/schemas/AlertProperties'
+          description: Alert properties.
+          x-ms-client-flatten: true
+        eTag:
+          $ref: '#/components/schemas/Azure.Core.eTag'
+          description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not.
+      allOf:
+      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
     AlertPropertiesDetails:
       type: object
       description: Alert details
@@ -329,6 +321,68 @@ components:
           type: number
           format: decimal
           description: invoicing threshold
+    AlertCriteria:
+      type: string
+      description: Criteria that triggered alert
+      enum:
+      - CostThresholdExceeded
+      - UsageThresholdExceeded
+      - CreditThresholdApproaching
+      - CreditThresholdReached
+      - QuotaThresholdApproaching
+      - QuotaThresholdReached
+      - MultiCurrency
+      - ForecastCostThresholdExceeded
+      - ForecastUsageThresholdExceeded
+      - InvoiceDueDateApproaching
+      - InvoiceDueDateReached
+      - CrossCloudNewDataAvailable
+      - CrossCloudCollectionError
+      - GeneralThresholdError
+      x-ms-enum:
+        name: AlertCriteria
+        modelAsString: true
+        values:
+        - name: CostThresholdExceeded
+          value: CostThresholdExceeded
+        - name: UsageThresholdExceeded
+          value: UsageThresholdExceeded
+        - name: CreditThresholdApproaching
+          value: CreditThresholdApproaching
+        - name: CreditThresholdReached
+          value: CreditThresholdReached
+        - name: QuotaThresholdApproaching
+          value: QuotaThresholdApproaching
+        - name: QuotaThresholdReached
+          value: QuotaThresholdReached
+        - name: MultiCurrency
+          value: MultiCurrency
+        - name: ForecastCostThresholdExceeded
+          value: ForecastCostThresholdExceeded
+        - name: ForecastUsageThresholdExceeded
+          value: ForecastUsageThresholdExceeded
+        - name: InvoiceDueDateApproaching
+          value: InvoiceDueDateApproaching
+        - name: InvoiceDueDateReached
+          value: InvoiceDueDateReached
+        - name: CrossCloudNewDataAvailable
+          value: CrossCloudNewDataAvailable
+        - name: CrossCloudCollectionError
+          value: CrossCloudCollectionError
+        - name: GeneralThresholdError
+          value: GeneralThresholdError
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
     AlertSource:
       type: string
       description: Source of alert
@@ -343,113 +397,6 @@ components:
           value: Preset
         - name: User
           value: User
-    AlertProperties:
-      type: object
-      description: Alert properties.
-      properties:
-        definition:
-          $ref: '#/components/schemas/AlertPropertiesDefinition'
-          description: defines the type of alert
-        description:
-          type: string
-          description: Alert description
-        source:
-          $ref: '#/components/schemas/AlertSource'
-          description: Source of alert
-        details:
-          $ref: '#/components/schemas/AlertPropertiesDetails'
-          description: Alert details
-        costEntityId:
-          type: string
-          description: related budget
-        status:
-          $ref: '#/components/schemas/AlertStatus'
-          description: alert status
-        creationTime:
-          type: string
-          description: dateTime in which alert was created
-        closeTime:
-          type: string
-          description: dateTime in which alert was closed
-        modificationTime:
-          type: string
-          description: dateTime in which alert was last modified
-        statusModificationUserName:
-          type: string
-          description: User who last modified the alert
-        statusModificationTime:
-          type: string
-          description: dateTime in which the alert status was last modified
-    Alert:
-      type: object
-      description: An individual alert.
-      properties:
-        properties:
-          $ref: '#/components/schemas/AlertProperties'
-          description: Alert properties.
-          x-ms-client-flatten: true
-        eTag:
-          $ref: '#/components/schemas/Azure.Core.eTag'
-          description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not.
-      allOf:
-      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
-    AlertCategory:
-      type: string
-      description: Alert category
-      enum:
-      - Cost
-      - Usage
-      - Billing
-      - System
-      x-ms-enum:
-        name: AlertCategory
-        modelAsString: true
-        values:
-        - name: Cost
-          value: Cost
-        - name: Usage
-          value: Usage
-        - name: Billing
-          value: Billing
-        - name: System
-          value: System
-    DismissAlertPayload:
-      type: object
-      description: The request payload to update an alert
-      properties:
-        properties:
-          $ref: '#/components/schemas/AlertProperties'
-          description: Alert properties.
-          x-ms-client-flatten: true
-    AlertTimeGrainType:
-      type: string
-      description: Type of timegrain cadence
-      enum:
-      - None
-      - Monthly
-      - Quarterly
-      - Annually
-      - BillingMonth
-      - BillingQuarter
-      - BillingAnnual
-      x-ms-enum:
-        name: AlertTimeGrainType
-        modelAsString: true
-        values:
-        - name: None
-          value: None
-        - name: Monthly
-          value: Monthly
-        - name: Quarterly
-          value: Quarterly
-        - name: Annually
-          value: Annually
-        - name: BillingMonth
-          value: BillingMonth
-        - name: BillingQuarter
-          value: BillingQuarter
-        - name: BillingAnnual
-          value: BillingAnnual
     AlertPropertiesDefinition:
       type: object
       description: defines the type of alert
@@ -463,32 +410,14 @@ components:
         criteria:
           $ref: '#/components/schemas/AlertCriteria'
           description: Criteria that triggered alert
-    AlertsResult:
+    DismissAlertPayload:
       type: object
-      description: Result of alerts.
+      description: The request payload to update an alert
       properties:
-        value:
-          type: array
-          description: List of alerts.
-          items:
-            $ref: '#/components/schemas/Alert'
-          readOnly: true
-        nextLink:
-          type: string
-          description: URL to get the next set of alerts results if there are any.
-          readOnly: true
-    ErrorDetails:
-      type: object
-      description: The details of the error.
-      properties:
-        code:
-          type: string
-          description: Error code.
-          readOnly: true
-        message:
-          type: string
-          description: Error message indicating why the operation failed.
-          readOnly: true
+        properties:
+          $ref: '#/components/schemas/AlertProperties'
+          description: Alert properties.
+          x-ms-client-flatten: true
     AlertType:
       type: string
       description: type of alert
@@ -541,6 +470,77 @@ components:
           value: Resolved
         - name: Dismissed
           value: Dismissed
+    AlertOperator:
+      type: string
+      description: operator used to compare currentSpend with amount
+      enum:
+      - None
+      - EqualTo
+      - GreaterThan
+      - GreaterThanOrEqualTo
+      - LessThan
+      - LessThanOrEqualTo
+      x-ms-enum:
+        name: AlertOperator
+        modelAsString: true
+        values:
+        - name: None
+          value: None
+        - name: EqualTo
+          value: EqualTo
+        - name: GreaterThan
+          value: GreaterThan
+        - name: GreaterThanOrEqualTo
+          value: GreaterThanOrEqualTo
+        - name: LessThan
+          value: LessThan
+        - name: LessThanOrEqualTo
+          value: LessThanOrEqualTo
+    AlertProperties:
+      type: object
+      description: Alert properties.
+      properties:
+        definition:
+          $ref: '#/components/schemas/AlertPropertiesDefinition'
+          description: defines the type of alert
+        description:
+          type: string
+          description: Alert description
+        source:
+          $ref: '#/components/schemas/AlertSource'
+          description: Source of alert
+        details:
+          $ref: '#/components/schemas/AlertPropertiesDetails'
+          description: Alert details
+        costEntityId:
+          type: string
+          description: related budget
+        status:
+          $ref: '#/components/schemas/AlertStatus'
+          description: alert status
+        creationTime:
+          type: string
+          description: dateTime in which alert was created
+        closeTime:
+          type: string
+          description: dateTime in which alert was closed
+        modificationTime:
+          type: string
+          description: dateTime in which alert was last modified
+        statusModificationUserName:
+          type: string
+          description: User who last modified the alert
+        statusModificationTime:
+          type: string
+          description: dateTime in which the alert status was last modified
+    Azure.Core.eTag:
+      type: string
+      description: 'The ETag (or entity tag) HTTP response header is an identifier for a specific version of a resource.
+
+        It lets caches be more efficient and save bandwidth, as a web server does not need to resend a full response if the content was not changed.
+
+
+        It is a string of ASCII characters placed between double quotes, like "675af34563dc-tr34".'
   securitySchemes:
     azure_auth:
       type: oauth2

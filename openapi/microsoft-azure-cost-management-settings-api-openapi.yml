@@ -203,6 +203,20 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    Setting:
+      type: object
+      description: Setting definition.
+      properties:
+        kind:
+          $ref: '#/components/schemas/SettingsKind'
+          description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value.
+          pattern: ^[-\w\._,\(\\\)]+$
+      discriminator:
+        propertyName: kind
+      required:
+      - kind
+      allOf:
+      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
     ErrorResponse:
       type: object
       description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
@@ -222,31 +236,6 @@ components:
           readOnly: true
           x-ms-identifiers:
           - id
-    Setting:
-      type: object
-      description: Setting definition.
-      properties:
-        kind:
-          $ref: '#/components/schemas/SettingsKind'
-          description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource provider must validate and persist this value.
-          pattern: ^[-\w\._,\(\\\)]+$
-      discriminator:
-        propertyName: kind
-      required:
-      - kind
-      allOf:
-      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
-    SettingsKind:
-      type: string
-      description: Specifies the kind of settings.
-      enum:
-      - taginheritance
-      x-ms-enum:
-        name: SettingsKind
-        modelAsString: true
-        values:
-        - name: taginheritance
-          value: taginheritance
     ErrorDetails:
       type: object
       description: The details of the error.
@@ -259,6 +248,17 @@ components:
           type: string
           description: Error message indicating why the operation failed.
           readOnly: true
+    SettingsKind:
+      type: string
+      description: Specifies the kind of settings.
+      enum:
+      - taginheritance
+      x-ms-enum:
+        name: SettingsKind
+        modelAsString: true
+        values:
+        - name: taginheritance
+          value: taginheritance
   securitySchemes:
     azure_auth:
       type: oauth2

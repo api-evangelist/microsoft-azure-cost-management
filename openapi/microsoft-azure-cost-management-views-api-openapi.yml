@@ -156,19 +156,77 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ReportConfigGrouping:
+    PivotTypeType:
+      type: string
+      description: Data type to show in view.
+      enum:
+      - Dimension
+      - TagKey
+      x-ms-enum:
+        name: PivotTypeType
+        modelAsString: true
+        values:
+        - name: Dimension
+          value: Dimension
+        - name: TagKey
+          value: TagKey
+    ReportConfigSortingType:
+      type: string
+      description: Direction of sort.
+      enum:
+      - Ascending
+      - Descending
+      x-ms-enum:
+        name: ReportConfigSortingType
+        modelAsString: true
+        values:
+        - name: Ascending
+          value: Ascending
+        - name: Descending
+          value: Descending
+    QueryColumnType:
+      type: string
+      description: The type of the column in the report.
+      enum:
+      - TagKey
+      - Dimension
+      x-ms-enum:
+        name: QueryColumnType
+        modelAsString: true
+        values:
+        - name: TagKey
+          value: TagKey
+          description: The tag associated with the cost data.
+        - name: Dimension
+          value: Dimension
+          description: The dimension of cost data.
+    KpiProperties:
       type: object
-      description: The group by expression to be used in the report.
+      description: Each KPI must contain a 'type' and 'enabled' key.
       properties:
         type:
-          $ref: '#/components/schemas/QueryColumnType'
-          description: Has type of the column to group.
-        name:
+          $ref: '#/components/schemas/KpiTypeType'
+          description: KPI type (Forecast, Budget).
+        id:
           type: string
-          description: The name of the column to group. This version supports subscription lowest possible grain.
-      required:
-      - type
-      - name
+          description: ID of resource related to metric (budget).
+        enabled:
+          type: boolean
+          description: show the KPI in the UI?
+    KpiTypeType:
+      type: string
+      description: KPI type (Forecast, Budget).
+      enum:
+      - Forecast
+      - Budget
+      x-ms-enum:
+        name: KpiTypeType
+        modelAsString: true
+        values:
+        - name: Forecast
+          value: Forecast
+        - name: Budget
+          value: Budget
     ReportConfigTimePeriod:
       type: object
       description: The start and end date for pulling data for the report.
@@ -184,33 +242,134 @@ components:
       required:
       - from
       - to
-    ReportConfigSortingType:
-      type: string
-      description: Direction of sort.
-      enum:
-      - Ascending
-      - Descending
-      x-ms-enum:
-        name: ReportConfigSortingType
-        modelAsString: true
-        values:
-        - name: Ascending
-          value: Ascending
-        - name: Descending
-          value: Descending
-    KpiProperties:
+    ReportConfigGrouping:
       type: object
-      description: Each KPI must contain a 'type' and 'enabled' key.
+      description: The group by expression to be used in the report.
       properties:
         type:
-          $ref: '#/components/schemas/KpiTypeType'
-          description: KPI type (Forecast, Budget).
-        id:
+          $ref: '#/components/schemas/QueryColumnType'
+          description: Has type of the column to group.
+        name:
           type: string
-          description: ID of resource related to metric (budget).
-        enabled:
-          type: boolean
-          description: show the KPI in the UI?
+          description: The name of the column to group. This version supports subscription lowest possible grain.
+      required:
+      - type
+      - name
+    Azure.Core.eTag:
+      type: string
+      description: 'The ETag (or entity tag) HTTP response header is an identifier for a specific version of a resource.
+
+        It lets caches be more efficient and save bandwidth, as a web server does not need to resend a full response if the content was not changed.
+
+
+        It is a string of ASCII characters placed between double quotes, like "675af34563dc-tr34".'
+    ReportGranularityType:
+      type: string
+      description: The granularity of rows in the report.
+      enum:
+      - Daily
+      - Monthly
+      x-ms-enum:
+        name: ReportGranularityType
+        modelAsString: true
+        values:
+        - name: Daily
+          value: Daily
+        - name: Monthly
+          value: Monthly
+    ReportConfigAggregation:
+      type: object
+      description: The aggregation expression to be used in the report.
+      properties:
+        name:
+          type: string
+          description: The name of the column to aggregate.
+        function:
+          $ref: '#/components/schemas/FunctionType'
+          description: The name of the aggregation function to use.
+      required:
+      - name
+      - function
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
+    FunctionType:
+      type: string
+      description: The name of the aggregation function to use.
+      enum:
+      - Sum
+      x-ms-enum:
+        name: FunctionType
+        modelAsString: true
+        values:
+        - name: Sum
+          value: Sum
+    ChartType:
+      type: string
+      description: Chart type of the main view in Cost Analysis. Required.
+      enum:
+      - Area
+      - Line
+      - StackedColumn
+      - GroupedColumn
+      - Table
+      x-ms-enum:
+        name: ChartType
+        modelAsString: true
+        values:
+        - name: Area
+          value: Area
+        - name: Line
+          value: Line
+        - name: StackedColumn
+          value: StackedColumn
+        - name: GroupedColumn
+          value: GroupedColumn
+        - name: Table
+          value: Table
+    ReportConfigComparisonExpression:
+      type: object
+      description: The comparison expression to be used in the report.
+      properties:
+        name:
+          type: string
+          description: The name of the column to use in comparison.
+        operator:
+          $ref: '#/components/schemas/OperatorType'
+          description: The operator to use for comparison.
+        values:
+          type: array
+          description: Array of values to use for comparison
+          minItems: 1
+          items:
+            type: string
+      required:
+      - name
+      - operator
+      - values
+    AccumulatedType:
+      type: string
+      description: Show costs accumulated over time.
+      enum:
+      - 'true'
+      - 'false'
+      x-ms-enum:
+        name: AccumulatedType
+        modelAsString: true
+        values:
+        - name: 'true'
+          value: 'true'
+        - name: 'false'
+          value: 'false'
     ReportConfigFilter:
       type: object
       description: The filter expression to be used in the report.
@@ -235,99 +394,6 @@ components:
         tags:
           $ref: '#/components/schemas/ReportConfigComparisonExpression'
           description: Has comparison expression for a tag
-    ChartType:
-      type: string
-      description: Chart type of the main view in Cost Analysis. Required.
-      enum:
-      - Area
-      - Line
-      - StackedColumn
-      - GroupedColumn
-      - Table
-      x-ms-enum:
-        name: ChartType
-        modelAsString: true
-        values:
-        - name: Area
-          value: Area
-        - name: Line
-          value: Line
-        - name: StackedColumn
-          value: StackedColumn
-        - name: GroupedColumn
-          value: GroupedColumn
-        - name: Table
-          value: Table
-    ReportConfigDatasetConfiguration:
-      type: object
-      description: The configuration of dataset in the report.
-      properties:
-        columns:
-          type: array
-          description: Array of column names to be included in the report. Any valid report column name is allowed. If not provided, then report includes all columns.
-          items:
-            type: string
-    QueryColumnType:
-      type: string
-      description: The type of the column in the report.
-      enum:
-      - TagKey
-      - Dimension
-      x-ms-enum:
-        name: QueryColumnType
-        modelAsString: true
-        values:
-        - name: TagKey
-          value: TagKey
-          description: The tag associated with the cost data.
-        - name: Dimension
-          value: Dimension
-          description: The dimension of cost data.
-    PivotProperties:
-      type: object
-      description: Each pivot must contain a 'type' and 'name'.
-      properties:
-        type:
-          $ref: '#/components/schemas/PivotTypeType'
-          description: Data type to show in view.
-        name:
-          type: string
-          description: Data field to show in view.
-    View:
-      type: object
-      description: States and configurations of Cost Analysis.
-      properties:
-        properties:
-          $ref: '#/components/schemas/ViewProperties'
-          description: The properties of the view.
-          x-ms-client-flatten: true
-        eTag:
-          $ref: '#/components/schemas/Azure.Core.eTag'
-          description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not.
-      allOf:
-      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
-    ReportConfigDefinition:
-      type: object
-      description: The definition of a report config.
-      properties:
-        type:
-          $ref: '#/components/schemas/ReportType'
-          description: The type of the report. Usage represents actual usage, forecast represents forecasted data and UsageAndForecast represents both usage and forecasted data. Actual usage and forecasted data can be differentiated based on dates.
-        timeframe:
-          $ref: '#/components/schemas/ReportTimeframeType'
-          description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
-        timePeriod:
-          $ref: '#/components/schemas/ReportConfigTimePeriod'
-          description: Has time period for pulling data for the report.
-        dataSet:
-          $ref: '#/components/schemas/ReportConfigDataset'
-          description: Has definition for data in this report config.
-        includeMonetaryCommitment:
-          type: boolean
-          description: If true, report includes monetary commitment.
-      required:
-      - type
-      - timeframe
     ViewListResult:
       type: object
       description: Result of listing views. It contains a list of available views.
@@ -341,78 +407,78 @@ components:
         nextLink:
           type: string
           description: The link (url) to the next page of results.
-    PivotTypeType:
-      type: string
-      description: Data type to show in view.
-      enum:
-      - Dimension
-      - TagKey
-      x-ms-enum:
-        name: PivotTypeType
-        modelAsString: true
-        values:
-        - name: Dimension
-          value: Dimension
-        - name: TagKey
-          value: TagKey
-    ReportConfigComparisonExpression:
+    ErrorResponse:
       type: object
-      description: The comparison expression to be used in the report.
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
       properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+    View:
+      type: object
+      description: States and configurations of Cost Analysis.
+      properties:
+        properties:
+          $ref: '#/components/schemas/ViewProperties'
+          description: The properties of the view.
+          x-ms-client-flatten: true
+        eTag:
+          $ref: '#/components/schemas/Azure.Core.eTag'
+          description: eTag of the resource. To handle concurrent update scenario, this field will be used to determine whether the user is updating the latest version or not.
+      allOf:
+      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
+    PivotProperties:
+      type: object
+      description: Each pivot must contain a 'type' and 'name'.
+      properties:
+        type:
+          $ref: '#/components/schemas/PivotTypeType'
+          description: Data type to show in view.
         name:
           type: string
-          description: The name of the column to use in comparison.
-        operator:
-          $ref: '#/components/schemas/OperatorType'
-          description: The operator to use for comparison.
-        values:
+          description: Data field to show in view.
+    ReportConfigDataset:
+      type: object
+      description: The definition of data present in the report.
+      properties:
+        granularity:
+          $ref: '#/components/schemas/ReportGranularityType'
+          description: The granularity of rows in the report.
+        configuration:
+          $ref: '#/components/schemas/ReportConfigDatasetConfiguration'
+          description: Has configuration information for the data in the report. The configuration will be ignored if aggregation and grouping are provided.
+        aggregation:
+          type: object
+          description: Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is the alias for the aggregated column. Report can have up to 2 aggregation clauses.
+          additionalProperties:
+            $ref: '#/components/schemas/ReportConfigAggregation'
+        grouping:
           type: array
-          description: Array of values to use for comparison
-          minItems: 1
+          description: Array of group by expression to use in the report. Report can have up to 2 group by clauses.
+          maxItems: 2
+          items:
+            $ref: '#/components/schemas/ReportConfigGrouping'
+          x-ms-identifiers:
+          - name
+          - type
+        sorting:
+          type: array
+          description: Array of order by expression to use in the report.
+          items:
+            $ref: '#/components/schemas/ReportConfigSorting'
+          x-ms-identifiers: []
+        filter:
+          $ref: '#/components/schemas/ReportConfigFilter'
+          description: Has filter expression to use in the report.
+    ReportConfigDatasetConfiguration:
+      type: object
+      description: The configuration of dataset in the report.
+      properties:
+        columns:
+          type: array
+          description: Array of column names to be included in the report. Any valid report column name is allowed. If not provided, then report includes all columns.
           items:
             type: string
-      required:
-      - name
-      - operator
-      - values
-    KpiTypeType:
-      type: string
-      description: KPI type (Forecast, Budget).
-      enum:
-      - Forecast
-      - Budget
-      x-ms-enum:
-        name: KpiTypeType
-        modelAsString: true
-        values:
-        - name: Forecast
-          value: Forecast
-        - name: Budget
-          value: Budget
-    ReportConfigAggregation:
-      type: object
-      description: The aggregation expression to be used in the report.
-      properties:
-        name:
-          type: string
-          description: The name of the column to aggregate.
-        function:
-          $ref: '#/components/schemas/FunctionType'
-          description: The name of the aggregation function to use.
-      required:
-      - name
-      - function
-    FunctionType:
-      type: string
-      description: The name of the aggregation function to use.
-      enum:
-      - Sum
-      x-ms-enum:
-        name: FunctionType
-        modelAsString: true
-        values:
-        - name: Sum
-          value: Sum
     MetricType:
       type: string
       description: Metric to use when displaying costs.
@@ -430,66 +496,6 @@ components:
           value: AmortizedCost
         - name: AHUB
           value: AHUB
-    ErrorResponse:
-      type: object
-      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetails'
-          description: The details of the error.
-    Azure.Core.eTag:
-      type: string
-      description: 'The ETag (or entity tag) HTTP response header is an identifier for a specific version of a resource.
-
-        It lets caches be more efficient and save bandwidth, as a web server does not need to resend a full response if the content was not changed.
-
-
-        It is a string of ASCII characters placed between double quotes, like "675af34563dc-tr34".'
-    AccumulatedType:
-      type: string
-      description: Show costs accumulated over time.
-      enum:
-      - 'true'
-      - 'false'
-      x-ms-enum:
-        name: AccumulatedType
-        modelAsString: true
-        values:
-        - name: 'true'
-          value: 'true'
-        - name: 'false'
-          value: 'false'
-    ReportType:
-      type: string
-      description: The type of the report. Usage represents actual usage, forecast represents forecasted data and UsageAndForecast represents both usage and forecasted data. Actual usage and forecasted data can be differentiated based on dates.
-      enum:
-      - Usage
-      x-ms-enum:
-        name: ReportType
-        modelAsString: true
-        values:
-        - name: Usage
-          value: Usage
-    ReportTimeframeType:
-      type: string
-      description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
-      enum:
-      - WeekToDate
-      - MonthToDate
-      - YearToDate
-      - Custom
-      x-ms-enum:
-        name: ReportTimeframeType
-        modelAsString: true
-        values:
-        - name: WeekToDate
-          value: WeekToDate
-        - name: MonthToDate
-          value: MonthToDate
-        - name: YearToDate
-          value: YearToDate
-        - name: Custom
-          value: Custom
     ViewProperties:
       type: object
       description: The properties of the view.
@@ -541,65 +547,28 @@ components:
             $ref: '#/components/schemas/PivotProperties'
           x-ms-identifiers:
           - name
-    ReportConfigDataset:
+    ReportConfigDefinition:
       type: object
-      description: The definition of data present in the report.
+      description: The definition of a report config.
       properties:
-        granularity:
-          $ref: '#/components/schemas/ReportGranularityType'
-          description: The granularity of rows in the report.
-        configuration:
-          $ref: '#/components/schemas/ReportConfigDatasetConfiguration'
-          description: Has configuration information for the data in the report. The configuration will be ignored if aggregation and grouping are provided.
-        aggregation:
-          type: object
-          description: Dictionary of aggregation expression to use in the report. The key of each item in the dictionary is the alias for the aggregated column. Report can have up to 2 aggregation clauses.
-          additionalProperties:
-            $ref: '#/components/schemas/ReportConfigAggregation'
-        grouping:
-          type: array
-          description: Array of group by expression to use in the report. Report can have up to 2 group by clauses.
-          maxItems: 2
-          items:
-            $ref: '#/components/schemas/ReportConfigGrouping'
-          x-ms-identifiers:
-          - name
-          - type
-        sorting:
-          type: array
-          description: Array of order by expression to use in the report.
-          items:
-            $ref: '#/components/schemas/ReportConfigSorting'
-          x-ms-identifiers: []
-        filter:
-          $ref: '#/components/schemas/ReportConfigFilter'
-          description: Has filter expression to use in the report.
-    ReportGranularityType:
-      type: string
-      description: The granularity of rows in the report.
-      enum:
-      - Daily
-      - Monthly
-      x-ms-enum:
-        name: ReportGranularityType
-        modelAsString: true
-        values:
-        - name: Daily
-          value: Daily
-        - name: Monthly
-          value: Monthly
-    ErrorDetails:
-      type: object
-      description: The details of the error.
-      properties:
-        code:
-          type: string
-          description: Error code.
-          readOnly: true
-        message:
-          type: string
-          description: Error message indicating why the operation failed.
-          readOnly: true
+        type:
+          $ref: '#/components/schemas/ReportType'
+          description: The type of the report. Usage represents actual usage, forecast represents forecasted data and UsageAndForecast represents both usage and forecasted data. Actual usage and forecasted data can be differentiated based on dates.
+        timeframe:
+          $ref: '#/components/schemas/ReportTimeframeType'
+          description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
+        timePeriod:
+          $ref: '#/components/schemas/ReportConfigTimePeriod'
+          description: Has time period for pulling data for the report.
+        dataSet:
+          $ref: '#/components/schemas/ReportConfigDataset'
+          description: Has definition for data in this report config.
+        includeMonetaryCommitment:
+          type: boolean
+          description: If true, report includes monetary commitment.
+      required:
+      - type
+      - timeframe
     OperatorType:
       type: string
       description: The operator to use for comparison.
@@ -614,6 +583,37 @@ components:
           value: In
         - name: Contains
           value: Contains
+    ReportTimeframeType:
+      type: string
+      description: The time frame for pulling data for the report. If custom, then a specific time period must be provided.
+      enum:
+      - WeekToDate
+      - MonthToDate
+      - YearToDate
+      - Custom
+      x-ms-enum:
+        name: ReportTimeframeType
+        modelAsString: true
+        values:
+        - name: WeekToDate
+          value: WeekToDate
+        - name: MonthToDate
+          value: MonthToDate
+        - name: YearToDate
+          value: YearToDate
+        - name: Custom
+          value: Custom
+    ReportType:
+      type: string
+      description: The type of the report. Usage represents actual usage, forecast represents forecasted data and UsageAndForecast represents both usage and forecasted data. Actual usage and forecasted data can be differentiated based on dates.
+      enum:
+      - Usage
+      x-ms-enum:
+        name: ReportType
+        modelAsString: true
+        values:
+        - name: Usage
+          value: Usage
     ReportConfigSorting:
       type: object
       description: The order by expression to be used in the report.
