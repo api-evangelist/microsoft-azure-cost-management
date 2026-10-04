@@ -230,7 +230,7 @@ apis:
   - Forecasting
   - Price Sheet
   - FinOps
-  - Reservations
+  - Reserved Instances
   properties:
   - type: OpenAPI
     url: openapi/microsoft-azure-cost-management-providers-api-openapi.yml
@@ -350,6 +350,9 @@ apis:
   - type: APIReference
     url: https://learn.microsoft.com/en-us/rest/api/cost-management/views
 common:
+- type: CapabilityMap
+  url: capabilities/microsoft-azure-cost-management-capability-edges.yml
+  name: Azure Cost Management Business Capability Map
 - type: TrustCenter
   url: security/microsoft-azure-cost-management-trust-center.yml
 - type: VulnerabilityDisclosure
@@ -457,7 +460,7 @@ tags:
 - Chargebacks
 - Focus
 - Azure
-- Reservations
+- Reserved Instances
 tags_raw:
 - Cost Management
 - FinOps
@@ -470,10 +473,12 @@ tags_raw:
 - Chargeback
 - FOCUS
 - Azure
-- Reservations
+- Reserved Instances
 created: '2026-05-04'
 x-enrichment:
   date: '2026-09-17'
   status: enriched
   artifacts_added: 49
   pass: local-v3
+x-tags-removed:
+- Reservations
