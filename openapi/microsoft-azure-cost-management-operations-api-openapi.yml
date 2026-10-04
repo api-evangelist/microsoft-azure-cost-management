@@ -45,16 +45,18 @@ paths:
     - url: https://management.azure.com
 components:
   schemas:
-    CostManagementOperation:
+    ErrorDetails:
       type: object
-      description: A Cost management REST API operation.
+      description: The details of the error.
       properties:
-        id:
+        code:
           type: string
-          description: 'Operation id: {provider}/{resource}/{operation}.'
+          description: Error code.
           readOnly: true
-      allOf:
-      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/Operation
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
     OperationListResult:
       type: object
       description: Result of listing cost management operations. It contains a list of operations and a URL link to get the next set of results.
@@ -76,30 +78,16 @@ components:
         error:
           $ref: '#/components/schemas/ErrorDetails'
           description: The details of the error.
-    ErrorDetails:
+    CostManagementOperation:
       type: object
-      description: The details of the error.
+      description: A Cost management REST API operation.
       properties:
-        code:
+        id:
           type: string
-          description: Error code.
+          description: 'Operation id: {provider}/{resource}/{operation}.'
           readOnly: true
-        message:
-          type: string
-          description: Error message indicating why the operation failed.
-          readOnly: true
-    ErrorResponse_2:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            message:
-              type: string
-            target:
-              type: string
+      allOf:
+      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/Operation
     OperationList:
       type: object
       properties:
@@ -127,6 +115,18 @@ components:
               type: string
         isDataAction:
           type: boolean
+    ErrorResponse_2:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            target:
+              type: string
   parameters:
     apiVersion:
       name: api-version

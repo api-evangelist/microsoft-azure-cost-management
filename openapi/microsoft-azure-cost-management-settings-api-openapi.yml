@@ -217,25 +217,6 @@ components:
       - kind
       allOf:
       - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
-    ErrorResponse:
-      type: object
-      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetails'
-          description: The details of the error.
-    SettingsListResult:
-      type: object
-      description: Setting list result. It contains a list of settings.
-      properties:
-        value:
-          type: array
-          description: The list of settings.
-          items:
-            $ref: '#/components/schemas/Setting'
-          readOnly: true
-          x-ms-identifiers:
-          - id
     ErrorDetails:
       type: object
       description: The details of the error.
@@ -248,6 +229,25 @@ components:
           type: string
           description: Error message indicating why the operation failed.
           readOnly: true
+    SettingsListResult:
+      type: object
+      description: Setting list result. It contains a list of settings.
+      properties:
+        value:
+          type: array
+          description: The list of settings.
+          items:
+            $ref: '#/components/schemas/Setting'
+          readOnly: true
+          x-ms-identifiers:
+          - id
+    ErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
     SettingsKind:
       type: string
       description: Specifies the kind of settings.
