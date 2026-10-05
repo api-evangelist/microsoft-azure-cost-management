@@ -1,0 +1,88 @@
+slug: microsoft-azure-cost-management
+provider: Azure Cost Management
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 7
+edges:
+- tag: Providers
+  spec_file: microsoft-azure-cost-management-providers-api-openapi.yml
+  capability_id: BC-600.80
+  capability_id_l1: BC-600
+  capability_name: IT Financial Management
+  confidence: 0.85
+  evidence: POST /{scope}/providers/Microsoft.CostManagement/forecast 'Forecast usage'; POST .../query
+    'Query usage'; POST .../generateCostDetailsReport; GET .../benefitRecommendations
+  reason: Catch-all tag whose operations perform cloud cost and usage querying, forecasting, cost-detail
+    reporting and savings-benefit recommendations — core IT spend analysis and cost optimisation, i.e.
+    IT Financial Management.
+- tag: Alerts
+  spec_file: microsoft-azure-cost-management-alerts-api-openapi.yml
+  capability_id: BC-600.80
+  capability_id_l1: BC-600
+  capability_name: IT Financial Management
+  confidence: 0.8
+  evidence: Alerts_List / Alerts_Dismiss on /providers/Microsoft.CostManagement/alerts, schemas AlertCategory,
+    AlertSource, DismissAlertPayload
+  reason: 'Homograph check: these are cloud spend/budget threshold alerts within Microsoft Cost Management,
+    not security or financial-crime alerts. They support monitoring and controlling IT spend, i.e. IT
+    Financial Management.'
+- tag: CostAllocationRuleDefinitions
+  spec_file: microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml
+  capability_id: BC-600.80
+  capability_id_l1: BC-600
+  capability_name: IT Financial Management
+  confidence: 0.8
+  evidence: CostAllocationRules_CreateOrUpdate; schemas SourceCostAllocationResource, TargetCostAllocationResource,
+    CostAllocationProportion
+  reason: Defines rules that distribute shared cloud costs from source to target resources in proportions
+    — chargeback/showback allocation of IT spend, which BC-600.80 explicitly covers.
+- tag: Budgets
+  spec_file: microsoft-azure-cost-management-budgets-api-openapi.yml
+  capability_id: BC-600.80
+  capability_id_l1: BC-600
+  capability_name: IT Financial Management
+  confidence: 0.75
+  evidence: Budgets_CreateOrUpdate on Microsoft.CostManagement/budgets; schemas BudgetProperties, ForecastSpend,
+    CurrentSpend, Notification
+  reason: Creates and manages spend budgets with forecast/current spend and notification thresholds for
+    Azure consumption — budgeting of IT/cloud cost, best fit IT Financial Management rather than enterprise
+    FP&A budgeting.
+- tag: GenerateCostDetailsReport
+  spec_file: microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml
+  capability_id: BC-600.80
+  capability_id_l1: BC-600
+  capability_name: IT Financial Management
+  confidence: 0.7
+  evidence: GenerateCostDetailsReportRequestDefinition, ReportManifest, CostDetailsMetricType, CostDetailsTimePeriod
+  reason: Generates detailed cost-and-usage detail reports over a scope and time period — reporting on
+    cloud spend, i.e. IT Financial Management. The exposed operation is a result-retrieval call, which
+    tempers confidence.
+- tag: ViewOperationGroup
+  spec_file: microsoft-azure-cost-management-viewoperationgroup-api-openapi.yml
+  capability_id: BC-600.80
+  capability_id_l1: BC-600
+  capability_name: IT Financial Management
+  confidence: 0.7
+  evidence: PUT /{scope}/providers/Microsoft.CostManagement/views/{viewName} 'Views create or update by
+    scope'; schemas KpiProperties, ReportConfigAggregation, ReportGranularityType, ChartType
+  reason: Saved Cost Analysis view definitions (report configuration, KPIs, pivots, chart types) used
+    to report and analyse cloud spend — IT cost reporting and optimisation under IT Financial Management.
+- tag: Views
+  spec_file: microsoft-azure-cost-management-views-api-openapi.yml
+  capability_id: BC-600.80
+  capability_id_l1: BC-600
+  capability_name: IT Financial Management
+  confidence: 0.7
+  evidence: GET /providers/Microsoft.CostManagement/views 'Views list'; schemas ReportConfigGrouping,
+    KpiProperties, ReportConfigFilter, View
+  reason: Tenant-level saved cost analysis report configurations for viewing and analysing Azure spend;
+    supports IT spend visibility and cost optimisation.
