@@ -199,6 +199,18 @@ paths:
       x-summary-source: derived
 components:
   schemas:
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
     MarkupRuleProperties:
       type: object
       description: The properties of the markup rule.
@@ -225,27 +237,13 @@ components:
       - percentage
       - startDate
       - customerDetails
-    MarkupRule:
+    ErrorResponse:
       type: object
-      description: Markup rule
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
       properties:
-        properties:
-          $ref: '#/components/schemas/MarkupRuleProperties'
-          description: Markup rule properties
-      allOf:
-      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
-    ErrorDetails:
-      type: object
-      description: The details of the error.
-      properties:
-        code:
-          type: string
-          description: Error code.
-          readOnly: true
-        message:
-          type: string
-          description: Error message indicating why the operation failed.
-          readOnly: true
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
     CustomerMetadata:
       type: object
       description: The customer billing metadata
@@ -259,13 +257,6 @@ components:
       required:
       - billingAccountId
       - billingProfileId
-    ErrorResponse:
-      type: object
-      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetails'
-          description: The details of the error.
     MarkupRulePagedResponse:
       type: object
       description: Markup rule list result. It contains a list of Markup rules.
@@ -280,6 +271,15 @@ components:
         nextLink:
           type: string
           description: The link (url) to the next page of results.
+    MarkupRule:
+      type: object
+      description: Markup rule
+      properties:
+        properties:
+          $ref: '#/components/schemas/MarkupRuleProperties'
+          description: Markup rule properties
+      allOf:
+      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
   securitySchemes:
     azure_auth:
       type: oauth2

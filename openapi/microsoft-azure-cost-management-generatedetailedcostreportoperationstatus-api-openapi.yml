@@ -54,18 +54,28 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ErrorDetails:
+    GenerateDetailedCostReportOperationStatuses:
       type: object
-      description: The details of the error.
+      description: The status of the long running operation for cost detailed report.
       properties:
-        code:
+        properties:
+          $ref: '#/components/schemas/DownloadURL'
+          description: The properties of the usage file generated.
+          x-ms-client-flatten: true
+        status:
+          $ref: '#/components/schemas/Status'
+          description: The status of the long running operation.
+        startTime:
           type: string
-          description: Error code.
-          readOnly: true
-        message:
+          description: The startTime of the operation.
+        endTime:
           type: string
-          description: Error message indicating why the operation failed.
-          readOnly: true
+          description: The endTime of the operation.
+        error:
+          $ref: '#/components/schemas/ErrorDetails'
+          description: The details of the error.
+      allOf:
+      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
     ReportOperationStatusType:
       type: string
       description: The status of the long running operation.
@@ -95,28 +105,32 @@ components:
           value: ReadyToDownload
         - name: TimedOut
           value: TimedOut
-    GenerateDetailedCostReportOperationStatuses:
+    ErrorDetails:
       type: object
-      description: The status of the long running operation for cost detailed report.
+      description: The details of the error.
       properties:
-        properties:
-          $ref: '#/components/schemas/DownloadURL'
-          description: The properties of the usage file generated.
-          x-ms-client-flatten: true
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
+    Status:
+      type: object
+      description: The status of the long running operation.
+      properties:
         status:
-          $ref: '#/components/schemas/Status'
+          $ref: '#/components/schemas/ReportOperationStatusType'
           description: The status of the long running operation.
-        startTime:
-          type: string
-          description: The startTime of the operation.
-        endTime:
-          type: string
-          description: The endTime of the operation.
+    ErrorResponse:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
+      properties:
         error:
           $ref: '#/components/schemas/ErrorDetails'
           description: The details of the error.
-      allOf:
-      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
     DownloadURL:
       type: object
       description: The URL to download the generated report.
@@ -133,20 +147,6 @@ components:
         downloadUrl:
           type: string
           description: The URL to download the generated report.
-    Status:
-      type: object
-      description: The status of the long running operation.
-      properties:
-        status:
-          $ref: '#/components/schemas/ReportOperationStatusType'
-          description: The status of the long running operation.
-    ErrorResponse:
-      type: object
-      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header.'
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetails'
-          description: The details of the error.
   securitySchemes:
     azure_auth:
       type: oauth2

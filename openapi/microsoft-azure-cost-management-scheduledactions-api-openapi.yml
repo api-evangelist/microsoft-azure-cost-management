@@ -196,135 +196,6 @@ paths:
       x-summary-source: derived
 components:
   schemas:
-    ScheduleFrequency:
-      type: string
-      description: Frequency of the schedule.
-      enum:
-      - Daily
-      - Weekly
-      - Monthly
-      x-ms-enum:
-        name: ScheduleFrequency
-        modelAsString: true
-        values:
-        - name: Daily
-          value: Daily
-          description: Cost analysis data will be emailed every day.
-        - name: Weekly
-          value: Weekly
-          description: Cost analysis data will be emailed every week.
-        - name: Monthly
-          value: Monthly
-          description: Cost analysis data will be emailed every month.
-    ScheduledAction:
-      type: object
-      description: Scheduled action definition.
-      properties:
-        properties:
-          $ref: '#/components/schemas/ScheduledActionProperties'
-          description: The properties of the scheduled action.
-          x-ms-client-flatten: true
-        eTag:
-          $ref: '#/components/schemas/Azure.Core.eTag'
-          description: Resource Etag. For update calls, eTag is optional and can be specified to achieve optimistic concurrency. Fetch the resource's eTag by doing a 'GET' call first and then including the latest eTag as part of the request body or 'If-Match' header while performing the update. For create calls, eTag is not required.
-        kind:
-          $ref: '#/components/schemas/ScheduledActionKind'
-          description: Kind of the scheduled action.
-      allOf:
-      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
-    ScheduledActionStatus:
-      type: string
-      description: Status of the scheduled action.
-      enum:
-      - Enabled
-      - Expired
-      - Disabled
-      x-ms-enum:
-        name: ScheduledActionStatus
-        modelAsString: true
-        values:
-        - name: Enabled
-          value: Enabled
-          description: Scheduled action is saved and will be run.
-        - name: Expired
-          value: Expired
-          description: Scheduled action is expired.
-        - name: Disabled
-          value: Disabled
-          description: Scheduled action is saved but will not be run.
-    ScheduledActionListResult:
-      type: object
-      description: Scheduled actions list result. It contains a list of scheduled actions.
-      properties:
-        value:
-          type: array
-          description: The list of scheduled actions.
-          items:
-            $ref: '#/components/schemas/ScheduledAction'
-          readOnly: true
-        nextLink:
-          type: string
-          description: The link (url) to the next page of results.
-    WeeksOfMonth:
-      type: string
-      description: Weeks of month.
-      enum:
-      - First
-      - Second
-      - Third
-      - Fourth
-      - Last
-      x-ms-enum:
-        name: WeeksOfMonth
-        modelAsString: true
-        values:
-        - name: First
-          value: First
-        - name: Second
-          value: Second
-        - name: Third
-          value: Third
-        - name: Fourth
-          value: Fourth
-        - name: Last
-          value: Last
-    ErrorDetails:
-      type: object
-      description: The details of the error.
-      properties:
-        code:
-          type: string
-          description: Error code.
-          readOnly: true
-        message:
-          type: string
-          description: Error message indicating why the operation failed.
-          readOnly: true
-    ErrorResponseWithNestedDetails:
-      type: object
-      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
-
-
-        Some Error responses:
-
-
-        * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the "x-ms-ratelimit-microsoft.consumption-retry-after" header.
-
-
-        * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the "Retry-After" header.'
-      properties:
-        error:
-          $ref: '#/components/schemas/ErrorDetailsWithNestedDetails'
-          description: The details of the error.
-    FileDestination:
-      type: object
-      description: Destination of the view data. This is optional. Currently only CSV format is supported.
-      properties:
-        fileFormats:
-          type: array
-          description: Destination of the view data. Currently only CSV format is supported.
-          items:
-            $ref: '#/components/schemas/FileFormat'
     ScheduledActionProperties:
       type: object
       description: The properties of the scheduled action.
@@ -359,17 +230,93 @@ components:
       - schedule
       - status
       - viewId
-    FileFormat:
+    ScheduledActionListResult:
+      type: object
+      description: Scheduled actions list result. It contains a list of scheduled actions.
+      properties:
+        value:
+          type: array
+          description: The list of scheduled actions.
+          items:
+            $ref: '#/components/schemas/ScheduledAction'
+          readOnly: true
+        nextLink:
+          type: string
+          description: The link (url) to the next page of results.
+    NotificationProperties:
+      type: object
+      description: The properties of the scheduled action notification.
+      properties:
+        to:
+          type: array
+          description: Array of email addresses.
+          minItems: 1
+          maxItems: 20
+          items:
+            type: string
+        language:
+          type: string
+          description: Locale of the email.
+        message:
+          type: string
+          description: Optional message to be added in the email. Length is limited to 250 characters.
+        regionalFormat:
+          type: string
+          description: Regional format used for formatting date/time and currency values in the email.
+        subject:
+          type: string
+          description: Subject of the email. Length is limited to 70 characters.
+      required:
+      - to
+      - subject
+    FileDestination:
+      type: object
+      description: Destination of the view data. This is optional. Currently only CSV format is supported.
+      properties:
+        fileFormats:
+          type: array
+          description: Destination of the view data. Currently only CSV format is supported.
+          items:
+            $ref: '#/components/schemas/FileFormat'
+    ScheduledActionKind:
       type: string
-      description: Destination of the view data. Currently only CSV format is supported.
+      description: Kind of the scheduled action.
       enum:
-      - Csv
+      - Email
+      - InsightAlert
       x-ms-enum:
-        name: FileFormat
+        name: ScheduledActionKind
         modelAsString: true
         values:
-        - name: Csv
-          value: Csv
+        - name: Email
+          value: Email
+          description: Cost analysis data will be emailed.
+        - name: InsightAlert
+          value: InsightAlert
+          description: Cost anomaly information will be emailed. Available only on subscription scope at daily frequency. If no anomaly is detected on the resource, an email won't be sent.
+    WeeksOfMonth:
+      type: string
+      description: Weeks of month.
+      enum:
+      - First
+      - Second
+      - Third
+      - Fourth
+      - Last
+      x-ms-enum:
+        name: WeeksOfMonth
+        modelAsString: true
+        values:
+        - name: First
+          value: First
+        - name: Second
+          value: Second
+        - name: Third
+          value: Third
+        - name: Fourth
+          value: Fourth
+        - name: Last
+          value: Last
     DaysOfWeek:
       type: string
       description: Days of Week.
@@ -399,48 +346,49 @@ components:
           value: Saturday
         - name: Sunday
           value: Sunday
-    NotificationProperties:
-      type: object
-      description: The properties of the scheduled action notification.
-      properties:
-        to:
-          type: array
-          description: Array of email addresses.
-          minItems: 1
-          maxItems: 20
-          items:
-            type: string
-        language:
-          type: string
-          description: Locale of the email.
-        message:
-          type: string
-          description: Optional message to be added in the email. Length is limited to 250 characters.
-        regionalFormat:
-          type: string
-          description: Regional format used for formatting date/time and currency values in the email.
-        subject:
-          type: string
-          description: Subject of the email. Length is limited to 70 characters.
-      required:
-      - to
-      - subject
-    ScheduledActionKind:
+    FileFormat:
       type: string
-      description: Kind of the scheduled action.
+      description: Destination of the view data. Currently only CSV format is supported.
       enum:
-      - Email
-      - InsightAlert
+      - Csv
       x-ms-enum:
-        name: ScheduledActionKind
+        name: FileFormat
         modelAsString: true
         values:
-        - name: Email
-          value: Email
-          description: Cost analysis data will be emailed.
-        - name: InsightAlert
-          value: InsightAlert
-          description: Cost anomaly information will be emailed. Available only on subscription scope at daily frequency. If no anomaly is detected on the resource, an email won't be sent.
+        - name: Csv
+          value: Csv
+    ErrorDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        code:
+          type: string
+          description: Error code.
+          readOnly: true
+        message:
+          type: string
+          description: Error message indicating why the operation failed.
+          readOnly: true
+    ScheduledActionStatus:
+      type: string
+      description: Status of the scheduled action.
+      enum:
+      - Enabled
+      - Expired
+      - Disabled
+      x-ms-enum:
+        name: ScheduledActionStatus
+        modelAsString: true
+        values:
+        - name: Enabled
+          value: Enabled
+          description: Scheduled action is saved and will be run.
+        - name: Expired
+          value: Expired
+          description: Scheduled action is expired.
+        - name: Disabled
+          value: Disabled
+          description: Scheduled action is saved but will not be run.
     Azure.Core.eTag:
       type: string
       description: 'The ETag (or entity tag) HTTP response header is an identifier for a specific version of a resource.
@@ -449,19 +397,6 @@ components:
 
 
         It is a string of ASCII characters placed between double quotes, like "675af34563dc-tr34".'
-    ErrorDetailsWithNestedDetails:
-      type: object
-      description: The details of the error.
-      properties:
-        details:
-          type: array
-          description: The additional details of the error.
-          items:
-            $ref: '#/components/schemas/ErrorDetailsWithNestedDetails'
-          readOnly: true
-          x-ms-identifiers: []
-      allOf:
-      - $ref: '#/components/schemas/ErrorDetails'
     ScheduleProperties:
       type: object
       description: The properties of the schedule.
@@ -499,6 +434,71 @@ components:
       - frequency
       - startDate
       - endDate
+    ScheduleFrequency:
+      type: string
+      description: Frequency of the schedule.
+      enum:
+      - Daily
+      - Weekly
+      - Monthly
+      x-ms-enum:
+        name: ScheduleFrequency
+        modelAsString: true
+        values:
+        - name: Daily
+          value: Daily
+          description: Cost analysis data will be emailed every day.
+        - name: Weekly
+          value: Weekly
+          description: Cost analysis data will be emailed every week.
+        - name: Monthly
+          value: Monthly
+          description: Cost analysis data will be emailed every month.
+    ErrorDetailsWithNestedDetails:
+      type: object
+      description: The details of the error.
+      properties:
+        details:
+          type: array
+          description: The additional details of the error.
+          items:
+            $ref: '#/components/schemas/ErrorDetailsWithNestedDetails'
+          readOnly: true
+          x-ms-identifiers: []
+      allOf:
+      - $ref: '#/components/schemas/ErrorDetails'
+    ErrorResponseWithNestedDetails:
+      type: object
+      description: 'Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+
+
+        Some Error responses:
+
+
+        * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the "x-ms-ratelimit-microsoft.consumption-retry-after" header.
+
+
+        * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the "Retry-After" header.'
+      properties:
+        error:
+          $ref: '#/components/schemas/ErrorDetailsWithNestedDetails'
+          description: The details of the error.
+    ScheduledAction:
+      type: object
+      description: Scheduled action definition.
+      properties:
+        properties:
+          $ref: '#/components/schemas/ScheduledActionProperties'
+          description: The properties of the scheduled action.
+          x-ms-client-flatten: true
+        eTag:
+          $ref: '#/components/schemas/Azure.Core.eTag'
+          description: Resource Etag. For update calls, eTag is optional and can be specified to achieve optimistic concurrency. Fetch the resource's eTag by doing a 'GET' call first and then including the latest eTag as part of the request body or 'If-Match' header while performing the update. For create calls, eTag is not required.
+        kind:
+          $ref: '#/components/schemas/ScheduledActionKind'
+          description: Kind of the scheduled action.
+      allOf:
+      - $ref: ../../../../../../common-types/resource-management/v5/types.json#/definitions/ProxyResource
   securitySchemes:
     azure_auth:
       type: oauth2
