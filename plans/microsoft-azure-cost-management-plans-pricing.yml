@@ -1,0 +1,39 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://azure.microsoft.com/en-us/pricing/details/cost-management/
+sources:
+- https://azure.microsoft.com/en-us/pricing/details/cost-management/
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T120612
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: free
+delivery:
+  delivery: managed
+  method: page
+  read: '2026-10-28'
+published: false
+note: No numeric price is published on the pricing page; Page states Microsoft Cost Management is available
+  to Azure customers and managed service providers at no additional cost; price listed as 'Free for Azure'.
+  No numeric prices other than a $200 free trial credit promo, so published=false.
+plan_count: 1
+plans:
+- name: Cost Management for Azure
+  price_text: Free for Azure
+  period: none
+  included_quota: Reporting, data enrichment, budgets, alerting, recommendations
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: Cost Management for Azure
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
