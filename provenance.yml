@@ -539,7 +539,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-10-31T095417.yml:
+  kin/checks-2026-11-02T082323.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -594,6 +594,15 @@ artifacts:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-10-31T095417.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-01T171331.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-01T200237.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-02T082323.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   lifecycle/microsoft-azure-cost-management-lifecycle.yml:
@@ -750,11 +759,17 @@ artifacts:
   packages/microsoft-azure-cost-management-packages.yml:
     method: searched
     evidence: declared in the artifact
+  patterns/microsoft-azure-cost-management-patterns.yml:
+    method: derived
+    evidence: declared in the artifact
   plans/microsoft-azure-cost-management-plans-pricing.yml:
     method: searched
     evidence: declared in the artifact
   rate-limits/microsoft-azure-cost-management-rate-limits.yml:
     method: searched
+    evidence: declared in the artifact
+  rules/microsoft-azure-cost-management-rules.yml:
+    method: generated
     evidence: declared in the artifact
   scopes/microsoft-azure-cost-management-scopes.yml:
     method: searched
@@ -778,6 +793,9 @@ artifacts:
     method: generated
     evidence: declared in the artifact
   skills/microsoft-azure-cost-management-manage-budgets.md:
+    method: generated
+    evidence: declared in the artifact
+  sla/microsoft-azure-cost-management-sla.yml:
     method: generated
     evidence: declared in the artifact
   well-known/microsoft-azure-cost-management-openid-configuration.json:
