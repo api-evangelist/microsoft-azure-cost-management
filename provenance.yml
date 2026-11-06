@@ -536,6 +536,108 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
+  hosts/microsoft-azure-cost-management-hosts.yml:
+    method: derived
+    evidence: declared in the artifact
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/microsoft-azure-cost-management-integration-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
+  json-ld/microsoft-azure-cost-management-context.jsonld:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-alert-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-alerts-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-benefit-utilization-summaries-operation-status-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-benefit-utilization-summaries-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-budget-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-budgets-list-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-cost-allocation-rule-definition-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-cost-allocation-rule-list-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-cost-details-operation-results-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-dismiss-alert-payload-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-export-execution-list-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-export-list-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-export-run-request-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-export-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-forecast-definition-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-generate-cost-details-report-request-definition-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-generate-detailed-cost-report-definition-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-generate-detailed-cost-report-operation-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-generate-detailed-cost-report-operation-statuses-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-markup-rule-paged-response-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-markup-rule-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-operation-list-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-resource-list-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-resource-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-scheduled-action-list-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-scheduled-action-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-setting-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-settings-list-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-view-list-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-view-schema.json:
+    method: unknown
+    evidence: no authorship recorded
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
@@ -611,9 +713,12 @@ artifacts:
   llms/microsoft-azure-cost-management-llms-probe.yml:
     method: searched
     evidence: 'derive-llms-provenance.py: harvested'
+  llms/microsoft-azure-cost-management-llms-provenance.yml:
+    method: searched
+    evidence: 'derive-llms-provenance.py: harvested'
   llms/microsoft-azure-cost-management-llms.txt:
-    method: generated
-    evidence: carries an API Evangelist house phrase
+    method: searched
+    evidence: 'derive-llms-provenance.py: harvested'
   mcp/microsoft-azure-cost-management-mcp.yml:
     method: derived
     evidence: declared in the artifact
@@ -797,6 +902,12 @@ artifacts:
     evidence: declared in the artifact
   sla/microsoft-azure-cost-management-sla.yml:
     method: generated
+    evidence: declared in the artifact
+  vendors/microsoft-azure-cost-management-vendors.yml:
+    method: unknown
+    evidence: no authorship recorded
+  vocabulary/microsoft-azure-cost-management-vocabulary.yml:
+    method: derived
     evidence: declared in the artifact
   well-known/microsoft-azure-cost-management-openid-configuration.json:
     method: unknown

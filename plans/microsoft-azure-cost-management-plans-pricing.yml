@@ -2,6 +2,7 @@
 generated: '2026-10-28'
 method: searched
 source: https://azure.microsoft.com/en-us/pricing/details/cost-management/
+name: Azure Cost Management API Plans
 sources:
 - https://azure.microsoft.com/en-us/pricing/details/cost-management/
 provenance:
@@ -25,7 +26,7 @@ plans:
   period: none
   included_quota: Reporting, data enrichment, budgets, alerting, recommendations
 x-canonical:
-  generated: '2026-11-02'
+  generated: '2026-11-06'
   vocabulary: engine/economics/plans-canonical.yml
   models: []
   units: []
