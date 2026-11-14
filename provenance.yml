@@ -5,10 +5,19 @@ artifacts:
   agentic-access/microsoft-azure-cost-management-agentic-access.yml:
     method: generated
     evidence: declared in the artifact
+  ai-preferences/microsoft-azure-cost-management-ai-preferences.yml:
+    method: harvested
+    evidence: declared in the artifact
   authentication/microsoft-azure-cost-management-authentication.yml:
     method: searched
     evidence: declared in the artifact
   capabilities/microsoft-azure-cost-management-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
+  certification/observations-2026-11-11.jsonl:
+    method: unknown
+    evidence: no authorship recorded
+  certification/status.yml:
     method: unknown
     evidence: no authorship recorded
   changelog/microsoft-azure-cost-management-changelog.yml:
@@ -35,14 +44,26 @@ artifacts:
   collections/microsoft-azure-cost-management.postman_collection.json:
     method: derived
     evidence: openapi/microsoft-azure-cost-management
+  compliance/microsoft-azure-cost-management-compliance.yml:
+    method: harvested
+    evidence: declared in the artifact
   conformance/microsoft-azure-cost-management-conformance.yml:
     method: derived
     evidence: declared in the artifact
   conventions/microsoft-azure-cost-management-conventions.yml:
     method: derived
     evidence: declared in the artifact
+  data-license/microsoft-azure-cost-management-data-license.yml:
+    method: harvested
+    evidence: declared in the artifact
   data-model/microsoft-azure-cost-management-data-model.yml:
     method: derived
+    evidence: declared in the artifact
+  deprecation/microsoft-azure-cost-management-deprecation-policy.yml:
+    method: harvested
+    evidence: declared in the artifact
+  eligibility/microsoft-azure-cost-management-eligibility.yml:
+    method: harvested
     evidence: declared in the artifact
   errors/microsoft-azure-cost-management-problem-types.yml:
     method: derived
@@ -575,6 +596,9 @@ artifacts:
   json-schema/microsoft-azure-cost-management-cost-details-operation-results-schema.json:
     method: unknown
     evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-credit-summary-schema.json:
+    method: unknown
+    evidence: no authorship recorded
   json-schema/microsoft-azure-cost-management-dismiss-alert-payload-schema.json:
     method: unknown
     evidence: no authorship recorded
@@ -614,6 +638,9 @@ artifacts:
   json-schema/microsoft-azure-cost-management-operation-list-result-schema.json:
     method: unknown
     evidence: no authorship recorded
+  json-schema/microsoft-azure-cost-management-price-sheet-result-schema.json:
+    method: unknown
+    evidence: no authorship recorded
   json-schema/microsoft-azure-cost-management-resource-list-schema.json:
     method: unknown
     evidence: no authorship recorded
@@ -641,7 +668,7 @@ artifacts:
   kin/checks-2026-10-23T222754.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
-  kin/checks-2026-11-02T082323.yml:
+  kin/checks-2026-11-06T143934.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-23T000603.yml:
@@ -707,6 +734,9 @@ artifacts:
   kin/score-2026-11-02T082323.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-11-06T143934.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/microsoft-azure-cost-management-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
@@ -722,6 +752,20 @@ artifacts:
   mcp/microsoft-azure-cost-management-mcp.yml:
     method: derived
     evidence: declared in the artifact
+  ? openapi/_original/microsoft-azure-cost-management-consumption-resource-manager-Microsoft.Consumption-Consumption-stable-2026-06-01-openapi.json
+  : method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  ? openapi/_original/microsoft-azure-cost-management-consumption-resource-manager-Microsoft.Consumption-Consumption-stable-2026-06-01-openapi.json.provenance.txt
+  : method: searched
+    evidence: declared in the artifact
+  ? openapi/_original/microsoft-azure-cost-management-cost-management-resource-manager-Microsoft.CostManagement-CostManagement-stable-2026-06-01-openapi.json
+  : method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  ? openapi/_original/microsoft-azure-cost-management-cost-management-resource-manager-Microsoft.CostManagement-CostManagement-stable-2026-06-01-openapi.json.provenance.txt
+  : method: searched
+    evidence: declared in the artifact
   openapi/_original/microsoft-azure-cost-management-openapi.json:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
@@ -735,9 +779,12 @@ artifacts:
   openapi/microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-creditsummaries-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/microsoft-azure-cost-management-exports-api-openapi.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
@@ -751,6 +798,12 @@ artifacts:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/microsoft-azure-cost-management-operations-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-pricesheet-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/microsoft-azure-cost-management-pricesheetresults-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   openapi/microsoft-azure-cost-management-providers-api-openapi.yml:
@@ -873,6 +926,9 @@ artifacts:
   rate-limits/microsoft-azure-cost-management-rate-limits.yml:
     method: searched
     evidence: declared in the artifact
+  regulatory/microsoft-azure-cost-management-regulatory-posture.yml:
+    method: searched
+    evidence: declared in the artifact
   rules/microsoft-azure-cost-management-rules.yml:
     method: generated
     evidence: declared in the artifact
@@ -902,6 +958,9 @@ artifacts:
     evidence: declared in the artifact
   sla/microsoft-azure-cost-management-sla.yml:
     method: generated
+    evidence: declared in the artifact
+  terms/microsoft-azure-cost-management-terms-of-service.yml:
+    method: harvested
     evidence: declared in the artifact
   vendors/microsoft-azure-cost-management-vendors.yml:
     method: unknown

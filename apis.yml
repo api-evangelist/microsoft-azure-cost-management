@@ -1,0 +1,670 @@
+aid: microsoft-azure-cost-management
+name: Azure Cost Management
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
+specificationVersion: '0.23'
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  gated: none
+  gated_source:
+  - onboarding
+  label: Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  - scopes
+  - rate-limits
+  - security
+  generated: '2026-11-13'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/microsoft-azure-cost-management.png
+url: https://raw.githubusercontent.com/api-evangelist/microsoft-azure-cost-management/refs/heads/main/apis.yml
+modified: '2026-09-17'
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+description: Microsoft Cost Management is the Azure Resource Manager resource provider (Microsoft.CostManagement) for understanding and controlling
+  cloud spend. Its REST API covers multidimensional cost and usage queries, forecasting, budgets and their alert thresholds, saved Cost Analysis
+  views, scheduled actions that email those views, recurring data exports to customer-owned storage, cost allocation and partner markup rules,
+  reservation and savings-plan benefit recommendations, and asynchronous cost detail and price sheet report generation. Exports can emit the FinOps
+  Foundation's FOCUS schema, so Azure cost data lands in the same shape as other clouds. The service is included with Azure at no additional cost;
+  what is rationed is throughput, through a per-tenant Query Processing Unit budget.
+tags:
+- Cost Management
+- FinOps
+- Cloud Cost
+- Billing
+- Budgets
+- Export
+- Cost Analysis
+- Forecasting
+- Chargebacks
+- Focus
+- Microsoft Azure
+- Reserved Instances
+created: '2026-05-04'
+common:
+- type: Overlay
+  url: overlays/microsoft-azure-cost-management-operations-overlay.yaml
+- type: Overlay
+  url: overlays/microsoft-azure-cost-management-budgets-overlay.yaml
+- type: Overlay
+  url: overlays/microsoft-azure-cost-management-providers-overlay.yaml
+- type: Spectral
+  url: rules/microsoft-azure-cost-management-rules.yml
+- type: JSONLD
+  url: json-ld/microsoft-azure-cost-management-context.jsonld
+- type: Vocabulary
+  url: vocabulary/microsoft-azure-cost-management-vocabulary.yml
+- type: Hosts
+  url: hosts/microsoft-azure-cost-management-hosts.yml
+- type: Vendors
+  url: vendors/microsoft-azure-cost-management-vendors.yml
+- type: Leadership
+  url: https://news.microsoft.com/leadership
+- type: CapabilityMap
+  url: capabilities/microsoft-azure-cost-management-capability-edges.yml
+  name: Azure Cost Management Business Capability Map
+- type: TrustCenter
+  url: security/microsoft-azure-cost-management-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/microsoft-azure-cost-management-vulnerability-disclosure.yml
+- type: Website
+  url: https://www.microsoft.com/
+- type: AgenticAccess
+  url: agentic-access/microsoft-azure-cost-management-agentic-access.yml
+- type: DomainSecurity
+  url: security/microsoft-azure-cost-management-domain-security.yml
+- type: Authentication
+  url: authentication/microsoft-azure-cost-management-authentication.yml
+- type: OAuthScopes
+  url: scopes/microsoft-azure-cost-management-scopes.yml
+- type: GitHubOrganization
+  url: https://github.com/Azure
+- type: Portal
+  url: https://portal.azure.com/
+- type: Pricing
+  url: https://azure.microsoft.com/en-us/pricing/details/cost-management/
+- type: TermsOfService
+  url: https://www.microsoft.com/en-us/legal/terms-of-use
+- type: PrivacyPolicy
+  url: https://www.microsoft.com/en-us/privacy/privacystatement
+- type: Support
+  url: https://support.microsoft.com/
+- type: Documentation
+  url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+- type: APIReference
+  url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+- type: GettingStarted
+  url: https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/manage-automation
+- type: SignUp
+  url: https://azure.microsoft.com/en-us/free/
+- type: Blog
+  url: https://azure.microsoft.com/en-us/blog/
+- type: Roadmap
+  url: https://azure.microsoft.com/en-us/updates/?updateType=in-development
+- type: Packages
+  url: packages/microsoft-azure-cost-management-packages.yml
+- type: SDKs
+  url: packages/microsoft-azure-cost-management-packages.yml
+- type: CLI
+  url: cli/microsoft-azure-cost-management-cli.yml
+- type: WellKnown
+  url: well-known/microsoft-azure-cost-management-well-known.yml
+- type: SecurityTxt
+  url: well-known/microsoft-azure-cost-management-security.txt
+- type: LLMsTxt
+  url: llms/microsoft-azure-cost-management-llms.txt
+- type: Conventions
+  url: conventions/microsoft-azure-cost-management-conventions.yml
+- type: Idempotency
+  url: conventions/microsoft-azure-cost-management-conventions.yml
+- type: ErrorCatalog
+  url: errors/microsoft-azure-cost-management-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/microsoft-azure-cost-management-lifecycle.yml
+- type: StatusPage
+  url: https://azure.status.microsoft/en-us/status
+- type: Deprecation
+  url: https://learn.microsoft.com/en-us/lifecycle/policies/modern
+- type: ChangeLog
+  url: changelog/microsoft-azure-cost-management-changelog.yml
+- type: Conformance
+  url: conformance/microsoft-azure-cost-management-conformance.yml
+- type: Compliance
+  url: conformance/microsoft-azure-cost-management-conformance.yml
+- type: DataModel
+  url: data-model/microsoft-azure-cost-management-data-model.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Security
+  url: security/microsoft-azure-cost-management-vulnerability-disclosure.yml
+- type: RateLimits
+  url: rate-limits/microsoft-azure-cost-management-rate-limits.yml
+- type: Plans
+  url: plans/microsoft-azure-cost-management-plans-pricing.yml
+- type: FinOps
+  url: finops/microsoft-azure-cost-management-finops.yml
+- type: Examples
+  url: examples/_index.yml
+- type: UsageTerms
+  url: terms/microsoft-azure-cost-management-terms-of-service.yml
+- type: DeprecationSchedule
+  url: deprecation/microsoft-azure-cost-management-deprecation-policy.yml
+- type: Attestations
+  url: compliance/microsoft-azure-cost-management-compliance.yml
+- type: Eligibility
+  url: eligibility/microsoft-azure-cost-management-eligibility.yml
+- type: AIPreferences
+  url: ai-preferences/microsoft-azure-cost-management-ai-preferences.yml
+- type: DataLicense
+  url: data-license/microsoft-azure-cost-management-data-license.yml
+apis:
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-exports-api
+  name: Azure Cost Management Exports API
+  description: >-
+    Create, schedule, run and delete recurring Cost Management exports that write cost and usage data
+    — including FOCUS-format datasets — to a storage account you own.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/exports
+  baseURL: https://management.azure.com/
+  tags:
+  - Export
+  tags_raw:
+  - Exports
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-exports-api-openapi.yml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: Overlay
+    url: overlays/microsoft-azure-cost-management-exports-overlay.yaml
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/exports
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-export-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-resource-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-export-list-result-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-export-execution-list-result-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-export-run-request-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-resource-list-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-alerts-api
+  name: Azure Cost Management Alerts API
+  description: >-
+    List, read and dismiss the cost alerts raised by budgets and anomaly detection at a scope.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/alerts
+  baseURL: https://management.azure.com/
+  tags:
+  - Cost Management
+  - Alerts
+  - Budgets
+  - FinOps
+  - Monitoring
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-alerts-api-openapi.yml
+  - type: Overlay
+    url: overlays/microsoft-azure-cost-management-alerts-overlay.yaml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/alerts
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-alert-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-alerts-result-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-dismiss-alert-payload-schema.json
+- aid: >-
+    microsoft-azure-cost-management:microsoft-azure-cost-management-costallocationruledefinitions-api
+  name: Azure Cost Management Cost Allocation Rule Definitions API
+  description: Manage rules that redistribute shared cost between scopes within a billing account.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/cost-allocation-rules
+  baseURL: https://management.azure.com/
+  tags:
+  - Cost Management
+  - Cost Allocation
+  - Chargebacks
+  - FinOps
+  - Billing
+  tags_raw:
+  - Cost Management
+  - Cost Allocation
+  - Chargeback
+  - FinOps
+  - Billing
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-costallocationruledefinitions-api-openapi.yml
+  - type: Overlay
+    url: overlays/microsoft-azure-cost-management-costallocationruledefinitions-overlay.yaml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/cost-allocation-rules
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-cost-allocation-rule-list-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-cost-allocation-rule-definition-schema.json
+- aid: >-
+    microsoft-azure-cost-management:microsoft-azure-cost-management-generatecostdetailsreport-api
+  name: Azure Cost Management Generate Cost Details Report API
+  description: >-
+    Poll the asynchronous cost details report operation and retrieve the download link for the generated
+    file.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report
+  baseURL: https://management.azure.com/
+  tags:
+  - Cost Management
+  - Cost Details
+  - Reporting
+  - FinOps
+  - Billing
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-generatecostdetailsreport-api-openapi.yml
+  - type: Overlay
+    url: overlays/microsoft-azure-cost-management-generatecostdetailsreport-overlay.yaml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/generate-cost-details-report
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-cost-details-operation-results-schema.json
+- aid: >-
+    microsoft-azure-cost-management:microsoft-azure-cost-management-generatedetailedcostreportoperationresults-api
+  name: Azure Cost Management Generate Detailed Cost Report Operation Results API
+  description: Retrieve the result of a long-running detailed cost report operation.
+  humanURL: >-
+    https://learn.microsoft.com/en-us/rest/api/cost-management/generate-detailed-cost-report-operation-results
+  baseURL: https://management.azure.com/
+  tags:
+  - Cost Management
+  - Reporting
+  - Async Operations
+  - FinOps
+  properties:
+  - type: OpenAPI
+    url: >-
+      openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationresults-api-openapi.yml
+  - type: Overlay
+    url: >-
+      overlays/microsoft-azure-cost-management-generatedetailedcostreportoperationresults-overlay.yaml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: >-
+      https://learn.microsoft.com/en-us/rest/api/cost-management/generate-detailed-cost-report-operation-results
+  - type: JSONSchema
+    url: >-
+      json-schema/microsoft-azure-cost-management-generate-detailed-cost-report-operation-result-schema.json
+- aid: >-
+    microsoft-azure-cost-management:microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-api
+  name: Azure Cost Management Generate Detailed Cost Report Operation Status API
+  description: Retrieve the status of a long-running detailed cost report operation.
+  humanURL: >-
+    https://learn.microsoft.com/en-us/rest/api/cost-management/generate-detailed-cost-report-operation-status
+  baseURL: https://management.azure.com/
+  tags:
+  - Cost Management
+  - Reporting
+  - Async Operations
+  - FinOps
+  properties:
+  - type: OpenAPI
+    url: >-
+      openapi/microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-api-openapi.yml
+  - type: Overlay
+    url: >-
+      overlays/microsoft-azure-cost-management-generatedetailedcostreportoperationstatus-overlay.yaml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: >-
+      https://learn.microsoft.com/en-us/rest/api/cost-management/generate-detailed-cost-report-operation-status
+  - type: JSONSchema
+    url: >-
+      json-schema/microsoft-azure-cost-management-generate-detailed-cost-report-operation-statuses-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-markuprules-api
+  name: Azure Cost Management Markup Rules API
+  description: Manage partner markup rules applied at a billing profile.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/markup-rules
+  baseURL: https://management.azure.com/
+  tags:
+  - Cost Management
+  - Markup Rules
+  - Partners
+  - Billing
+  - FinOps
+  tags_raw:
+  - Cost Management
+  - Markup Rules
+  - Partner
+  - Billing
+  - FinOps
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-markuprules-api-openapi.yml
+  - type: Overlay
+    url: overlays/microsoft-azure-cost-management-markuprules-overlay.yaml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/markup-rules
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-markup-rule-paged-response-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-markup-rule-schema.json
+- aid: >-
+    microsoft-azure-cost-management:microsoft-azure-cost-management-scheduledactionoperationgroup-api
+  name: Azure Cost Management Scheduled Action Operation Group API
+  description: >-
+    Manage scope-scoped scheduled actions that email a saved view on a recurrence, and run them on demand.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/scheduled-actions
+  baseURL: https://management.azure.com/
+  tags:
+  - Cost Management
+  - Scheduled Actions
+  - Reporting
+  - Notification
+  - FinOps
+  tags_raw:
+  - Cost Management
+  - Scheduled Actions
+  - Reporting
+  - Notifications
+  - FinOps
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-scheduledactionoperationgroup-api-openapi.yml
+  - type: Overlay
+    url: overlays/microsoft-azure-cost-management-scheduledactionoperationgroup-overlay.yaml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/scheduled-actions
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-scheduled-action-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-scheduled-action-list-result-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-scheduledactions-api
+  name: Azure Cost Management Scheduled Actions API
+  description: >-
+    Manage scheduled actions that email a saved Cost Analysis view on a recurrence, and run them on demand.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/scheduled-actions
+  baseURL: https://management.azure.com/
+  tags:
+  - Cost Management
+  - Scheduled Actions
+  - Reporting
+  - Notification
+  - FinOps
+  tags_raw:
+  - Cost Management
+  - Scheduled Actions
+  - Reporting
+  - Notifications
+  - FinOps
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-scheduledactions-api-openapi.yml
+  - type: Overlay
+    url: overlays/microsoft-azure-cost-management-scheduledactions-overlay.yaml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/scheduled-actions
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-scheduled-action-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-scheduled-action-list-result-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-settings-api
+  name: Azure Cost Management Settings API
+  description: Read and write Cost Management settings at a scope.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/settings
+  baseURL: https://management.azure.com/
+  tags:
+  - Cost Management
+  - Settings
+  - FinOps
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-settings-api-openapi.yml
+  - type: Overlay
+    url: overlays/microsoft-azure-cost-management-settings-overlay.yaml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/settings
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-setting-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-settings-list-result-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-viewoperationgroup-api
+  name: Azure Cost Management View Operation Group API
+  description: >-
+    Manage saved Cost Analysis views scoped to a subscription, resource group, management group or billing
+    account.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/views
+  baseURL: https://management.azure.com/
+  tags:
+  - Cost Management
+  - Cost Analysis
+  - Reporting
+  - FinOps
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-viewoperationgroup-api-openapi.yml
+  - type: Overlay
+    url: overlays/microsoft-azure-cost-management-viewoperationgroup-overlay.yaml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/views
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-view-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-view-list-result-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-views-api
+  name: Azure Cost Management Views API
+  description: >-
+    Manage saved Cost Analysis views — the persisted form of a cost query — at a scope or at the tenant.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/views
+  baseURL: https://management.azure.com/
+  tags:
+  - Cost Management
+  - Cost Analysis
+  - Reporting
+  - FinOps
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-views-api-openapi.yml
+  - type: Overlay
+    url: overlays/microsoft-azure-cost-management-views-overlay.yaml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/views
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-view-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-view-list-result-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-creditsummaries-api
+  name: Azure Cost Management Credit Summaries API
+  description: The CreditSummaries API from Azure Cost Management — 1 operation(s) for creditsummaries.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/exports
+  baseURL: https://management.azure.com
+  tags:
+  - CreditSummaries
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-creditsummaries-api-openapi.yml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/operations
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/budgets
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-credit-summary-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-pricesheet-api
+  name: Azure Cost Management Price Sheet API
+  description: The PriceSheet API from Azure Cost Management — 1 operation(s) for pricesheet.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/exports
+  baseURL: https://management.azure.com
+  tags:
+  - PriceSheet
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-pricesheet-api-openapi.yml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/operations
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/budgets
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-price-sheet-result-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-pricesheetresults-api
+  name: Azure Cost Management Price Sheet Results API
+  description: >-
+    The PriceSheetResults API from Azure Cost Management — 1 operation(s) for pricesheetresults.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/exports
+  baseURL: https://management.azure.com
+  tags:
+  - PriceSheetResults
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-pricesheetresults-api-openapi.yml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/operations
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/budgets
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-price-sheet-result-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-budgets-api
+  name: Azure Cost Management Budgets API
+  description: The Budgets API from Azure Cost Management — 4 operation(s) for budgets.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/exports
+  baseURL: https://management.azure.com
+  tags:
+  - Budgets
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-budgets-api-openapi.yml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/operations
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/budgets
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-budget-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-budgets-list-result-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-operations-api
+  name: Azure Cost Management Operations API
+  description: The Operations API from Azure Cost Management — 2 operation(s) for operations.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/exports
+  baseURL: https://management.azure.com
+  tags: []
+  tags_raw:
+  - Operations
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-operations-api-openapi.yml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/operations
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/budgets
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-operation-list-result-schema.json
+- aid: microsoft-azure-cost-management:microsoft-azure-cost-management-providers-api
+  name: Azure Cost Management Providers API
+  description: The Providers API from Azure Cost Management — 52 operation(s) for providers.
+  humanURL: https://learn.microsoft.com/en-us/rest/api/cost-management/exports
+  baseURL: https://management.azure.com
+  tags:
+  - Providers
+  properties:
+  - type: OpenAPI
+    url: openapi/microsoft-azure-cost-management-providers-api-openapi.yml
+  - type: Documentation
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/operations
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/budgets
+  - type: APIReference
+    url: https://learn.microsoft.com/en-us/rest/api/cost-management/
+  - type: JSONSchema
+    url: >-
+      json-schema/microsoft-azure-cost-management-benefit-utilization-summaries-request-schema.json
+  - type: JSONSchema
+    url: >-
+      json-schema/microsoft-azure-cost-management-generate-cost-details-report-request-definition-schema.json
+  - type: JSONSchema
+    url: >-
+      json-schema/microsoft-azure-cost-management-generate-detailed-cost-report-definition-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-cost-details-operation-results-schema.json
+  - type: JSONSchema
+    url: json-schema/microsoft-azure-cost-management-forecast-definition-schema.json
+  - type: JSONSchema
+    url: >-
+      json-schema/microsoft-azure-cost-management-benefit-utilization-summaries-operation-status-schema.json
+x-parent: microsoft-azure
+x-relationship: product
+tags_raw:
+- Cost Management
+- FinOps
+- Cloud Cost
+- Billing
+- Budgets
+- Exports
+- Cost Analysis
+- Forecasting
+- Chargeback
+- FOCUS
+- Azure
+- Reserved Instances
+x-tags-removed:
+- Reservations
+x-enrichment:
+  date: '2026-11-12'
+  status: enriched
+  artifacts_added: 1
+  pass: local-v6
